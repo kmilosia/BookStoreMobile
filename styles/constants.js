@@ -53,5 +53,15 @@ export const styles = StyleSheet.create({
         color: COLORS.red,
         alignSelf: 'flex-start',
         marginBottom: 2
+    },
+    inputStyle: {
+        marginVertical: 10,
+        color: 'white',
+        borderWidth: 2,
+        borderColor: COLORS.triary,
+        width: '100%',
+        paddingVertical: 10,
+        paddingHorizontal: 20, borderRadius: 10
     }
+
 })

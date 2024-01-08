@@ -6,12 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '../../styles/constants';
 
 export default function HomeHeader() {
-    
     const navigation = useNavigation();
     return (
         <Row width={screenWidth - 30} alignItems='center' justifyContent='space-between'>
-            <Text fontSize={22} fontWeight='normal'>Spellarium</Text>
-            <Pressable onPress={() => navigation.navigate('Search')}><Ionicons style={{fontSize: 22, color: 'black'}} name="search" /></Pressable>
+            <Text fontSize={22} fontWeight='normal' color='white'>Spellarium</Text>
+            <Pressable onPress={() => navigation.navigate('Search')}><Ionicons style={{fontSize: 22, color: 'white'}} name="search" /></Pressable>
         </Row>
     );
 }

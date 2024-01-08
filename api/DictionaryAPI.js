@@ -17,3 +17,11 @@ export const getAuthors = async (setData,setLoading) => {
       console.error(err)
     }
   }
+  export const getForms = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/Form`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }

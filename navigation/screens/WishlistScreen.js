@@ -1,18 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text,Button } from 'react-native';
-import { TextInput } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text } from 'react-native';
+import ForwardLoginScreen from './ForwardLoginScreen';
 
 export default function WishlistScreen({ navigation }) {
-    const [value, setValue] = useState('')
+    const [isAuth, setIsAuth] = useState(false)
     return (
+        !isAuth ? 
+        <ForwardLoginScreen title="Zaloguj się aby mieć dostęp do listy życzeń!" />
+        :
         <View style={{ flex: 1, padding: 10, backgroundColor: 'white' }}>
             <View style={{position: 'relative', width: '100'}}>
-                <TextInput style={{elevation: 1,width: '100', padding: 10, paddingRight: 50, fontSize: 16, borderRadius: 10, backgroundColor: '#f9fafb'}} placeholder='Szukaj książek..'
-                onChangeText={newValue => setValue(newValue)}
-                />          
+               <Text>Lista życzeń</Text>
             </View>
-
-           
         </View>
     );
 }

@@ -30,7 +30,7 @@ export default function HomeProducts ({navigation}) {
             borderColor: 'gray',
             paddingVertical: 5,
             paddingHorizontal: 10,
-            marginRight: 3,
+            marginRight: 5,
         },
         buttonText: {
         }
@@ -38,21 +38,21 @@ export default function HomeProducts ({navigation}) {
     return (
         <View>
             <Row justifyContent='space-between' alignItems='center' marginTop={3}>
-                <Text color='black' fontSize={20} fontWeight='semibold'>Kategorie</Text>
+                <Text color='white' fontSize={20} fontWeight='semibold'>Kategorie</Text>
                 <Pressable onPress={() => navigation.navigate("Categories")}><Text color='purple.400' fontWeight='semibold'>Zobacz wszystko</Text></Pressable>
             </Row>
             <ScrollView horizontal marginTop={5} marginBottom={5}>
                 <Row>
                 <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                    <Pressable onPress={() => {setSelectedCategory(null); setLoading(true)}} style={[styles.button,{backgroundColor: selectedCategory === null ? COLORS.accent : 'white', borderColor: selectedCategory === null ? COLORS.accent : 'gray' }]} >
-                        <Text style={[styles.buttonText,{color: selectedCategory === null ? 'white' : 'black' }]}>Wszystkie</Text>
+                    <Pressable onPress={() => {setSelectedCategory(null); setLoading(true)}} style={[styles.button,{backgroundColor: selectedCategory === null ? COLORS.accent : COLORS.secondary, borderColor: selectedCategory === null ? COLORS.accent : COLORS.triary }]} >
+                        <Text style={[styles.buttonText,{color: 'white' }]}>Wszystkie</Text>
                     </Pressable>
                 </View>
                 {categories?.slice(0,10).map((item,index) => {
                     return(
                         <View key={index} style={{ flex: 1, alignItems: 'flex-start' }}>
-                            <Pressable onPress={() => {setSelectedCategory(item.id); setLoading(true)}} style={[styles.button,{backgroundColor: selectedCategory === item.id ? COLORS.accent : 'white', borderColor: selectedCategory === item.id ? COLORS.accent : 'gray' }]}>
-                                <Text style={[styles.buttonText,{color: selectedCategory === item.id ? 'white' : 'black' }]}>{item.name}</Text>
+                            <Pressable onPress={() => {setSelectedCategory(item.id); setLoading(true)}} style={[styles.button,{backgroundColor: selectedCategory === item.id ? COLORS.accent : COLORS.secondary, borderColor: selectedCategory === item.id ? COLORS.accent : COLORS.triary }]}>
+                                <Text style={[styles.buttonText,{color: 'white' }]}>{item.name}</Text>
                             </Pressable>
                         </View>
                     )

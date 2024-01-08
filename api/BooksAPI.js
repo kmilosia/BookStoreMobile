@@ -28,6 +28,15 @@ export const getSearchResults = async (search,sorting,setData,setLoading) => {
         console.error(err)
     }
   }
+  export const getSortedBooks = async (setBooks,setLoading, sorting) => {
+    try{
+        const response = await axiosClient.get(`/BookItems/All-Books?${sorting}`)
+        setBooks(response.data)
+        setLoading(false)
+    }catch(err){
+        console.error(err)
+    }
+  }
 
   export const getBookDetails = async (id, setData, setLoading) => {
     try{

@@ -3,7 +3,7 @@ import { COLORS, screenHeight } from "../../styles/constants";
 
 export default function PageLoader () {
     return (
-        <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: 'white'}}>
+        <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: COLORS.primary}}>
             <ActivityIndicator size='medium' color={COLORS.accent} />
         </View> 
     )

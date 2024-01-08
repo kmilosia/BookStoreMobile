@@ -30,10 +30,10 @@ function MainTabNavigator() {
       initialRouteName='Home'
       screenOptions={({ route }) => ({
         tabBarActiveTintColor: COLORS.accent,
-        // tabBarInactiveTintColor: COLORS.triary,
+        tabBarInactiveTintColor: COLORS.triary,
         tabBarStyle: {
           height: 80,
-          // backgroundColor: COLORS.primary,
+          backgroundColor: COLORS.primary,
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -59,13 +59,13 @@ function MainTabNavigator() {
         }
       })}
       >
-      {/* <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <HomeHeader {...props} />}} name="Home" component={HomeScreen} /> */}
-      <Tab.Screen options={{ headerTitle: (props) => <HomeHeader {...props} />}} name="Home" component={HomeScreen} />
-      <Tab.Screen name="Products" component={ProductListScreen} />
-      <Tab.Screen name="Wishlist" component={WishlistScreen} />
-      <Tab.Screen name="Library" component={LibraryScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />      
+      <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <HomeHeader {...props} />}} name="Home" component={HomeScreen} />
+      {/* <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <DefaultHeader title="Książki" {...props} />}} name="Products" component={ProductListScreen} /> */}
+      <Tab.Screen options={{ title: 'Książki', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Products" component={ProductListScreen} />
+      <Tab.Screen options={{ title: 'Lista życzeń', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Wishlist" component={WishlistScreen} />
+      <Tab.Screen options={{ title: 'Biblioteka', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Library" component={LibraryScreen} />
+      <Tab.Screen options={{ title: 'Koszyk', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Cart" component={CartScreen} />
+      <Tab.Screen options={{ title: 'Profil', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
@@ -80,8 +80,8 @@ function MainContainer() {
         <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterScreen} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
         <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen} />
-        <Stack.Screen options={{headerTitle: () => <DefaultHeader title='Kategorie' />, headerLeft: null}} name="Categories" component={CategoriesScreen} />
-        <Stack.Screen  options={({ route }) => ({headerTitle: () => <DefaultHeader title={route.params.title} />,headerLeft: null,})} name="Category" component={CategoryBookListScreen} />
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kategorie' />, headerLeft: null}} name="Categories" component={CategoriesScreen} />
+        <Stack.Screen name="Category" component={CategoryBookListScreen} options={({ route }) => ({ headerTitle: () => <DefaultHeader title={route.params.title} />, headerLeft: null, headerStyle: { backgroundColor: COLORS.primary }, headerTitleStyle: { color: 'white' }, headerTintColor: 'white' })} />
       </Stack.Navigator>
     </NavigationContainer>
   );

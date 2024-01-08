@@ -12,21 +12,21 @@ export default function CategoriesScreen ({navigation}) {
     },[])
     return(
         loading ? 
-        <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: 'white'}}>
+        <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: COLORS.primary}}>
             <ActivityIndicator size='medium' color={COLORS.accent} />
         </View> 
         :
         <ScrollView>
-            <Column bg='white'>
+            <Column bg={COLORS.primary} paddingY={2} paddingX={1}>
                 <Row justifyContent='space-between' flexWrap='wrap'>
                 {elements?.map((item,index) => {
                     return(
                         <Pressable key={index} style={{padding: 5, width: '50%'}} onPress={() => {navigation.navigate('Category', {categoryID: item.categoryID, title: item.categoryName})}}>
-                            <Column rounded='lg' bg='white' padding={3} borderWidth={2} borderColor='gray.200' alignItems='center' justifyContent='center'>
+                            <Column rounded='lg' bg={COLORS.secondary} padding={3} borderWidth={2} borderColor={COLORS.triary} alignItems='center' justifyContent='center'>
                                 <AspectRatio ratio={1/1} width='100%'>
                                     <Image source={{uri: item.logo}} rounded='lg' alt='Category Image' />
                                 </AspectRatio>
-                                <Text fontWeight='bold' fontSize={20} marginTop={2} color='gray.700'>{item.categoryName}</Text>
+                                <Text fontWeight='bold' fontSize={20} marginTop={2} color='white'>{item.categoryName}</Text>
                             </Column>
                         </Pressable>
                     )

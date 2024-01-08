@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Column, Image, Pressable, Row, Text, View } from 'native-base';
 import { COLORS, screenHeight, styles } from "../../styles/constants";
-import { TextInput } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import { loginUser } from '../../api/UserAPI';
 import SubmitButton from '../../components/buttons/SubmitButton';
 
@@ -39,6 +39,7 @@ export default function WelcomeScreen({ navigation }) {
         }
     },[errors])
     return (
+        <ScrollView>
         <View width='100%' bg={COLORS.primary} height={screenHeight + 40}>
             <Column justifyContent='space-between' alignItems='center' height='100%' padding={10} width="100%">
                 <Column alignItems='center' marginTop={5} width='100%'>
@@ -54,7 +55,7 @@ export default function WelcomeScreen({ navigation }) {
                     </Pressable>
                     {submitError && <Text style={styles.errorText}>{submitError}</Text>}
                 </Column>
-                <Row width='100%'>
+                <Row width='100%' justifyContent='center'>
                     <Text fontSize={16} fontWeight='light' color={COLORS.triary}>Nie masz jeszcze konta?</Text>
                     <Pressable onPress={() => navigation.navigate('Register')}>
                         <Text fontSize={16} color={COLORS.accent} fontWeight='medium' marginLeft={1}>Zarejestruj się</Text>
@@ -62,5 +63,6 @@ export default function WelcomeScreen({ navigation }) {
                 </Row>
             </Column>
         </View>
+        </ScrollView>
     );
 }

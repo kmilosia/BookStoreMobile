@@ -11,18 +11,18 @@ import axiosClient from '../../utils/axiosClient';
 
 
 export default function SearchScreen({ navigation, route }) {
-    const value = route.params.searchValue
+    // const value = route.params.searchValue
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const [sorting, setSorting] = useState('')
     
     useEffect(() => {
-        getAuthors(setData,setLoading)
+        // getAuthors(setData,setLoading)
         // getSearchResults(value,sorting,setData,setLoading)
     },[])
     return (
         loading ? 
-        <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: COLORS.primary}}>
+        <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight + 40, backgroundColor: COLORS.primary}}>
             <ActivityIndicator size='medium' color={COLORS.accent} />
         </View> 
         :
