@@ -111,9 +111,12 @@ function MainContainer() {
   //   return <SplashScreen />
   // }
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={{colors: {background: '#181826'}}}>
           <AuthContext.Provider value={authContext}>
-      <Stack.Navigator>
+      <Stack.Navigator
+      screenOptions={{
+        cardStyle: { backgroundColor: COLORS.primary, opacity: 1 },
+      }}>
         {state.userToken === null ? (
           <>
           <Stack.Screen options={{headerShown: false}} name="Welcome" component={WelcomeScreen} />

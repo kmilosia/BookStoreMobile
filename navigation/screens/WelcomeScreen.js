@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Column, Image, Pressable, Row, Text, View } from 'native-base';
 import { COLORS, screenHeight, styles } from "../../styles/constants";
 import { ScrollView, TextInput } from 'react-native';
-import { loginUser } from '../../api/UserAPI';
 import SubmitButton from '../../components/buttons/SubmitButton';
 import { AuthContext } from '../MainContainer';
 
