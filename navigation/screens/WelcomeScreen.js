@@ -38,7 +38,7 @@ export default function WelcomeScreen({ navigation }) {
     return (
         <ScrollView>
         <View width='100%' bg={COLORS.primary} height={screenHeight + 40}>
-            <Column justifyContent='space-between' alignItems='center' height='100%' padding={10} width="100%">
+            <Column justifyContent='center' alignItems='center' height='100%' padding={5} width="100%">
                 <Column alignItems='center' marginTop={5} width='100%'>
                     <Text fontSize={36} fontWeight='light' color='gray.200'>Witaj w Spellarium</Text>
                     <Image source={{uri: 'https://iili.io/J5hzila.png'}} width={100} height={100} alt="Magic Book Icon" marginY={5}/>
@@ -48,14 +48,14 @@ export default function WelcomeScreen({ navigation }) {
                     {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
                     <SubmitButton text="Zaloguj się" loading={loading} handle={handleLogin} />
                     {error && <Text style={styles.errorText}>{error}</Text>}
-                    <Pressable marginTop={2} alignSelf='flex-start'>
-                        <Text fontSize={16} color={COLORS.triary} fontWeight='light'>Zapomniałeś hasła?</Text>
+                    <Pressable onPress={() => {navigation.navigate('RecoverPassword')}} marginTop={2}>
+                        <Text color={COLORS.triary}>Zapomniałeś hasła?</Text>
                     </Pressable>
                 </Column>
-                <Row width='100%' justifyContent='center'>
-                    <Text fontSize={16} fontWeight='light' color={COLORS.triary}>Nie masz jeszcze konta?</Text>
+                <Row width='100%' justifyContent='center' position='absolute' bottom={5}>
+                    <Text fontWeight='light' color={COLORS.triary}>Nie masz jeszcze konta?</Text>
                     <Pressable onPress={() => navigation.navigate('Register')}>
-                        <Text fontSize={16} color={COLORS.accent} fontWeight='medium' marginLeft={1}>Zarejestruj się</Text>
+                        <Text color={COLORS.accent} fontWeight='medium' marginLeft={1}>Zarejestruj się</Text>
                     </Pressable>
                 </Row>
             </Column>

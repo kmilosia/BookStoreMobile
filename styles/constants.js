@@ -9,7 +9,7 @@ export const COLORS = {
     triary: '#6F6F8E',
     accent: '#c084fc',
     secondaryAccent: '#a855f7',
-    light: '#f7f7f7',
+    light: '#e3e3e3',
     borderColor: '#eee',
     red: '#ef4444'
 }
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
         fontWeight: 300,
         color: COLORS.red,
         alignSelf: 'flex-start',
-        marginBottom: 2,
+        marginBottom: 5,
         textAlign: 'center',
     },
     inputStyle: {
