@@ -20,6 +20,7 @@ import CategoryBookListScreen from './screens/CategoryBooksListScreen';
 import ProductScreen from './screens/ProductScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ReviewsScreen from './screens/ReviewsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -79,6 +80,7 @@ function MainContainer() {
         <Stack.Screen options={{headerShown: false}} name="Welcome" component={WelcomeScreen} />
         <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterScreen} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Reviews" component={ReviewsScreen} />
         <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kategorie' />, headerLeft: null}} name="Categories" component={CategoriesScreen} />
         <Stack.Screen name="Category" component={CategoryBookListScreen} options={({ route }) => ({ headerTitle: () => <DefaultHeader title={route.params.title} />, headerLeft: null, headerStyle: { backgroundColor: COLORS.primary }, headerTitleStyle: { color: 'white' }, headerTintColor: 'white' })} />
