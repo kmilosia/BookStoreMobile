@@ -4,12 +4,12 @@ import { COLORS, screenHeight, styles } from "../../styles/constants";
 import { ScrollView, TextInput } from 'react-native';
 import { loginUser } from '../../api/UserAPI';
 import SubmitButton from '../../components/buttons/SubmitButton';
+import { AuthContext } from '../MainContainer';
 
 export default function WelcomeScreen({ navigation }) {
+    const {signIn, loading, error} = React.useContext(AuthContext)
     const [errors, setErrors] = useState({})
-    const [submitError, setSubmitError ] = useState('')
     const [submitting, setSubmitting] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [loginData, setLoginData]= useState({
         email: '',
         password: '',
@@ -33,9 +33,7 @@ export default function WelcomeScreen({ navigation }) {
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
-            setLoading(true)
-            console.log("Logging")
-            loginUser(loginData, setLoading, setSubmitError)
+            signIn(loginData)
         }
     },[errors])
     return (
@@ -50,10 +48,10 @@ export default function WelcomeScreen({ navigation }) {
                     <TextInput value={loginData.password} secureTextEntry onChangeText={(text) => setLoginData({ ...loginData, password: text })} style={{marginVertical: 10,color: 'white',borderWidth: 2, borderColor: COLORS.triary, width: '100%', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10}} placeholderTextColor={COLORS.triary} placeholder='Hasło'/>
                     {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
                     <SubmitButton text="Zaloguj się" loading={loading} handle={handleLogin} />
+                    {error && <Text style={styles.errorText}>{error}</Text>}
                     <Pressable marginTop={2} alignSelf='flex-start'>
                         <Text fontSize={16} color={COLORS.triary} fontWeight='light'>Zapomniałeś hasła?</Text>
                     </Pressable>
-                    {submitError && <Text style={styles.errorText}>{submitError}</Text>}
                 </Column>
                 <Row width='100%' justifyContent='center'>
                     <Text fontSize={16} fontWeight='light' color={COLORS.triary}>Nie masz jeszcze konta?</Text>

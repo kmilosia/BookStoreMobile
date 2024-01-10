@@ -2,7 +2,7 @@ import axiosClient from "../utils/axiosClient"
 
 export const getSearchResults = async (search,sorting,setData,setLoading) => {
     try{
-        const response = await axiosClient.get(`/BookItems/All-Books?searchPhrase=${search}&${sorting}`)
+        const response = await axiosClient.get(`/BookItems/Store?searchPhrase=${search}&${sorting}`)
         setData(response.data)
         setLoading(false)
     }catch(err){
@@ -12,7 +12,7 @@ export const getSearchResults = async (search,sorting,setData,setLoading) => {
 
   export const getBooksByCategory = async (id,setData,setLoading) => {
     try{
-        const response = await axiosClient.get(`/BookItems/All-Books?categoryIds=${id}`)
+        const response = await axiosClient.get(`/BookItems/Store?categoryIds=${id}`)
         setData(response.data)
         setLoading(false)
     }catch(err){
@@ -21,7 +21,7 @@ export const getSearchResults = async (search,sorting,setData,setLoading) => {
   }
   export const getAllBooks = async (setBooks,setLoading) => {
     try{
-        const response = await axiosClient.get(`/BookItems/All-Books`)
+        const response = await axiosClient.get(`/BookItems/Store`)
         setBooks(response.data)
         setLoading(false)
     }catch(err){
@@ -30,7 +30,7 @@ export const getSearchResults = async (search,sorting,setData,setLoading) => {
   }
   export const getSortedBooks = async (setBooks,setLoading, sorting) => {
     try{
-        const response = await axiosClient.get(`/BookItems/All-Books?${sorting}`)
+        const response = await axiosClient.get(`/BookItems/Store?${sorting}`)
         setBooks(response.data)
         setLoading(false)
     }catch(err){
@@ -40,7 +40,7 @@ export const getSearchResults = async (search,sorting,setData,setLoading) => {
 
   export const getBookDetails = async (id, setData, setLoading) => {
     try{
-        const response = await axiosClient.get(`/BookItems/Book-Details?bookItemId=${id}`)
+        const response = await axiosClient.get(`/BookItems/Store/${id}`)
         setData(response.data)
         console.log(response.data);
         setLoading(false)

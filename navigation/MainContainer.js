@@ -1,18 +1,10 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Screens
-import HomeScreen from './screens/HomeScreen';
-import ProductListScreen from './screens/ProductListScreen';
 import SearchScreen from './screens/SearchScreen';
-import CartScreen from './screens/CartScreen';
-import WishlistScreen from './screens/WishlistScreen';
-import LibraryScreen from './screens/LibraryScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import HomeHeader from '../components/headers/HomeHeader';
 import { COLORS } from '../styles/constants';
 import CategoriesScreen from './screens/CategoriesScreen';
 import DefaultHeader from '../components/headers/DefaultHeader';
@@ -21,72 +13,129 @@ import ProductScreen from './screens/ProductScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ReviewsScreen from './screens/ReviewsScreen';
+import SplashScreen from './screens/SplashScreen';
+import MainTabNavigator from './MainTabNavigator';
+import axiosClient from '../utils/axiosClient';
 
-const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-function MainTabNavigator() {
-  return (
-    <Tab.Navigator
-      initialRouteName='Home'
-      screenOptions={({ route }) => ({
-        tabBarActiveTintColor: COLORS.accent,
-        tabBarInactiveTintColor: COLORS.triary,
-        tabBarStyle: {
-          height: 80,
-          backgroundColor: COLORS.primary,
-        },
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Wishlist') {
-            iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Library') {
-            iconName = focused ? 'library' : 'library-outline';
-          } else if (route.name === 'Cart') {
-            iconName = focused ? 'cart' : 'cart-outline';
-          } else if (route.name === 'Profile') {
-            iconName = focused ? 'person' : 'person-outline';
-          } else if (route.name === 'Products') {
-            iconName = focused ? 'list' : 'list-outline';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarLabelStyle: {
-            display: 'none'
-        }
-      })}
-      >
-      <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <HomeHeader {...props} />}} name="Home" component={HomeScreen} />
-      {/* <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <DefaultHeader title="Książki" {...props} />}} name="Products" component={ProductListScreen} /> */}
-      <Tab.Screen options={{ title: 'Książki', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Products" component={ProductListScreen} />
-      <Tab.Screen options={{ title: 'Lista życzeń', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Wishlist" component={WishlistScreen} />
-      <Tab.Screen options={{ title: 'Biblioteka', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Library" component={LibraryScreen} />
-      <Tab.Screen options={{ title: 'Koszyk', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Cart" component={CartScreen} />
-      <Tab.Screen options={{ title: 'Profil', headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
-  );
-}
+const AuthContext = React.createContext();
 
 function MainContainer() {
+  const [state, dispatch] = React.useReducer(
+    (prevState, action) => {
+      switch (action.type) {
+        case 'RESTORE_TOKEN':
+          return {
+            ...prevState,
+            userToken: action.token,
+            isLoading: false,
+          };
+        case 'SIGN_IN':
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+          };
+        case 'SIGN_OUT':
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+          };
+      }
+    },
+    {
+      isLoading: true,
+      isSignout: false,
+      userToken: null,
+    }
+  );
+  React.useEffect(() => {
+      const bootstrapAsync = async () => {
+      let userToken;
+      try {
+        userToken = await AsyncStorage.getItem('token');
+        console.log(userToken);
+      } catch (e) {
+        console.log(e);
+      }
+      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+    };
+    bootstrapAsync();
+  }, []);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async (data) => {
+        let userToken
+        try{
+          setLoading(true)
+          setError(null)
+          const response = await axiosClient.post('/Account/login', data)
+          if (response.status === 200) {
+            const userToken = response.data;
+            dispatch({ type: 'SIGN_IN', token: userToken });
+            setLoading(false)
+          }else{
+            setError("Error podczas logowania")
+            setLoading(false)
+          }
+        }catch(error){
+            setError("Nieudane logowanie")
+            setLoading(false)
+        }
+
+        // dispatch({ type: 'SIGN_IN', token: userToken });
+      },
+      signOut: async () => {
+        try {
+          await AsyncStorage.removeItem('token');
+        } catch (error) {
+          console.error(error);
+        }
+        dispatch({ type: 'SIGN_OUT' });
+      },
+      signUp: async (data) => {
+        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+      },
+      loading,
+      error,
+    }),
+    [loading,error]
+  );
+  // const [isAuth, setIsAuth] = React.useState(false)
+  // const [isLoading, setIsLoading] = React.useState(false)
+  // if(isLoading){
+  //   return <SplashScreen />
+  // }
   return (
     <NavigationContainer>
+          <AuthContext.Provider value={authContext}>
       <Stack.Navigator>
+        {state.userToken === null ? (
+          <>
+          <Stack.Screen options={{headerShown: false}} name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterScreen} />
+          </>
+        ) : (
+          <>
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
-        {/* <Stack.Screen options={{headerTitle: () => <ProductHeader />, headerLeft: null}} name="Product" component={ProductScreen} /> */}
-        <Stack.Screen options={{headerShown: false}} name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterScreen} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
         <Stack.Screen options={{headerShown: false}} name="Reviews" component={ReviewsScreen} />
         <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kategorie' />, headerLeft: null}} name="Categories" component={CategoriesScreen} />
         <Stack.Screen name="Category" component={CategoryBookListScreen} options={({ route }) => ({ headerTitle: () => <DefaultHeader title={route.params.title} />, headerLeft: null, headerStyle: { backgroundColor: COLORS.primary }, headerTitleStyle: { color: 'white' }, headerTintColor: 'white' })} />
+
+          </>
+        )}
       </Stack.Navigator>
+      </AuthContext.Provider>
     </NavigationContainer>
   );
 }
-
+export { AuthContext };
 export default MainContainer;
+
+        {/* <Stack.Screen options={{headerTitle: () => <ProductHeader />, headerLeft: null}} name="Product" component={ProductScreen} /> */}

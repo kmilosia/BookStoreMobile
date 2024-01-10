@@ -52,7 +52,8 @@ export const styles = StyleSheet.create({
         fontWeight: 300,
         color: COLORS.red,
         alignSelf: 'flex-start',
-        marginBottom: 2
+        marginBottom: 2,
+        textAlign: 'center',
     },
     inputStyle: {
         marginVertical: 10,
