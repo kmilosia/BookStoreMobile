@@ -24,35 +24,37 @@ export default function HomeProducts ({navigation}) {
       },[selectedCategory])
     const styles = StyleSheet.create({
         button: {
-            borderRadius: 8,
+            borderRadius: 50,
             backgroundColor: 'white',
             borderWidth: 2,
             borderColor: 'gray',
-            paddingVertical: 5,
-            paddingHorizontal: 10,
+            paddingVertical: 6,
+            paddingHorizontal: 20,
             marginRight: 5,
         },
         buttonText: {
+            fontWeight: 500,
+            color: 'white'
         }
     })
     return (
         <View>
             <Row justifyContent='space-between' alignItems='center' marginTop={5} paddingX={2}>
-                <Text color='white' fontSize={16} fontWeight='semibold'>Kategorie</Text>
-                <Pressable onPress={() => navigation.navigate("Categories")}><Text color='gray.400' fontSize={12} fontWeight='semibold'>Zobacz wszystko</Text></Pressable>
+                <Text color='white' fontSize={18} fontWeight='semibold'>Kategorie</Text>
+                <Pressable onPress={() => navigation.navigate("Categories")}><Text color='gray.400' fontWeight='semibold'>Zobacz wszystko</Text></Pressable>
             </Row>
             <ScrollView horizontal marginTop={8} marginBottom={8} style={{paddingHorizontal: 5}}>
                 <Row>
                 <View style={{ flex: 1, alignItems: 'flex-start' }}>
                     <Pressable onPress={() => {setSelectedCategory(null); setLoading(true)}} style={[styles.button,{backgroundColor: selectedCategory === null ? COLORS.accent : COLORS.secondary, borderColor: selectedCategory === null ? COLORS.accent : COLORS.border }]} >
-                        <Text style={[styles.buttonText,{color: 'white' }]}>Wszystkie</Text>
+                        <Text style={styles.buttonText}>Wszystkie</Text>
                     </Pressable>
                 </View>
                 {categories?.slice(0,10).map((item,index) => {
                     return(
                         <View key={index} style={{ flex: 1, alignItems: 'flex-start' }}>
                             <Pressable onPress={() => {setSelectedCategory(item.id); setLoading(true)}} style={[styles.button,{backgroundColor: selectedCategory === item.id ? COLORS.accent : COLORS.secondary, borderColor: selectedCategory === item.id ? COLORS.accent : COLORS.border }]}>
-                                <Text style={[styles.buttonText,{color: 'white' }]}>{item.name}</Text>
+                                <Text style={styles.buttonText}>{item.name}</Text>
                             </Pressable>
                         </View>
                     )
@@ -60,7 +62,7 @@ export default function HomeProducts ({navigation}) {
                 </Row>
             </ScrollView>
             {loading ?
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: 50 }}>
                     <ActivityIndicator size='medium' color={COLORS.accent} />
                 </View>
                 :
