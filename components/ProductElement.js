@@ -8,7 +8,7 @@ export default function ProductElement ({item}) {
     const navigation = useNavigation()
     return(
         <Pressable onPress={() => navigation.navigate('Product',{bookID: item.id})} style={{padding: 5, width: '50%'}}>
-        <Column rounded='lg' bg={COLORS.secondary} borderWidth={2} borderColor={COLORS.triary} padding={3}>
+        <Column rounded='lg' bg={COLORS.primary} borderWidth={2} borderColor={COLORS.border} padding={3}>
             <AspectRatio ratio={3/4} width='100%'>
                 <Image source={{uri: item.imageURL}} rounded='lg' alt='Image Book Cover' />
             </AspectRatio>

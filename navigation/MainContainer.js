@@ -56,8 +56,8 @@ function MainContainer() {
       let userToken;
       try {
         userToken = await AsyncStorage.getItem('token');
-        console.log(userToken);
       } catch (e) {
+        console.log("error useeffect token");
         console.log(e);
       }
       dispatch({ type: 'RESTORE_TOKEN', token: userToken });
@@ -78,8 +78,9 @@ function MainContainer() {
           setError(null)
           const response = await axiosClient.post('/Account/login', data)
           if (response.status === 200) {
-            const userToken = response.data;
+            userToken = response.data;
             dispatch({ type: 'SIGN_IN', token: userToken });
+            await AsyncStorage.setItem('token', userToken)
             setLoading(false)
           }else{
             setError("Error podczas logowania")
@@ -95,6 +96,7 @@ function MainContainer() {
         try {
           await AsyncStorage.removeItem('token');
         } catch (error) {
+          console.log("error signout");
           console.error(error);
         }
         dispatch({ type: 'SIGN_OUT' });
@@ -106,6 +108,7 @@ function MainContainer() {
           userToken = await AsyncStorage.getItem('token')
           setCheckingToken(false)
         } catch (e) {
+          console.log("error checktoken");
           console.log(e);
           setCheckingToken(false)
         }
@@ -135,7 +138,7 @@ function MainContainer() {
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
         <Stack.Screen options={{headerShown: false}} name="Reviews" component={ReviewsScreen} />
-        <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen} />
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Szukaj' />, headerLeft: null}} name="Search" component={SearchScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kategorie' />, headerLeft: null}} name="Categories" component={CategoriesScreen} />
         <Stack.Screen name="Category" component={CategoryBookListScreen} options={({ route }) => ({ headerTitle: () => <DefaultHeader title={route.params.title} />, headerLeft: null, headerStyle: { backgroundColor: COLORS.primary }, headerTitleStyle: { color: 'white' }, headerTintColor: 'white' })} />
 

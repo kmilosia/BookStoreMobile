@@ -1,8 +1,8 @@
 import axiosClient from "../utils/axiosClient"
 
-export const getSearchResults = async (search,sorting,setData,setLoading) => {
+export const getSearchResults = async (search,setData,setLoading) => {
     try{
-        const response = await axiosClient.get(`/BookItems/Store?searchPhrase=${search}&${sorting}`)
+        const response = await axiosClient.get(`/BookItems/Store?searchPhrase=${search}`)
         setData(response.data)
         setLoading(false)
     }catch(err){

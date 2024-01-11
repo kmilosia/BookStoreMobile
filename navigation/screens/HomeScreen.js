@@ -10,7 +10,7 @@ const screenHeight = Dimensions.get('window').height;
 export default function HomeScreen({ navigation }) {
     return (
         <ScrollView>
-            <Column style={{ padding: 10, backgroundColor: COLORS.primary, minHeight: screenHeight }}>
+            <Column padding={3} bg={COLORS.primary} minHeight={screenHeight}>
                 <BannersList />
                 <HomeProducts navigation={navigation}/>
             </Column>

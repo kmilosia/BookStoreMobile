@@ -21,7 +21,7 @@ export default function BannersList() {
           </Center>
         </AspectRatio>
       ) : (
-        <ScrollView horizontal height='max' style={{ flex: 0 }}>
+        <ScrollView horizontal height='max' style={{ flex: 0, paddingHorizontal: 5 }}>
           {banners?.map((item, index) => (
             <AspectRatio key={index} ratio={3 / 1} width={screenWidth - 50} marginRight={3}>
               <Image resizeMode="contain" rounded='xl' source={{ uri: item.imageURL }} alt={item.imageTitle}/>
