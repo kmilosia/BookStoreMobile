@@ -8,8 +8,10 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import { deleteWishlistItem, getWishlist, getWishlistGuid } from '../../api/WishlistAPI';
 import PageLoader from '../../components/loaders/PageLoader';
 import { addToCart, logCart } from '../../utils/cart';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function WishlistScreen() {
+    const isFocused = useIsFocused()
     const [guid, setGuid] = useState(null)
     const [loading, setLoading] = useState(true)
     const [wishlist, setWishlist] = useState({})
@@ -32,6 +34,7 @@ export default function WishlistScreen() {
             formID: item.formId,
             imageURL: item.imageURL,
             price: item.priceBrutto,
+            isWishlisted: true,
             id: item.id,
         }
         addToCart(cartItem)
@@ -46,10 +49,10 @@ export default function WishlistScreen() {
         getWishlistGuid(setGuid)
     },[])
     useEffect(() => {
-        if(guid){
+        if(guid && isFocused){
             getWishlist(guid,setWishlist, setLoading)
         }
-    },[guid])
+    },[guid, isFocused])
     return (
         loading ?
         <PageLoader />
