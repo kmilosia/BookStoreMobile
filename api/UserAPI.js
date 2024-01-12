@@ -1,6 +1,4 @@
 import axiosClient from "../utils/axiosClient"
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 export const recoverPassword = async (data, setLoading, setError, setEmailSent) => {
     try{

@@ -48,3 +48,20 @@ export const getSearchResults = async (search,setData,setLoading) => {
         console.error(err)
     }
 }
+export const getBooksByBookId = async (id, setData) => {
+    try{
+        const response = await axiosClient.get(`/BookItems/Store?bookId=${id}`)
+        setData(response.data)
+    }catch(err){
+        console.error(err)
+    }
+}
+
+export const getSimilarBooks = async (id, setData) => {
+    try{
+        const response = await axiosClient.get(`/BookItems/Store?categoryIds=${id}&numberOfElements=10`)
+        setData(response.data)
+    }catch(err){
+        console.error(err)
+    }
+}

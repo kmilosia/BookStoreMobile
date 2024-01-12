@@ -56,11 +56,17 @@ function MainContainer() {
       let userToken;
       try {
         userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.post(`/Account/CheckTokenValidity?token=${userToken}`)
+        if(response.status === 200){
+          dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+        }else{
+          dispatch({ type: 'SIGN_OUT' });
+        }
+        console.log(userToken)
       } catch (e) {
         console.log("error useeffect token");
         console.log(e);
       }
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
     bootstrapAsync();
   }, []);
@@ -106,13 +112,18 @@ function MainContainer() {
         try {
           setCheckingToken(true)
           userToken = await AsyncStorage.getItem('token')
+          const response = await axiosClient.post(`/Account/CheckTokenValidity?token=${userToken}`)
+          if(response.status === 200){
+            dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+          }else{
+            dispatch({ type: 'SIGN_OUT' });
+          }
           setCheckingToken(false)
         } catch (e) {
           console.log("error checktoken");
           console.log(e);
           setCheckingToken(false)
         }
-        dispatch({ type: 'RESTORE_TOKEN', token: userToken });
       },
       checkingToken,
       loading,

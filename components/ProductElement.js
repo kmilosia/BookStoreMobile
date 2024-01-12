@@ -18,8 +18,8 @@ export default function ProductElement ({item}) {
             <Row justifyContent='space-between' alignItems='center' marginTop={3}>
                 <Text fontSize={16} fontWeight='bold' color='white'>{item.price?.toFixed(2)}zł</Text>
                 <Row alignItems='center'>
-                    <Text color='white' fontSize={14} marginRight={1}>{item.score}</Text>
                     <FontAwesome name='star' size={18} color='gold' />
+                    <Text color='white' marginLeft={1}>{item.score}</Text>
                 </Row>
             </Row>
         </Column>
