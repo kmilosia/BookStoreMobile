@@ -42,7 +42,6 @@ export const getSearchResults = async (search,setData,setLoading) => {
     try{
         const response = await axiosClient.get(`/BookItems/Store/${id}`)
         setData(response.data)
-        console.log(response.data);
         setLoading(false)
     }catch(err){
         console.error(err)

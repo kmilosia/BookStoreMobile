@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ScrollView, View,StyleSheet } from "react-native";
-import { getBookDetails, getSimilarBooks } from "../../api/BooksAPI";
+import { getBookDetails } from "../../api/BooksAPI";
 import PageLoader from "../../components/loaders/PageLoader";
-import { AspectRatio, Center, Column, Image, Row, Text } from "native-base";
-import { COLORS, screenHeight, screenWidth } from "../../styles/constants";
+import { AspectRatio, Box, Center, Column, Image, Row, Text } from "native-base";
+import { COLORS, screenHeight } from "../../styles/constants";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { Pressable } from "react-native";
@@ -14,7 +14,7 @@ import BooksCarousel from "../../components/BooksCarousel";
 import ProductScore from "../../components/ProductScore";
 import { addWishlistItem } from "../../api/WishlistAPI";
 import { useMessageStore } from "../../store/messageStore";
-
+import { addToCart } from "../../utils/cart";
 
 export default function ProductScreen ({route,navigation}) {
     const setMessage = useMessageStore((state) => state.setMessage)
@@ -25,6 +25,7 @@ export default function ProductScreen ({route,navigation}) {
     useEffect(() => {
         getBookDetails(bookID, setBook, setLoading)
         getReviewsByAmount(bookID,setReviews,4)
+        console.log(bookID);
     },[])
     const styles = StyleSheet.create({
         section: {
@@ -56,12 +57,27 @@ export default function ProductScreen ({route,navigation}) {
             addWishlistItem(book.id)
             setBook({...book, isWishlisted: true})
             setMessage({value: 'Produkt dodano do listy życzeń!', type: 'success', bool: true})
+        }else{
+            setMessage({value: 'Produkt znajduję się juz na liście życzeń', type: 'error', bool: true})
         }
+    }
+    const handleAddToCart = () => {
+        const cartItem = {
+            title: book.bookTitle,
+            authors: book.authors,
+            formID: book.formId,
+            imageURL: book.images[0].imageURL,
+            price: book.price,
+            isWishlisted: book.isWishlisted,
+            id: book.id,
+        }
+        addToCart(cartItem)
+        setMessage({value: 'Produkt dodano do koszyka!', type: 'success', bool: true})
     }
     return (
         loading ? <PageLoader /> :
         <>
-        <Row position='absolute' justifyContent='space-between' width='100%' top={10} paddingX={5} zIndex={100}>
+        <Row position='absolute' justifyContent='space-between' width='100%' top={12} paddingX={5} zIndex={100}>
             <Pressable onPress={() => navigation.goBack()}><IonIcons style={{fontSize: 24, color: 'white'}} name="arrow-back" /></Pressable>
             <Pressable onPress={() => handleAddWishlist()}><IonIcons style={{fontSize: 24, color: 'white'}} name={book.isWishlisted ? 'heart': "heart-outline"} /></Pressable>
         </Row>
@@ -84,11 +100,23 @@ export default function ProductScreen ({route,navigation}) {
                         <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
                     </Row>
                     <Text color='white' fontSize={30} fontWeight='bold'>{book.price?.toFixed(2)}zł</Text>
-                    <Row marginY={5} alignItems='center'>
-                        <Pressable style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '50%'}}><Text fontSize={16} color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
+                    <Row marginTop={3} alignItems='center' marginBottom={10}>
+                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '50%'}}><Text fontSize={16} color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
                         {book.formId === 2 && <Pressable style={{borderRadius: 30, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '50%', borderColor: COLORS.accent, marginLeft: 5}}><Text fontSize={16} color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>}
                     </Row>
                 </Column>
+                {book.images.length > 0 &&
+                <Column style={styles.section}>
+                    <Text style={styles.sectionHeader}>Zdjęcia</Text>
+                    <ScrollView horizontal style={{flexGrow: 0, marginTop: 10}} showsHorizontalScrollIndicator={false}>
+                        {book.images.map((item, index) => {
+                            return(
+                                <Image key={index} source={{uri: item.imageURL}} alt="Okładka" style={{marginRight: 20, borderRadius: 8}} width={200} height={300} />
+                            )
+                        })}
+                    </ScrollView>
+                </Column>
+                }
                     <Column style={styles.section}>
                         <Text style={styles.sectionHeader}>O produkcie</Text>
                         <Row flexWrap='wrap' alignItems='flex-start' paddingY={1}>
@@ -132,21 +160,27 @@ export default function ProductScreen ({route,navigation}) {
                         <ProductScore score={book.score} scoreValues={book.scoreValues}/>
                     </Column>
                     <Column style={styles.section}>
+                        <Row alignItems='baseline' justifyContent='space-between' width='100%' maxWidth='100%'>
                         <Text style={styles.sectionHeader}>Ostatnie recenzje</Text>
+                        <Pressable onPress={() => navigation.navigate('Reviews', {bookID: bookID})}>
+                        <Text style={{fontWeight: 300, fontSize: 12, color: 'white'}}>Zobacz wszystkie</Text>
+                        </Pressable>
+                        </Row>
                         {reviews.length > 0 ?
-                        <Row width='100%' justifyContent='space-between' flexWrap='wrap'>
+                        <Row width='100%' justifyContent='space-between' flexWrap='wrap' marginTop={3}>
                             {reviews.map((item,index) => {
                                 return(
-                                    <Column key={index} width='48%'>
+                                    <Column key={index} width='100%' rounded='lg' bg={COLORS.secondary} padding={5}>
                                         <Row justifyContent='space-between' alignItems='center'>
-                                            <Text color='white'>{item.customerName}</Text>
+                                            <Text color='white' fontWeight={600} fontSize={16}>{item.customerName}</Text>
                                             <Row alignItems='center'>
                                                 <FontAwesome name='star' size={18} color='gold' />
                                                 <Text color='white' marginLeft={1}>{item.scoreValue}</Text>
                                             </Row>
                                         </Row>
-                                        <Text color={COLORS.light}>{item.content}</Text>
-                                        <Text color='white'>{item.creationDate && convertDateUser(item.creationDate)}</Text>
+                                        <Text color={COLORS.light} marginY={2}>{item.content}</Text>
+                                        <Box borderWidth={0.5} marginY={2} borderColor={COLORS.border}/>
+                                        <Text color={COLORS.light} fontWeight={300} fontSize={12}>{item.creationDate && convertDateUser(item.creationDate)}</Text>
                                     </Column>
                                 )
                             })}

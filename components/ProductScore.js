@@ -16,31 +16,31 @@ export default function ProductScore ({score,scoreValues}){
                 <Row alignItems='center' marginY={1}>
                     <StarsRow value={5} />
                     <View width={200} bg={COLORS.secondary} rounded='full' height={4}>
-                        {scoreValues['5'] !== 0 && <View width={`${((quantity / scoreValues['5']) * 100)}%`} bg={COLORS.accent}/>}
+                        {scoreValues['5'] !== 0 && <View width={`${((quantity / scoreValues['5']) * 100)}%`} bg={COLORS.accent} height={4} rounded='full'/>}
                     </View>
                 </Row>
                 <Row alignItems='center' marginY={1}>
                     <StarsRow value={4} />
                     <View width={200} bg={COLORS.secondary} rounded='full' height={4}>
-                        {scoreValues['4'] !== 0 && <View width={`${((quantity / scoreValues['4']) * 100)}%`} bg={COLORS.accent}/>}
+                        {scoreValues['4'] !== 0 && <View width={`${((quantity / scoreValues['4']) * 100)}%`} bg={COLORS.accent} height={4} rounded='full'/>}
                     </View>
                 </Row>
                 <Row alignItems='center' marginY={1}>
                     <StarsRow value={3} />
                     <View width={200} bg={COLORS.secondary} rounded='full' height={4}>
-                        {scoreValues['3'] !== 0 && <View width={`${((quantity / scoreValues['3']) * 100)}%`} bg={COLORS.accent}/>}
+                        {scoreValues['3'] !== 0 && <View width={`${((quantity / scoreValues['3']) * 100)}%`} bg={COLORS.accent} height={4} rounded='full'/>}
                     </View>
                 </Row>
                 <Row alignItems='center' marginY={1}>
                     <StarsRow value={2} />
                     <View width={200} bg={COLORS.secondary} rounded='full' height={4}>
-                        {scoreValues['2'] !== 0 && <View width={`${((quantity / scoreValues['2']) * 100)}%`} bg={COLORS.accent}/>}
+                        {scoreValues['2'] !== 0 && <View width={`${((quantity / scoreValues['2']) * 100)}%`} bg={COLORS.accent} height={4} rounded='full'/>}
                     </View>
                 </Row>
                 <Row alignItems='center' marginY={1}>
                     <StarsRow value={1} />
                     <View width={200} bg={COLORS.secondary} rounded='full' height={4}>
-                        {scoreValues['1'] !== 0 && <View width={`${((quantity / scoreValues['1']) * 100)}%`} bg={COLORS.accent}/>}
+                        {scoreValues['1'] !== 0 && <View width={`${((quantity / scoreValues['1']) * 100)}%`} bg={COLORS.accent} height={4} rounded='full'/>}
                     </View>
                 </Row>
             </Column>

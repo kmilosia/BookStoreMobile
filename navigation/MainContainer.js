@@ -48,9 +48,8 @@ function MainContainer() {
         ) : (
           <>
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
-        <Stack.Screen options={{headerShown: false}} name="Reviews" component={ReviewsScreen} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
-
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wszystkie recenzje' />, headerLeft: null}} name="Reviews" component={ReviewsScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Zmień hasło' />, headerLeft: null}} name="ChangePassword" component={PasswordScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Edytuj dane użytkownika' />, headerLeft: null}} name="EditUserData" component={EditUserDataScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Dane użytkownika' />, headerLeft: null}} name="UserData" component={UserDataScreen} />
