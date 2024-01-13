@@ -9,7 +9,6 @@ export const getWishlist = async (data, setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
-        console.log(userToken);
         setData(response.data)
         setLoading(false)
     } catch (error) {
@@ -18,15 +17,12 @@ export const getWishlist = async (data, setData, setLoading) => {
   }
   export const getWishlistGuid = async (setData) => {
     try {
-        console.log("step 1");
         const userToken = await AsyncStorage.getItem('token');
-        console.log("step 2");
         const response = await axiosClient.get('/Wishlist', {
             headers: {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
-        console.log("step 3");
         setData(response.data)
     } catch (error) {
         console.error('Error guid:', error);

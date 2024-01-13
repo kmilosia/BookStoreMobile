@@ -43,8 +43,57 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
               'Authorization': `Bearer ${userToken}`,
           },
         })
-        console.log(response.data);
         setData(response.data)
+        setLoading(false)
+    } catch (error) {
+        console.error(error)
+    }
+  }
+  export const editUserData = async (data, setLoading,setSuccess) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        console.log(userToken);
+        const response = await axiosClient.put(`/User`, data,  {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
+        setLoading(false)
+        if(response.status === 200 || response.status === 204){
+          setSuccess(true)
+        }else{
+          setSuccess(false)
+        }
+    } catch (error) {
+        console.error(error)
+    }
+  }
+  export const changePassword = async (data, setLoading) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.put(`/User/Password`, data,  {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
+        setLoading(false)
+        if(response.status === 200 || response.status === 204){
+          return true
+        }else{return false}
+    } catch (error) {
+        console.error(error)
+        setLoading(false)
+    }
+  }
+
+  export const deleteUser = async (setLoading) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.delete(`/User`, {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
         setLoading(false)
     } catch (error) {
         console.error(error)

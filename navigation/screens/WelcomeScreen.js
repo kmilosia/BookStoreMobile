@@ -3,10 +3,12 @@ import { Column, Image, Pressable, Row, Text, View } from 'native-base';
 import { COLORS, screenHeight, styles } from "../../styles/constants";
 import { ScrollView, TextInput } from 'react-native';
 import SubmitButton from '../../components/buttons/SubmitButton';
-import { AuthContext } from '../MainContainer';
+import { useAuthStore } from '../../store/userStore';
 
 export default function WelcomeScreen({ navigation }) {
-    const {signIn, loading, error} = React.useContext(AuthContext)
+    const signIn = useAuthStore((state) => state.signIn)
+    const error = useAuthStore((state) => state.error)
+    const loading = useAuthStore((state) => state.loading)
     const [errors, setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
     const [loginData, setLoginData]= useState({
