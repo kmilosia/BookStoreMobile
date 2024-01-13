@@ -61,9 +61,14 @@ export const styles = StyleSheet.create({
         color: 'white',
         borderWidth: 2,
         borderColor: COLORS.triary,
+        backgroundColor: COLORS.secondary,
         width: '100%',
         paddingVertical: 10,
         paddingHorizontal: 20, borderRadius: 10
+    },
+    inputLabel: {
+        color: 'white',
+        fontWeight: 500,
+        fontSize: 16
     }
-
 })

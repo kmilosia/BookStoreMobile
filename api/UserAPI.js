@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import axiosClient from "../utils/axiosClient"
 
 export const recoverPassword = async (data, setLoading, setError, setEmailSent) => {
@@ -31,5 +32,21 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
             console.log(error)
           }
           setLoading(false)
+    }
+  }
+
+  export const getUserData = async (setData, setLoading) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.get(`/User`, {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
+        console.log(response.data);
+        setData(response.data)
+        setLoading(false)
+    } catch (error) {
+        console.error(error)
     }
   }

@@ -13,9 +13,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import BooksCarousel from "../../components/BooksCarousel";
 import ProductScore from "../../components/ProductScore";
 import { addWishlistItem } from "../../api/WishlistAPI";
+import { useMessageStore } from "../../store/messageStore";
 
 
 export default function ProductScreen ({route,navigation}) {
+    const setMessage = useMessageStore((state) => state.setMessage)
     const bookID = route.params.bookID
     const [book, setBook] = useState({})
     const [reviews, setReviews] = useState([])
@@ -53,6 +55,7 @@ export default function ProductScreen ({route,navigation}) {
         if(!book.isWishlisted){
             addWishlistItem(book.id)
             setBook({...book, isWishlisted: true})
+            setMessage({value: 'Produkt dodano do listy życzeń!', type: 'success', bool: true})
         }
     }
     return (

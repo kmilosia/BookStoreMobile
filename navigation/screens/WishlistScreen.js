@@ -7,16 +7,32 @@ import IonIcons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { deleteWishlistItem, getWishlist, getWishlistGuid } from '../../api/WishlistAPI';
 import PageLoader from '../../components/loaders/PageLoader';
-import { addToCart, logCart } from '../../utils/cart';
+import { addToCart } from '../../utils/cart';
 import { useIsFocused } from '@react-navigation/native';
+import { useMessageStore } from '../../store/messageStore';
 
 export default function WishlistScreen() {
+    const setMessage = useMessageStore((state) => state.setMessage)
     const isFocused = useIsFocused()
     const [guid, setGuid] = useState(null)
     const [loading, setLoading] = useState(true)
     const [wishlist, setWishlist] = useState({})
     const moveAllToCart = () => {
-        
+        {wishlist.items?.map((item) => {
+            const cartItem = {
+                title: item.bookTitle,
+                authors: item.authors,
+                formID: item.formId,
+                imageURL: item.imageURL,
+                price: item.priceBrutto,
+                isWishlisted: true,
+                id: item.id,
+            }
+            addToCart(cartItem)
+            deleteWishlistItem(item.id)
+            updateWishlistAfterDelete(item.id)
+        })}
+        setMessage({value: 'Lista życzeń została przeniesiona do koszyka!', type: 'success', bool: true})
     }
     const updateWishlistAfterDelete = (id) => {
         setWishlist((prev) => {
@@ -38,13 +54,15 @@ export default function WishlistScreen() {
             id: item.id,
         }
         addToCart(cartItem)
-        logCart()
+        deleteWishlistItem(item.id)
+        updateWishlistAfterDelete(item.id)
+        setMessage({value: 'Produkt przeniesiono do koszyka!', type: 'success', bool: true})
     }
     const deleteFromWishlist = (id) => {
         deleteWishlistItem(id)
         updateWishlistAfterDelete(id)
+        setMessage({value: 'Produkt usunięto z listy życzeń!', type: 'success', bool: true})
     }
-
     useEffect(() => {
         getWishlistGuid(setGuid)
     },[])
@@ -60,7 +78,7 @@ export default function WishlistScreen() {
         <>
         {wishlist.items.length > 0 ?
         <>
-        <Pressable style={{width: '90%',alignSelf: 'center',position: 'absolute',bottom: 10,zIndex: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary,borderWidth: 2, borderColor: COLORS.accent, borderRadius: 30, paddingVertical: 10}}>
+        <Pressable onPress={() => {moveAllToCart()}} style={{width: '90%',alignSelf: 'center',position: 'absolute',bottom: 10,zIndex: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary,borderWidth: 2, borderColor: COLORS.accent, borderRadius: 30, paddingVertical: 10}}>
             <Text fontWeight={500} marginRight={1} fontSize={16} color={COLORS.accent}>Przenieś wszystko do koszyka</Text>
             <IonIcons color={COLORS.accent} name='cart' size={18} />
         </Pressable>

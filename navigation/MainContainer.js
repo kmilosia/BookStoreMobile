@@ -17,11 +17,16 @@ import RecoverPasswordScreen from './screens/RecoverPasswordScreen';
 import ReviewsScreen from './screens/ReviewsScreen';
 import SplashScreen from './screens/SplashScreen';
 import MainTabNavigator from './MainTabNavigator';
+import Message from './screens/Message';
+import { useMessageStore } from '../store/messageStore';
+import UserDataScreen from './screens/profileScreens/UserDataScreen';
+import EditUserDataScreen from './screens/profileScreens/EditUserDataScreen';
 
 const Stack = createStackNavigator();
 const AuthContext = React.createContext();
 
 function MainContainer() {
+  const message = useMessageStore((state) => state.message)
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -57,6 +62,7 @@ function MainContainer() {
       try {
         userToken = await AsyncStorage.getItem('token');
         const response = await axiosClient.post(`/Account/CheckTokenValidity?token=${userToken}`)
+        console.log(userToken);
         if(response.status === 200){
           dispatch({ type: 'RESTORE_TOKEN', token: userToken });
         }else{
@@ -137,6 +143,7 @@ function MainContainer() {
   return (
     <NavigationContainer theme={{colors: {background: '#181826'}}}>
           <AuthContext.Provider value={authContext}>
+          {message.bool && <Message />}
       <Stack.Navigator>
         {state.userToken === null ? (
           <>
@@ -147,8 +154,11 @@ function MainContainer() {
         ) : (
           <>
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
-        <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
         <Stack.Screen options={{headerShown: false}} name="Reviews" component={ReviewsScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Edytuj dane użytkownika' />, headerLeft: null}} name="EditUserData" component={EditUserDataScreen} />
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Dane użytkownika' />, headerLeft: null}} name="UserData" component={UserDataScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Szukaj' />, headerLeft: null}} name="Search" component={SearchScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kategorie' />, headerLeft: null}} name="Categories" component={CategoriesScreen} />
         <Stack.Screen name="Category" component={CategoryBookListScreen} options={({ route }) => ({ headerTitle: () => <DefaultHeader title={route.params.title} />, headerLeft: null, headerStyle: { backgroundColor: COLORS.primary }, headerTitleStyle: { color: 'white' }, headerTintColor: 'white' })} />
