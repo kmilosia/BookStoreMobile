@@ -11,11 +11,11 @@ export const useAuthStore = create((set) => ({
         set({error: null, loading: true})
         try{
             const response = await axiosClient.post('/Account/login', data);
-            console.log("logowanie")
             if(response.status === 200){
                 const userToken = response.data
                 set({token: userToken})
                 await AsyncStorage.setItem('token', userToken)
+                console.log(userToken);
             }else{
                 set({error: 'Nieudane logowanie'})
             }
@@ -39,11 +39,17 @@ export const useAuthStore = create((set) => ({
         try{
             const userToken = await AsyncStorage.getItem('token')
             if(userToken){
-                set({ token: userToken })
+                const response = await axiosClient.post(`/Account/CheckTokenValidity?token=${userToken}`)
+                if(response.status === 200){
+                    set({ token: userToken })
+                }else{
+                    set({token: null})
+                }
+            }else{
+                set({ token: null })
             }
         }catch(e){
             console.log(e);
-            set({error: 'Błąd podczas pobierania klucza'})
         }
         set({restoring: false})
     }

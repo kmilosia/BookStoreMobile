@@ -25,3 +25,19 @@ export const getAuthors = async (setData,setLoading) => {
       console.error(err)
     }
   }
+  export const getPaymentMethods = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/PaymentMethod`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  export const getRentalTypes = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/RentalType`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }

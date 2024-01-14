@@ -100,9 +100,9 @@ export default function ProductScreen ({route,navigation}) {
                         <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
                     </Row>
                     <Text color='white' fontSize={30} fontWeight='bold'>{book.price?.toFixed(2)}zł</Text>
-                    <Row marginTop={3} alignItems='center' marginBottom={10}>
-                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '50%'}}><Text fontSize={16} color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
-                        {book.formId === 2 && <Pressable style={{borderRadius: 30, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '50%', borderColor: COLORS.accent, marginLeft: 5}}><Text fontSize={16} color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>}
+                    <Row marginTop={3} justifyContent='space-between' width='100%' maxWidth='100%' alignItems='center' marginBottom={10}>
+                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '49%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
+                        {book.formId === 2 && <Pressable onPress={() => navigation.navigate('Rent', {bookID: bookID})} style={{borderRadius: 30, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '49%', borderColor: COLORS.accent}}><Text color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>}
                     </Row>
                 </Column>
                 {book.images.length > 0 &&

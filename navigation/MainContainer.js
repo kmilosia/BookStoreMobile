@@ -21,6 +21,7 @@ import UserDataScreen from './screens/profileScreens/UserDataScreen';
 import EditUserDataScreen from './screens/profileScreens/EditUserDataScreen';
 import PasswordScreen from './screens/profileScreens/PasswordScreen';
 import { useAuthStore } from '../store/userStore';
+import RentScreen from './screens/RentScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,7 @@ function MainContainer() {
           <>
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wypożycz' />, headerLeft: null}} name="Rent" component={RentScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wszystkie recenzje' />, headerLeft: null}} name="Reviews" component={ReviewsScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Zmień hasło' />, headerLeft: null}} name="ChangePassword" component={PasswordScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Edytuj dane użytkownika' />, headerLeft: null}} name="EditUserData" component={EditUserDataScreen} />
