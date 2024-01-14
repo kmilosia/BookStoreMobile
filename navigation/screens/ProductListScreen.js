@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
 import { COLORS, screenHeight, styles } from "../../styles/constants";
-import { AspectRatio, Box, CheckIcon, Column,Image, Row, Select, Text } from "native-base";
+import { AspectRatio, Box, Center, CheckIcon, Column,Image, Row, Select, Text } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {getAllBooks, getSortedAndFilteredBooks, getSortedBooks} from '../../api/BooksAPI'
 import ProductElement from "../../components/ProductElement";
 import FormsFilter from "../../components/filters/FormsFilter";
 import StockFilter from "../../components/filters/StockFilter";
+import ScoreFilter from "../../components/filters/ScoreFilter";
+import LanguageFilter from "../../components/filters/LanguageFilter";
+import AuthorFilter from "../../components/filters/AuthorFilter";
+import PublisherFilter from "../../components/filters/PublisherFilter";
+import CategoryFilter from "../../components/filters/CategoryFilter";
+import PriceFilter from "../../components/filters/PriceFilter";
 
 export default function ProductListScreen({navigation}) {
     const [loading, setLoading] = useState(true)
@@ -69,10 +75,9 @@ export default function ProductListScreen({navigation}) {
         return filter
       }
       const applyFilters =() => {
-        // isFilterWindow(false)
+        setIsFilterWindow(false)
         const newFilter = buildFilter()
         setFilter(newFilter)
-        console.log(filter);
     }
     const clearFilters = () => {
         setFilterElements({
@@ -86,14 +91,24 @@ export default function ProductListScreen({navigation}) {
           stock: '',
           form: '',
         })
+        setFiltersOpen({
+            form: false,
+            stock: false,
+            score: false,
+            publisher: false,
+            author: false,
+            price: false,
+            language: false,
+            category: false,
+        })
       }
     useEffect(()=>{
         getAllBooks(setBooks, setLoading)
     },[])
-    // useEffect(() => {
-    //     setLoading(true)
-    //     getSortedAndFilteredBooks(setBooks,setLoading, sorting,filter)
-    // },[sorting,filter])
+    useEffect(() => {
+        setLoading(true)
+        getSortedAndFilteredBooks(setBooks,setLoading, sorting,filter)
+    },[sorting,filter])
     return (
         <>
         <ScrollView>
@@ -119,11 +134,14 @@ export default function ProductListScreen({navigation}) {
                         <ProductElement item={item} key={index} />                    
                     )
                 })}
-            </Row>}
+            </Row> 
+            }
             </Column>
         </ScrollView>
         <Modal animationType="fade" transparent={true} visible={isFilterWindow} onRequestClose={() => {setIsFilterWindow(!isFilterWindow);}}>
-            <View style={{ flex: 1, backgroundColor: COLORS.primary,padding: 20, alignItems: 'center' }}>
+            <>
+            <View style={{ flex: 1, backgroundColor: COLORS.primary,padding: 20, alignItems: 'center',paddingBottom: 60 }}>
+            <ScrollView width='100%'>
                 <Row justifyContent='space-between' alignItems='center' width='100%' maxWidth='100%' marginBottom={3}>
                 <Pressable onPress={() => clearFilters()}>
                     <Text color={COLORS.light} fontWeight={300} fontSize={12}>Wyczyść filtry</Text>
@@ -132,14 +150,23 @@ export default function ProductListScreen({navigation}) {
                     <Ionicons name="close" color='white' size={26} />
                 </Pressable>
                 </Row>
-                
                 <FormsFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
                 <StockFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
-                
-                <Pressable onPress={() => applyFilters()} style={{ marginTop: 'auto', padding: 10, backgroundColor: COLORS.accent, borderRadius: 30, width: '100%' }}>
-                    <Text textAlign='center' fontSize={16} fontWeight={500} color='white'>Filtruj wyniki</Text>
-                </Pressable>
+                <ScoreFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                <LanguageFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                <AuthorFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                <PublisherFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                <CategoryFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                <PriceFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                </ScrollView>
             </View>
+            <Center position='absolute' bottom={5} left={0} width='100%' paddingX={3}>
+            <Pressable onPress={() => applyFilters()} style={{ marginTop: 'auto', padding: 10, backgroundColor: COLORS.accent, borderRadius: 30, width: '100%' }}>
+                <Text textAlign='center' fontSize={16} fontWeight={500} color='white'>Filtruj wyniki</Text>
+            </Pressable>
+            </Center>
+            
+            </>
         </Modal>  
         </>    
     )

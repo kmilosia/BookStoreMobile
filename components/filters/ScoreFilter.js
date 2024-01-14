@@ -1,13 +1,18 @@
-import { Checkbox, Column, Text } from "native-base";
+import { Checkbox, Column, Row, Text } from "native-base";
 import { COLORS } from "../../styles/constants";
 import { Pressable } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { useEffect, useState } from "react";
-import { getForms } from "../../api/DictionaryAPI";
+import StarsRow from '../../components/StarsRow'
 
 export default function ScoreFilter({filtersOpen,setFiltersOpen, filterElements, setFilterElements}){
-    const [data, setData] = useState([])
+    const data = [
+        {value: 5},
+        {value: 4},
+        {value: 3},
+        {value: 2},
+        {value: 1},
+    ]
     const handleCheckboxPress = (scoreId) => {
         const isSelected = filterElements.score.includes(`&ScoreValues=${scoreId}`);
         if (isSelected) {
@@ -23,9 +28,6 @@ export default function ScoreFilter({filtersOpen,setFiltersOpen, filterElements,
         }
         console.log(filterElements.score);
       };
-    useEffect(() =>{
-        getForms(setData)
-    },[])
     return(
         <Column marginBottom={4} borderWidth={2} borderColor={COLORS.triary} bg={COLORS.secondary} borderRadius={8} width='100%'>
             <Pressable onPress={() => setFiltersOpen({ ...filtersOpen, score: !filtersOpen.score })} style={{width: '100%',borderBottomWidth: filtersOpen.score ? 2 : 0,borderColor: COLORS.triary, paddingHorizontal: 14, paddingVertical: 10, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -34,32 +36,29 @@ export default function ScoreFilter({filtersOpen,setFiltersOpen, filterElements,
             </Pressable>
             {filtersOpen.score &&
             <Column width='100%' paddingX={4} paddingY={3}>
-                <Checkbox.Group accessibilityLabel="Wybierz ocenę książki">
-                {data?.map((item,index) => {
+                {data.map((item,index) => {
                     return(
+                    <Row marginBottom={2} key={index}>
                         <BouncyCheckbox
-                        isChecked={filterElements.score.includes(`&ScoreValues=${item.id}`)}
-                        onPress={() => {handleCheckboxPress(item.id)}}
-                        key={index}
-                        size={20}
-                        fillColor={COLORS.accent}
-                        unfillColor="#ffffff"
-                        text={item.name}
-                        marginBottom={8}
-                        textStyle={{
-                            color: 'white',
-                            textDecorationLine: 'none'
-                        }}
-                        iconStyle={{
-                            borderRadius: 4
-                        }}
-                        innerIconStyle={{
-                            borderRadius: 4
-                        }}
+                                isChecked={filterElements.score.includes(`&ScoreValues=${item.value}`)}
+                                onPress={() => {handleCheckboxPress(item.value)}}
+                                size={20}
+                                fillColor={COLORS.accent}
+                                unfillColor="#ffffff"
+                                textStyle={{
+                                    textDecorationLine: 'none'
+                                }}
+                                iconStyle={{
+                                    borderRadius: 4
+                                }}
+                                innerIconStyle={{
+                                    borderRadius: 4
+                                }}
                         />
+                        <StarsRow value={item.value}/>
+                    </Row>
                     )
-                })}
-                </Checkbox.Group>
+                })}    
             </Column>
             }
         </Column>

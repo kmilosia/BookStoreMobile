@@ -1,10 +1,9 @@
 import axiosClient from "../utils/axiosClient";
 
-export const getAuthors = async (setData,setLoading) => {
+export const getAuthors = async (setData) => {
     try{
         const response = await axiosClient.get(`/Author`)
         setData(response.data)
-        setLoading(false)
     }catch(err){
         console.error(err)
     }
@@ -44,6 +43,22 @@ export const getAuthors = async (setData,setLoading) => {
   export const getAvailabilities = async (setData) => {
     try {
       const response = await axiosClient.get(`/Availability`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  export const getLanguage = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/Language`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  export const getPublisher = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/Publisher`)
       setData(response.data)
     } catch (err) {
       console.error(err)

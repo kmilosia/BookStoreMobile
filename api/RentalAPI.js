@@ -18,7 +18,7 @@ export const getPurchasedBooks = async (setData, setLoading) => {
 export const getRentedBooks = async (setData, setLoading) => {
     try {
         const userToken = await AsyncStorage.getItem('token');
-        const response = await axiosClient.get('/Rental', {
+        const response = await axiosClient.get('/Rental?rentalTypeId=1', {
             headers: {
                 'Authorization': `Bearer ${userToken}`,
             },
