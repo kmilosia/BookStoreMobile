@@ -41,3 +41,11 @@ export const getAuthors = async (setData,setLoading) => {
       console.error(err)
     }
   }
+  export const getAvailabilities = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/Availability`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }

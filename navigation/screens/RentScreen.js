@@ -62,6 +62,7 @@ export default function RentScreen({route, navigation}) {
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
+            setLoading(true)
             const currentDate = new Date();
             const formattedStartDate = currentDate.toISOString();
             const data = {
@@ -86,18 +87,18 @@ export default function RentScreen({route, navigation}) {
         <ScrollView>
             <Column width='100%' bg={COLORS.primary}>
                 <View height={280} position='relative' width='100%'>
-                    <Image style={{position: 'absolute', zIndex: 10 }} blurRadius={20} width='100%' height={280} resizeMode="cover" source={{uri: book.images[0].imageURL}} alt="Book Cover" />
+                    <Image style={{position: 'absolute', zIndex: 10,width: '100%' }} blurRadius={20} height={280} resizeMode="cover" source={{uri: book.images[0].imageURL}} alt="Book Cover" />
                     <LinearGradient style={{position: 'absolute', zIndex: 20, width: '100%', height: 280, resizeMode: 'cover' }} colors={['#ffffff00', '#181826']}/>
                     <Row width='100%' alignItems='flex-end' height='100%' position='absolute' zIndex={30} padding={5}>
                         <Image height={220} width={150} style={{borderRadius: 8}} source={{uri: book.images[0].imageURL}} alt="Book Cover" />
-                        <Column flexGrow={1} flex={1} marginLeft={2} height={220}>
+                        <Column flexGrow={1} flex={1} marginLeft={3} height={220}>
                         <Text color='white' fontWeight={600} fontSize={20} lineHeight={22}>{book.bookTitle}</Text>
                         <Text color='white' fontWeight={300}>{book.authors?.map((item) => {return (item.name + " " + item.surname)})}</Text>
                         <Row alignItems='center' marginBottom={2}>
                                 <FontAwesome name="star" size={20} color='gold'/>
                                 <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
                         </Row>   
-                        <Text color='white' marginTop='auto' fontWeight={600}>{book.fileFormatName}</Text>
+                        <Text color='white' marginTop='auto' fontSize={16} fontWeight={600}>{book.fileFormatName}</Text>
                         </Column>
                     </Row>
                 </View>
@@ -109,7 +110,7 @@ export default function RentScreen({route, navigation}) {
                         boxDeactiveBgColor={COLORS.primary}
                         textColor='white'
                         activeColor={COLORS.accent}
-                        deactiveColor={COLORS.triary}
+                        deactiveColor={COLORS.border}
                         />
                     {errors.rentalType && <Text style={styles.errorText}>{errors.rentalType}</Text>}
                     <Text color='white' fontSize={16} fontWeight={500} marginTop={5} marginBottom={2}>Wybierz metodę płatności:</Text>
@@ -119,7 +120,7 @@ export default function RentScreen({route, navigation}) {
                         boxDeactiveBgColor={COLORS.primary}
                         textColor='white'
                         activeColor={COLORS.accent}
-                        deactiveColor={COLORS.triary}
+                        deactiveColor={COLORS.border}
                     />
                     {errors.paymentMethods && <Text style={styles.errorText}>{errors.paymentMethods}</Text>}
                     <Pressable onPress={() => handleSubmit()} style={{borderRadius: 30, backgroundColor: COLORS.accent, padding: 10, width: '100%', marginTop: 20, marginBottom: 10 }}>

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
-import { COLORS, screenHeight } from "../../styles/constants";
+import { COLORS, screenHeight, styles } from "../../styles/constants";
 import { AspectRatio, Box, CheckIcon, Column,Image, Row, Select, Text } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {getAllBooks, getSortedBooks} from '../../api/BooksAPI'
+import {getAllBooks, getSortedAndFilteredBooks, getSortedBooks} from '../../api/BooksAPI'
 import ProductElement from "../../components/ProductElement";
-import FormFilter from "../../components/filters/FormFilter";
+import FormsFilter from "../../components/filters/FormsFilter";
+import StockFilter from "../../components/filters/StockFilter";
 
 export default function ProductListScreen({navigation}) {
     const [loading, setLoading] = useState(true)
@@ -14,6 +15,18 @@ export default function ProductListScreen({navigation}) {
     const [value, setValue] = useState('')
     const [sorting, setSorting] = useState('')
     const [isFilterWindow, setIsFilterWindow] = useState(false)
+    const [filter, setFilter] = useState('')
+    const [filterElements, setFilterElements] = useState ({
+        minPrice: '',
+        maxPrice: '',
+        author: '',
+        publisher: '',
+        category: '',
+        language: '',
+        score: '',
+        stock: '',
+        form: '',
+    })
     const [filtersOpen, setFiltersOpen] = useState({
         form: false,
         stock: false,
@@ -24,35 +37,79 @@ export default function ProductListScreen({navigation}) {
         language: false,
         category: false
     })
-
+    const buildFilter = () => {
+        let filter = ''
+        if (filterElements.minPrice !== '') {
+          filter += `&priceFrom=${filterElements.minPrice}`
+        }
+        if (filterElements.maxPrice !== '') {
+          filter += `&priceTo=${filterElements.maxPrice}`
+        }
+        if (filterElements.author !== '') {
+            filter += `${filterElements.author}`
+        }
+        if (filterElements.publisher !== '') {
+            filter += `${filterElements.publisher}`
+        }
+        if (filterElements.category !== '') {
+            filter += `${filterElements.category}`
+        }
+        if (filterElements.language !== '') {
+            filter += `${filterElements.language}`
+        }
+        if (filterElements.stock !== '') {
+            filter += `${filterElements.stock}`
+        }
+        if (filterElements.score !== '') {
+            filter += `${filterElements.score}`
+        }
+        if (filterElements.form !== '') {
+            filter += `${filterElements.form}`
+        }
+        return filter
+      }
+      const applyFilters =() => {
+        // isFilterWindow(false)
+        const newFilter = buildFilter()
+        setFilter(newFilter)
+        console.log(filter);
+    }
+    const clearFilters = () => {
+        setFilterElements({
+          minPrice: '',
+          maxPrice: '',
+          author: '',
+          publisher: '',
+          category: '',
+          language: '',
+          score: '',
+          stock: '',
+          form: '',
+        })
+      }
     useEffect(()=>{
         getAllBooks(setBooks, setLoading)
     },[])
-    useEffect(() => {
-        setLoading(true)
-        getSortedBooks(setBooks,setLoading, sorting)
-    },[sorting])
+    // useEffect(() => {
+    //     setLoading(true)
+    //     getSortedAndFilteredBooks(setBooks,setLoading, sorting,filter)
+    // },[sorting,filter])
     return (
         <>
         <ScrollView>
         <Column bg={COLORS.primary}>
             <Row width='100%' padding={2} flex={1}>
-                <Select color='white' fontSize={14} borderWidth={2} borderColor={COLORS.triary} rounded='lg' flex={1} selectedValue={sorting} accessibilityLabel="Sortuj książki" width='100%' placeholder="Sortuj książki" mt={1} onValueChange={itemValue => setSorting(itemValue)}>
+                <Select color='white' fontSize={14} borderWidth={2} backgroundColor={COLORS.secondary} borderColor={COLORS.triary} rounded='lg' flex={1} selectedValue={sorting} accessibilityLabel="Sortuj książki" width='100%' placeholder="Sortuj książki" mt={1} onValueChange={itemValue => setSorting(itemValue)}>
                   <Select.Item label="Domyślnie" value="" />
-                  <Select.Item label="Alfabetycznie od A do Z" value="sortBy=alphabetical&sortOrder=desc" />
-                  <Select.Item label="Alfabetycznie od Z do A" value="sortBy=alphabetical&sortOrder=asc" />
+                  <Select.Item label="Alfabetycznie od A do Z" value="sortBy=alphabetical&sortOrder=asc" />
+                  <Select.Item label="Alfabetycznie od Z do A" value="sortBy=alphabetical&sortOrder=desc" />
                   <Select.Item label="Cena malejąco" value="sortBy=price&sortOrder=desc" />
                   <Select.Item label="Cena rosnąco" value="sortBy=price&sortOrder=asc" />
                 </Select>
-                 {/*<View style={{position: 'relative', flexGrow: 1}}>
-                    <TextInput onFocus={() => setActive(true)} onBlur={() => setActive(false)} 
-                    style={{width: '100%', padding: 10, paddingRight: 50, fontSize: 16,backgroundColor: COLORS.secondary, color: 'white', borderRadius: 8, borderWidth: 2, borderColor: isSearchActive ? COLORS.accent : COLORS.triary}} placeholderTextColor={COLORS.triary} placeholder='Szukaj książek..' onChangeText={newValue => setValue(newValue)} />
-                    <Ionicons name='search' size={20} color='white' style={{position: 'absolute', top: '50%',transform: [{translateY: -10}], right: 10, zIndex: 100}} />
-                </View>*/}
-                <Pressable onPress={() => {setIsFilterWindow(true)}} style={{marginTop: 4, borderRadius: 8, backgroundColor: COLORS.primary, borderWidth: 2, borderColor: COLORS.triary, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, marginLeft: 5 }}><Ionicons name="filter" size={20} color='white' /></Pressable>
+                <Pressable onPress={() => {setIsFilterWindow(true)}} style={{marginTop: 4, borderRadius: 8, backgroundColor: COLORS.secondary, borderWidth: 2, borderColor: COLORS.triary, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, marginLeft: 5 }}><Ionicons name="filter" size={20} color='white' /></Pressable>
             </Row>
             {loading ?
-                <View style={{display: 'flex',backgroundColor: 'blue', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: COLORS.primary}}>
+                <View style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: screenHeight, backgroundColor: COLORS.primary}}>
                     <ActivityIndicator size='medium' color={COLORS.accent} />
                 </View> 
             :
@@ -65,17 +122,22 @@ export default function ProductListScreen({navigation}) {
             </Row>}
             </Column>
         </ScrollView>
-        <Modal animationType="slide" transparent={true} visible={isFilterWindow} onRequestClose={() => {setIsFilterWindow(!isFilterWindow);}}>
-            <View style={{ flex: 1, backgroundColor: COLORS.primary, padding: 20, alignItems: 'center' }}>
-                <Pressable onPress={() => setFiltersOpen({ ...filtersOpen, form: !filtersOpen.form })} style={{width: '100%', paddingHorizontal: 14, paddingVertical: 10, borderWidth: 2, borderColor: COLORS.triary, borderRadius: 8, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Text fontWeight={500} fontSize={18} color='white'>Rodzaj</Text>
-                    <Ionicons name='chevron-down' color='white' size={18} />
+        <Modal animationType="fade" transparent={true} visible={isFilterWindow} onRequestClose={() => {setIsFilterWindow(!isFilterWindow);}}>
+            <View style={{ flex: 1, backgroundColor: COLORS.primary,padding: 20, alignItems: 'center' }}>
+                <Row justifyContent='space-between' alignItems='center' width='100%' maxWidth='100%' marginBottom={3}>
+                <Pressable onPress={() => clearFilters()}>
+                    <Text color={COLORS.light} fontWeight={300} fontSize={12}>Wyczyść filtry</Text>
                 </Pressable>
-                {filtersOpen.form &&
-                <FormFilter />
-                }
-                <Pressable onPress={() => setIsFilterWindow(!isFilterWindow)} style={{ marginTop: 10, padding: 10, backgroundColor: COLORS.accent, borderRadius: 20 }}>
-                    <Ionicons name="close" color='white' size={20} />
+                <Pressable onPress={() => setIsFilterWindow(false)}>
+                    <Ionicons name="close" color='white' size={26} />
+                </Pressable>
+                </Row>
+                
+                <FormsFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                <StockFilter filtersOpen={filtersOpen} filterElements={filterElements} setFilterElements={setFilterElements} setFiltersOpen={setFiltersOpen}/>
+                
+                <Pressable onPress={() => applyFilters()} style={{ marginTop: 'auto', padding: 10, backgroundColor: COLORS.accent, borderRadius: 30, width: '100%' }}>
+                    <Text textAlign='center' fontSize={16} fontWeight={500} color='white'>Filtruj wyniki</Text>
                 </Pressable>
             </View>
         </Modal>  

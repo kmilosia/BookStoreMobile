@@ -39,9 +39,9 @@ export default function HomeProducts ({navigation}) {
     })
     return (
         <View>
-            <Row justifyContent='space-between' alignItems='center' marginTop={5} paddingX={2}>
+            <Row justifyContent='space-between' alignItems='flex-end' marginTop={5} paddingX={2}>
                 <Text color='white' fontSize={18} fontWeight='semibold'>Kategorie</Text>
-                <Pressable onPress={() => navigation.navigate("Categories")}><Text color='gray.400' fontWeight='semibold'>Zobacz wszystko</Text></Pressable>
+                <Pressable onPress={() => navigation.navigate("Categories")}><Text color='gray.400' fontSize={12} fontWeight={300}>Zobacz wszystko</Text></Pressable>
             </Row>
             <ScrollView horizontal marginTop={8} marginBottom={8} style={{paddingHorizontal: 5}}>
                 <Row>
@@ -68,7 +68,7 @@ export default function HomeProducts ({navigation}) {
                 :
                 <Column>
                 <Row justifyContent='space-between' flexWrap='wrap'>
-                {books?.map((item,index) => {
+                {books?.slice(0,6).map((item,index) => {
                     return (
                         <ProductElement item={item} key={index} />                    
                     )

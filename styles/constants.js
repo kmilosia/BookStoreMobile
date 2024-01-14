@@ -70,5 +70,5 @@ export const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 500,
         fontSize: 16
-    }
+    },
 })

@@ -14,7 +14,6 @@ import HomeScreen from './screens/HomeScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import TabHeader from '../components/headers/TabHeader';
 
-
 export default function MainTabNavigator() {
     return (
       <Tab.Navigator
@@ -41,8 +40,7 @@ export default function MainTabNavigator() {
               iconName = focused ? 'person' : 'person-outline';
             } else if (route.name === 'Products') {
               iconName = focused ? 'list' : 'list-outline';
-            }
-  
+            } 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
           tabBarLabelStyle: {
@@ -52,8 +50,8 @@ export default function MainTabNavigator() {
         >
         <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <HomeHeader {...props} />}} name="Home" component={HomeScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Książki" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Products" component={ProductListScreen} />
-        <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Lista życzeń" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Wishlist" component={WishlistScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Biblioteka" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Library" component={LibraryScreen} />
+        <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Lista życzeń" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Wishlist" component={WishlistScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Koszyk" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Cart" component={CartScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Profil" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
