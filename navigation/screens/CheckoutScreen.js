@@ -95,6 +95,11 @@ export default function CheckoutScreen () {
                             <Text fontWeight={600} color='white'>Dodaj</Text>
                         </Pressable>
                         }
+                        {Object.keys(address).length > 0 &&
+                        <Column>
+                        <Text color={COLORS.light}></Text>
+                        </Column>
+                        }
                     </Row>
                 </Column>
                 <Column width='100%' bg={COLORS.secondary} marginBottom={3} padding={5} paddingBottom={3} borderRadius={8}>
