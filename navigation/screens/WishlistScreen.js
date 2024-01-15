@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View, ScrollView, Image } from 'react-native';
 import { COLORS, screenHeight } from '../../styles/constants';
-import { Box, Column, Row, Text } from 'native-base';
+import { Column, Row, Text } from 'native-base';
 import { Pressable } from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -83,7 +83,7 @@ export default function WishlistScreen() {
             <IonIcons color={COLORS.accent} name='cart' size={18} />
         </Pressable>
         <ScrollView>
-            <Column bg={COLORS.primary} width='100%' minHeight={screenHeight - 100} padding={3}>
+            <Column bg={COLORS.primary} width='100%' minHeight={screenHeight - 100} padding={3} paddingBottom={20}>
                 {wishlist.items.map((item,index) => {
                     return (
                         <Row key={index} marginY={3} rounded='lg' borderWidth={2} borderColor={COLORS.border} padding={3}>

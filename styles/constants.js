@@ -64,11 +64,25 @@ export const styles = StyleSheet.create({
         backgroundColor: COLORS.secondary,
         width: '100%',
         paddingVertical: 10,
-        paddingHorizontal: 20, borderRadius: 10
+        paddingHorizontal: 20,
+        borderRadius: 10
     },
     inputLabel: {
         color: 'white',
         fontWeight: 500,
         fontSize: 16
     },
+    roundButton:{
+        backgroundColor: COLORS.accent,
+        marginTop: 10,
+        padding: 12,
+        borderRadius: 40,
+        width: '90%'
+    },
+    roundButtonText:{
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 500,
+        fontSize: 16
+    }
 })

@@ -23,10 +23,10 @@ export default function RentedBooksList () {
             <ScrollView horizontal>
                 {rentedBooks.map((item,index) => {
                     return (
-                        <View key={index} width={150} marginRight={5} height={220} position='relative' style={{borderRadius: 8}}>
-                            <Image style={{position: 'absolute', zIndex: 10, borderRadius: 8 }} width={150} height={220} source={{uri: item.imageURL}} alt="Okładka książki"/>
-                            <LinearGradient style={{position: 'absolute', zIndex: 20, width: 150, height: 220, borderRadius: 8 }} colors={['#ffffff00', '#000']}/>
-                            <Row zIndex={30} justifyContent='flex-start' alignItems='flex-end' width={150} height={220} padding={4}>
+                        <View key={index} width={300} marginRight={5} height={420} position='relative' style={{borderRadius: 8}}>
+                            <Image style={{position: 'absolute', zIndex: 10, borderRadius: 8 }} width={300} height={420} source={{uri: item.imageURL}} alt="Okładka książki"/>
+                            <LinearGradient style={{position: 'absolute', zIndex: 20, width: 300, height: 420, borderRadius: 8 }} colors={['#ffffff00', '#000']}/>
+                            <Row zIndex={30} justifyContent='flex-start' alignItems='flex-end' width={300} height={420} padding={4}>
                                 <Text color='white' fontSize={14} fontWeight={500} >{item.bookTitle}</Text>
                             </Row>
                         </View>

@@ -64,7 +64,6 @@ export const emptyCart = async () => {
 export const returnCart = async (setData, setLoading) => {
     try{
         const cart = await AsyncStorage.getItem('cart')
-        console.log(cart);
         setData(JSON.parse(cart))
         setLoading(false)
     }catch(e){

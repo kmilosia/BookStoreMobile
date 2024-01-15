@@ -40,6 +40,14 @@ export const getAuthors = async (setData) => {
       console.error(err)
     }
   }
+  export const getDeliveryMethods = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/DeliveryMethod`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
   export const getAvailabilities = async (setData) => {
     try {
       const response = await axiosClient.get(`/Availability`)
@@ -59,6 +67,22 @@ export const getAuthors = async (setData) => {
   export const getPublisher = async (setData) => {
     try {
       const response = await axiosClient.get(`/Publisher`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  export const getCities = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/City`)
+      setData(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  export const getCountries = async (setData) => {
+    try {
+      const response = await axiosClient.get(`/Country`)
       setData(response.data)
     } catch (err) {
       console.error(err)
