@@ -101,8 +101,14 @@ export default function ProductScreen ({route,navigation}) {
                     </Row>
                     <Text color='white' fontSize={30} fontWeight='bold'>{book.price?.toFixed(2)}zł</Text>
                     <Row marginTop={3} justifyContent='space-between' width='100%' maxWidth='100%' alignItems='center' marginBottom={10}>
-                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: book.formID === 2 ? '49%' : '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
-                        {book.formId === 2 && <Pressable onPress={() => navigation.navigate('Rent', {bookID: bookID})} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '49%', borderColor: COLORS.accent}}><Text color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>}
+                        {book.formId === 2 ?
+                        <>
+                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '49%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
+                        <Pressable onPress={() => navigation.navigate('Rent', {bookID: bookID})} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '49%', borderColor: COLORS.accent}}><Text color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>
+                        </>
+                        :
+                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
+                        }
                     </Row>
                 </Column>
                 {book.images.length > 0 &&

@@ -33,11 +33,13 @@ export default function CartScreen({ navigation }) {
         <PageLoader />
         :
         <>
-        <Pressable onPress={() => navigation.navigate('Checkout')} style={{width: '90%',alignSelf: 'center',position: 'absolute',bottom: 10,zIndex: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary,borderWidth: 2, borderColor: COLORS.accent, borderRadius: 30, paddingVertical: 10}}>
+        
+        {cart.length > 0 ?
+            <>
+            <Pressable onPress={() => navigation.navigate('Checkout')} style={{width: '90%',alignSelf: 'center',position: 'absolute',bottom: 10,zIndex: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary,borderWidth: 2, borderColor: COLORS.accent, borderRadius: 30, paddingVertical: 10}}>
             <Text fontWeight={500} marginRight={1} fontSize={16} color={COLORS.accent}>Złóż zamówienie</Text>
             <IonIcons color={COLORS.accent} name='lock-closed' size={18} />
-        </Pressable>
-        {cart.length > 0 ?
+            </Pressable>
             <ScrollView>
             <Column bg={COLORS.primary} width='100%' minHeight='100%' padding={3} paddingBottom={20}>
                 {cart?.map((item,index) => {
@@ -47,6 +49,7 @@ export default function CartScreen({ navigation }) {
                 })}
             </Column>
         </ScrollView>
+        </>
         :
         <View>
         <Column padding={5} width='100%' height='100%' bg={COLORS.primary} alignItems='center' justifyContent='center'>
