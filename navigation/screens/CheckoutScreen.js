@@ -1,37 +1,104 @@
 import { useEffect, useState } from "react"
 import PageLoader from "../../components/loaders/PageLoader"
 import { Image, Pressable, ScrollView, TextInput } from "react-native"
-import { Column, Row, Text } from "native-base"
+import { Center, Column, Row, Text, View } from "native-base"
 import { COLORS, styles } from "../../styles/constants"
 import useCartStore from "../../store/cartStore"
-import { getUserAddress } from "../../api/UserAPI"
 import DeliveryModal from "../../components/DeliveryModal"
 import PaymentModal from "../../components/PaymentModal"
 import CheckoutAddressModal from "../../components/CheckoutAddressModal"
+import InvoiceAddressModal from "../../components/InvoiceAddressModal"
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import BouncyCheckbox from "react-native-bouncy-checkbox"
+import { makeOrder } from "../../api/UserAPI"
 
 export default function CheckoutScreen () {
     const returnCart = useCartStore((state) => state.returnCart)
     const totalAmount = useCartStore((state) => state.totalAmount)
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState({})
+    const [submitting, setSubmitting] = useState(false)
     const [cart, setCart] = useState([])
-    const [address, setAddress] = useState({})
+    const [invoiceAddress, setInvoiceAddress] = useState({})
     const [deliveryAddress, setDeliveryAddress] = useState({})
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState({})
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState({})
-    const [sum, setSum] = useState(0)
+    const [sum, setSum] = useState(totalAmount)
     const [isDeliveryOpen, setIsDeliveryOpen] = useState(false)
     const [isPaymentOpen, setIsPaymentOpen] = useState(false)
-    const [isAddressOpen, setIsAddressOpen] = useState(false)
+    const [isInvoiceAddressOpen, setIsInvoiceAddressOpen] = useState(false)
+    const [isDeliveryAddressOpen, setIsDeliveryAddressOpen] = useState(false)
     useEffect(() => {
         returnCart(setCart, setLoading)
-        getUserAddress(setAddress)
     },[])
     useEffect(() => {
-        setSum(totalAmount)
-    },[totalAmount])
+        if(Object.keys(selectedDeliveryMethod).length > 0){
+            setSum(totalAmount + selectedDeliveryMethod.price)
+        }
+    },[selectedDeliveryMethod])
+    const handleSubmit = () => {
+        console.log(cart)
+        setErrors(validate)
+        setSubmitting(true)
+    }
+    const finishSubmit = () => {
+        const data = {
+            deliveryMethodID: selectedDeliveryMethod.id,
+            paymentMethodID: selectedPaymentMethod.id,
+            // discountCodeID: 0,          
+            invoiceAddress: {
+                street: invoiceAddress.street,
+                streetNumber: invoiceAddress.streetNumber,
+                houseNumber: invoiceAddress.houseNumber,
+                postcode: invoiceAddress.postcode,
+                cityID: invoiceAddress.cityID,
+                countryID: invoiceAddress.countryID,
+                addressTypeID: 3,
+            },
+            cartItems: cart.map((item) => ({
+                bookItemID: item.id,
+                quantity: item.quantity,
+                bruttoPrice: item.price
+            }))
+        }
+        if(selectedDeliveryMethod.name === 'Dostawa do domu' && Object.keys(deliveryAddress).length > 0){
+            const address = {
+                street: deliveryAddress.street,
+                streetNumber: deliveryAddress.streetNumber,
+                houseNumber: deliveryAddress.houseNumber,
+                postcode: deliveryAddress.postcode,
+                cityID: deliveryAddress.cityID,
+                countryID: deliveryAddress.countryID,
+                addressTypeID: 4,
+            }
+            data.deliveryAddress = address
+        }
+        console.log(data)
+        makeOrder()
+    }
     useEffect(() => {
-        console.log(address);
-    },[])
+        if(Object.keys(errors).length === 0 && submitting){
+            finishSubmit()
+        }
+    },[errors])
+    const validate = () => {
+        let errors = {}
+        if (Object.keys(selectedDeliveryMethod).length <= 0) {
+          errors.delivery = "Wybierz sposób dostawy!"
+        }
+        if (Object.keys(selectedPaymentMethod).length <= 0) {
+            errors.payment = "Wybierz metodę płatności!"
+        }
+        if (Object.keys(invoiceAddress).length <= 0) {
+            errors.invoiceAddress = "Wybierz adres faktury!"
+        }
+        if (selectedDeliveryMethod.name === 'Dostawa do domu') {
+            if (Object.keys(deliveryAddress).length <= 0) {
+                errors.deliveryAddress = "Wybierz adres dostawy!"
+            }
+        }
+        return errors
+    }
     return (
         loading ? <PageLoader /> :
         <>
@@ -68,6 +135,7 @@ export default function CheckoutScreen () {
                     </Pressable>
                 </Row>
                 }
+                {errors.delivery && <Text style={styles.errorText}>{errors.delivery}</Text>}
                 {Object.keys(selectedPaymentMethod).length > 0 ?
                 <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center' borderRadius={8} bg={COLORS.secondary} padding={5} marginBottom={3}>
                     <Text color='white' fontWeight={600}>{selectedPaymentMethod.name}</Text>
@@ -83,28 +151,63 @@ export default function CheckoutScreen () {
                     </Pressable>
                 </Row>
                 }
+                {errors.payment && <Text style={styles.errorText}>{errors.payment}</Text>}
                 <Column width='100%' bg={COLORS.secondary} marginBottom={3} padding={5} borderRadius={8}>
                     <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center'>
-                        <Text color='white' fontWeight={600} fontSize={18}>Adres</Text>
-                        {Object.keys(address).length > 0 ?
-                        <Pressable>
+                        <Text color='white' fontWeight={600} fontSize={18}>Adres faktury</Text>
+                        {Object.keys(invoiceAddress).length > 0 ?
+                        <Pressable onPress={() => setIsInvoiceAddressOpen(true)}>
                             <Text fontWeight={300} fontSize={12} color='white'>Edytuj</Text>
                         </Pressable>
                         :
-                        <Pressable onPress={() => {setIsAddressOpen(true)}} style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingVertical: 5, paddingHorizontal: 20}}>
-                            <Text fontWeight={600} color='white'>Dodaj</Text>
+                        <Pressable onPress={() => {setIsInvoiceAddressOpen(true)}} style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingVertical: 5, paddingHorizontal: 20}}>
+                            <Text fontWeight={600} color='white'>Wybierz</Text>
                         </Pressable>
                         }
-                        {Object.keys(address).length > 0 &&
+                    </Row>
+                    {Object.keys(invoiceAddress).length > 0 &&
                         <Column>
-                        <Text color={COLORS.light}></Text>
+                            <Text color={COLORS.light}>{invoiceAddress.street} {invoiceAddress.streetNumber}, {invoiceAddress.houseNumber}</Text>
+                            <Text color={COLORS.light}>{invoiceAddress.postcode}, {invoiceAddress.cityID}</Text>
+                            <Text color={COLORS.light}>Polska</Text>
                         </Column>
+                    }
+                </Column>
+                {errors.invoiceAddress && <Text style={styles.errorText}>{errors.invoiceAddress}</Text>}
+                {Object.keys(selectedDeliveryMethod).length > 0 && selectedDeliveryMethod.name === 'Dostawa do domu' &&
+                <Column width='100%' bg={COLORS.secondary} marginBottom={3} padding={5} borderRadius={8}>
+                    <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center'>
+                        <Text color='white' fontWeight={600} fontSize={18}>Adres dostawy</Text>
+                        {Object.keys(deliveryAddress).length > 0 ?
+                        <Pressable onPress={() => setIsDeliveryAddressOpen(true)}>
+                            <Text fontWeight={300} fontSize={12} color='white'>Edytuj</Text>
+                        </Pressable>
+                        :
+                        <Pressable onPress={() => {setIsDeliveryAddressOpen(true)}} style={{borderRadius: 30, backgroundColor: COLORS.accent, paddingVertical: 5, paddingHorizontal: 20}}>
+                            <Text fontWeight={600} color='white'>Wybierz</Text>
+                        </Pressable>
                         }
                     </Row>
+                    {Object.keys(deliveryAddress).length > 0 &&
+                        <Column>
+                            <Text color={COLORS.light}>{deliveryAddress.street} {deliveryAddress.streetNumber}, {deliveryAddress.houseNumber}</Text>
+                            <Text color={COLORS.light}>{deliveryAddress.postcode}, {deliveryAddress.cityID}</Text>
+                            <Text color={COLORS.light}>Polska</Text>
+                        </Column>
+                    }
                 </Column>
+                }
+                {errors.deliveryAddress && <Text style={styles.errorText}>{errors.deliveryAddress}</Text>}
                 <Column width='100%' bg={COLORS.secondary} marginBottom={3} padding={5} paddingBottom={3} borderRadius={8}>
                     <Text color='white'>Posiadasz kod rabatowy?</Text>
-                    <TextInput placeholder="Wprowadź kod rabatowy" style={styles.inputStyle} placeholderTextColor={COLORS.triary} />
+                    <View position='relative' width='100%'>
+                        <TextInput style={styles.inputStyle} placeholderTextColor={COLORS.triary} placeholder='Wprowadź kod rabatowy'/>
+                        <Center height='100%' position='absolute' right={0} top={0}>
+                        <Pressable style={{backgroundColor: COLORS.accent, padding: 12, borderRadius: 8, borderWidth: 2, borderColor: COLORS.triary}}>
+                            <Ionicons name='search' color='white' size={20}/>
+                        </Pressable>
+                        </Center>
+                    </View>
                 </Column>
                 <Column bg={COLORS.secondary} width='100%' borderRadius={8} marginBottom={3} padding={5}>
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
@@ -113,7 +216,7 @@ export default function CheckoutScreen () {
                     </Row>
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
                         <Text color={COLORS.light} fontWeight={300}>Dostawa</Text>
-                        <Text color='white' fontWeight={600}>0zł</Text>
+                        <Text color='white' fontWeight={600}>{Object.keys(selectedDeliveryMethod).length > 0 ? selectedDeliveryMethod.price : '0.00'}zł</Text>
                     </Row>
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
                         <Text color={COLORS.light} fontWeight={300}>Kod rabatowy</Text>
@@ -124,14 +227,15 @@ export default function CheckoutScreen () {
                         <Text color='white' fontSize={16} fontWeight={600}>{sum?.toFixed(2)}zł</Text>
                     </Row>
                 </Column>
-                 <Pressable style={{width: '100%', backgroundColor: COLORS.accent, borderRadius: 8}}>
+                 <Pressable onPress={() => handleSubmit()} style={{width: '100%', backgroundColor: COLORS.accent, borderRadius: 8}}>
                     <Text fontWeight={500} fontSize={16} color='white' textAlign='center' padding={3}>Opłać i zamów</Text>
                 </Pressable>
             </Column>
         </ScrollView>
         <DeliveryModal setIsDeliveryOpen={setIsDeliveryOpen} isDeliveryOpen={isDeliveryOpen} setSelectedDeliveryMethod={setSelectedDeliveryMethod}/>
         <PaymentModal setIsPaymentOpen={setIsPaymentOpen} isPaymentOpen={isPaymentOpen} setSelectedPaymentMethod={setSelectedPaymentMethod}/>
-        <CheckoutAddressModal isAddressOpen={isAddressOpen} setIsAddressOpen={setIsAddressOpen} address={address} deliveryAddress={deliveryAddress} setDeliveryAddress={setDeliveryAddress} setAddress={setAddress} selectedDeliveryMethod={selectedDeliveryMethod}/>
+        <InvoiceAddressModal isInvoiceAddressOpen={isInvoiceAddressOpen} setIsInvoiceAddressOpen={setIsInvoiceAddressOpen} invoiceAddress={invoiceAddress} setInvoiceAddress={setInvoiceAddress}/>
+        <CheckoutAddressModal isDeliveryAddressOpen={isDeliveryAddressOpen} setIsDeliveryAddressOpen={setIsDeliveryAddressOpen} deliveryAddress={deliveryAddress} setDeliveryAddress={setDeliveryAddress}/>
         </>
     )
 }

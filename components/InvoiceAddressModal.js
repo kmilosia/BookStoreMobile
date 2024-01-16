@@ -8,13 +8,13 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { getUserAddress } from "../api/UserAPI";
 import RadioButtonRN from "radio-buttons-react-native";
 
-export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliveryAddressOpen,setDeliveryAddress}) {
+export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceAddressOpen,setInvoiceAddress}) {
     const [data, setData] = useState([])
     const [userAddress, setUserAddress] = useState([])
+    const [selected, setSelected] = useState([])
     const [errors, setErrors] = useState({})
     const [cities, setCities] = useState([])
     const [countries, setCountries] = useState([])
-    const [selected, setSelected] = useState([])
     const [submitting, setSubmitting] = useState(false)
     const [addNew, setAddNew] = useState(false)
     const [newAddress, setNewAddress] = useState({
@@ -68,21 +68,21 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
-            setDeliveryAddress(newAddress)
-            setIsDeliveryAddressOpen(false)
+            setInvoiceAddress(newAddress)
+            setIsInvoiceAddressOpen(false)
         }
     },[errors])
     return(
-        <Modal animationType="fade" transparent={true} visible={isDeliveryAddressOpen} onRequestClose={() => {setIsDeliveryAddressOpen(false);}}>
+        <Modal animationType="fade" transparent={true} visible={isInvoiceAddressOpen} onRequestClose={() => {setIsInvoiceAddressOpen(false);}}>
         <View style={{ flex: 1, backgroundColor: COLORS.primary,padding: 20, alignItems: 'center',paddingBottom: 60 }}>
         <ScrollView width='100%'>
             <Column width='100%'>
-                <Row justifyContent='flex-start' alignItems='center' marginBottom={3}>
-                    <Pressable onPress={() => setIsDeliveryAddressOpen(false)}>
+                <Row justifyContent='flex-start' alignItems='center' marginBottom={3}>                 
+                    <Pressable onPress={() => setIsInvoiceAddressOpen(false)}>
                         <Ionicons name="arrow-back-outline" color='white' size={26} />
                     </Pressable>
                 </Row>
-                <Text color='white' fontWeight={600} fontSize={24}>Adres dostawy</Text>
+                <Text color='white' fontWeight={600} fontSize={24}>Adres faktury</Text>
                 {(data.length > 0 && !addNew) &&
                  <RadioButtonRN
                  data={data}
@@ -92,8 +92,8 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
                  activeColor={COLORS.accent}
                  deactiveColor={COLORS.border}
                  /> 
-                }
-                 {!addNew  &&
+                }      
+                {!addNew  &&
                 <Pressable onPress={() => setAddNew(true)} style={[styles.roundButton, {width: '100%'}]}>
                     <Row alignItems='center' justifyContent='center'>
                         <Ionicons color='white' name="add" size={20} marginRight={5} />
@@ -121,7 +121,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
                 {errors.cityID && <Text style={styles.errorText}>{errors.cityID}</Text>}
                 <TextInput editable={false} value={countries.length > 0 ? countries[0].name : ''} style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 </>
-                }            
+                }
             </Column>
             </ScrollView>
             {addNew &&
@@ -142,3 +142,25 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
     </Modal>  
     )
 }
+
+// {Object.keys(selectedDeliveryMethod).length > 0 && selectedDeliveryMethod.name === 'Dostawa do domu' &&
+// <BouncyCheckbox
+//     // isChecked={sameAddress}
+//     onPress={() => {setSameAddress(!sameAddress)}}
+//     size={20}
+//     fillColor={COLORS.accent}
+//     unfillColor="#ffffff"
+//     text='Adres dostawy taki sam jak adres faktury'
+//     marginBottom={8}
+//     marginTop={5}
+//     textStyle={{
+//         color: COLORS.light,
+//         textDecorationLine: 'none'
+//         }}
+//     iconStyle={{
+//         borderRadius: 4
+//         }}
+//     innerIconStyle={{
+//         borderRadius: 4
+//     }}
+// />}

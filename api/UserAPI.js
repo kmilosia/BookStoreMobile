@@ -113,3 +113,16 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
         console.error(error)
     }
   }
+  export const makeOrder = async () => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        console.log(userToken)
+        // const response = await axiosClient.post(`/User/Order`, data, {
+        //   headers: {
+        //       'Authorization': `Bearer ${userToken}`,
+        //   },
+        // })
+    } catch (error) {
+        console.error(error)
+    }
+  }

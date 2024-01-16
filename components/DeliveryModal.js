@@ -19,7 +19,7 @@ export default function DeliveryModal ({isDeliveryOpen, setIsDeliveryOpen,setSel
         if(data.length > 0){
             const newData = data.map((item) => ({
                 label: item.name,
-                value: item.id
+                value: item
             }))
             setCheckboxData(newData) 
         }
@@ -45,7 +45,7 @@ export default function DeliveryModal ({isDeliveryOpen, setIsDeliveryOpen,setSel
                     <Text color='white' fontWeight={600} fontSize={24} marginBottom={3}>Sposoby dostawy</Text>
                      <RadioButtonRN
                      data={checkboxData}
-                     selectedBtn={(e) => setSelected({name: e.label, id: e.id})}
+                     selectedBtn={(e) => setSelected(e.value)}
                      boxDeactiveBgColor={COLORS.primary}
                      textColor='white'
                      activeColor={COLORS.accent}

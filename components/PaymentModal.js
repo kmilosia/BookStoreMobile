@@ -45,7 +45,7 @@ export default function PaymentModal ({isPaymentOpen, setIsPaymentOpen,setSelect
                     <Text color='white' fontWeight={600} fontSize={24} marginBottom={3}>Metody płatności</Text>
                      <RadioButtonRN
                      data={checkboxData}
-                     selectedBtn={(e) => setSelected({name: e.label, id: e.id})}
+                     selectedBtn={(e) => setSelected({name: e.label, id: e.value})}
                      boxDeactiveBgColor={COLORS.primary}
                      textColor='white'
                      activeColor={COLORS.accent}
