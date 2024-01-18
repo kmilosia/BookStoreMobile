@@ -4,13 +4,16 @@ import IonIcons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { COLORS } from "../styles/constants"
 import { useState } from "react"
-import { decrementCartItem, incrementCartItem, removeCartItem } from "../utils/cart"
 import { addWishlistItem } from "../api/WishlistAPI"
 import { useMessageStore } from "../store/messageStore"
+import useCartStore from "../store/cartStore"
 
 
 export default function CartElement ({item,updateCartAfterDelete}) {
     const setMessage = useMessageStore((state) => state.setMessage)
+    const decrementCartItem = useCartStore((state) => state.decrementCartItem)
+    const incrementCartItem = useCartStore((state) => state.incrementCartItem)
+    const removeCartItem = useCartStore((state) => state.removeCartItem)
     const [quantity, setQuantity] = useState(item.quantity)
     const decrement = () => {
         setQuantity((prevQuantity) => prevQuantity - 1);

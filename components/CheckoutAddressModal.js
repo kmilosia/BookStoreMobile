@@ -10,6 +10,7 @@ import RadioButtonRN from "radio-buttons-react-native";
 
 export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliveryAddressOpen,setDeliveryAddress}) {
     const [data, setData] = useState([])
+    const [loadingUserAddress, setLoadingUserAddress] = useState(false)
     const [userAddress, setUserAddress] = useState([])
     const [errors, setErrors] = useState({})
     const [cities, setCities] = useState([])
@@ -29,7 +30,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
     useEffect(() => {
         getCities(setCities)
         getCountries(setCountries)
-        getUserAddress(setUserAddress)
+        getUserAddress(setUserAddress,setLoadingUserAddress)
     },[])
     useEffect(() => {
         if(userAddress.length > 0){

@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import axiosClient from "../utils/axiosClient"
 
 export const getReviews = async (id,setData, setLoading) => {
@@ -17,3 +18,22 @@ export const getReviewsByAmount = async (id, setData, number) => {
         console.error(err)
     }
 }
+export const addReview = async (data,setLoading, setSuccess) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.post(`/BookItemReview`,data, {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
+        setLoading(false)
+        if(response.status === 200 || response.status === 204){
+          setSuccess(true)
+        }else{
+          setSuccess(false)
+        }
+    } catch (error) {
+        console.error(error)
+        setLoading(false)
+    }
+  }

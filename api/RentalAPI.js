@@ -49,3 +49,18 @@ export const rentBook = async (data, setLoading, setSuccess) => {
         setLoading(false)
     }
 }
+
+export const getUserRentedBooks = async (filter, setData, setLoading) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.get(`/Rental?${filter}`, {
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+            },
+        })
+        setData(response.data)
+        setLoading(false)
+    } catch (error) {
+        console.error(error);
+    }
+}

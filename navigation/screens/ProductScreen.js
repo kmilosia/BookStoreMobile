@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ScrollView, View,StyleSheet } from "react-native";
 import { getBookDetails } from "../../api/BooksAPI";
 import PageLoader from "../../components/loaders/PageLoader";
-import { AspectRatio, Box, Center, Column, Image, Row, Text } from "native-base";
+import { Box, Center, Column, Image, Row, Text } from "native-base";
 import { COLORS, screenHeight } from "../../styles/constants";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -14,10 +14,11 @@ import BooksCarousel from "../../components/BooksCarousel";
 import ProductScore from "../../components/ProductScore";
 import { addWishlistItem } from "../../api/WishlistAPI";
 import { useMessageStore } from "../../store/messageStore";
-import { addToCart } from "../../utils/cart";
+import useCartStore from "../../store/cartStore";
 
 export default function ProductScreen ({route,navigation}) {
     const setMessage = useMessageStore((state) => state.setMessage)
+    const addToCart = useCartStore((state) => state.addToCart)
     const bookID = route.params.bookID
     const [book, setBook] = useState({})
     const [reviews, setReviews] = useState([])
@@ -25,7 +26,6 @@ export default function ProductScreen ({route,navigation}) {
     useEffect(() => {
         getBookDetails(bookID, setBook, setLoading)
         getReviewsByAmount(bookID,setReviews,4)
-        console.log(bookID);
     },[])
     const styles = StyleSheet.create({
         section: {

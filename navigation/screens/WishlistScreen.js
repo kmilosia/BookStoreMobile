@@ -7,12 +7,13 @@ import IonIcons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { deleteWishlistItem, getWishlist, getWishlistGuid } from '../../api/WishlistAPI';
 import PageLoader from '../../components/loaders/PageLoader';
-import { addToCart } from '../../utils/cart';
 import { useIsFocused } from '@react-navigation/native';
 import { useMessageStore } from '../../store/messageStore';
+import useCartStore from '../../store/cartStore';
 
 export default function WishlistScreen() {
     const setMessage = useMessageStore((state) => state.setMessage)
+    const addToCart = useCartStore((state) => state.addToCart)
     const isFocused = useIsFocused()
     const [guid, setGuid] = useState(null)
     const [loading, setLoading] = useState(true)

@@ -29,15 +29,15 @@ export default function ProfileScreen({ navigation }) {
                         <IonIcons name='person-outline' color='white' size={20}/>
                         <Text marginLeft={5} color='white' fontSize={18}>Dane użytkownika</Text>
                     </Pressable>               
-                    <Pressable style={style.optionContainer}>
+                    <Pressable onPress={() => navigation.navigate('UserAddress')} style={style.optionContainer}>
                         <IonIcons name='home-outline' color='white' size={20}/>
-                        <Text marginLeft={5} color='white' fontSize={18}>Adres dostawy</Text>
+                        <Text marginLeft={5} color='white' fontSize={18}>Adres użytkownika</Text>
                     </Pressable>
-                    <Pressable style={style.optionContainer}>
+                    <Pressable onPress={() => navigation.navigate('UserOrders')} style={style.optionContainer}>
                         <IonIcons name='cube-outline' color='white' size={20}/>
                         <Text marginLeft={5} color='white' fontSize={18}>Zamówienia</Text>
                     </Pressable>
-                    <Pressable style={style.optionContainer}>
+                    <Pressable onPress={() => navigation.navigate('UserRentals')} style={style.optionContainer}>
                         <AntDesign name='key' color='white' size={20}/>
                         <Text marginLeft={5} color='white' fontSize={18}>Wypożyczenia</Text>
                     </Pressable>

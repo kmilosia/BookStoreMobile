@@ -12,11 +12,11 @@ export default function LibraryScreen({ navigation }) {
         <View>
         <Column padding={3} width='100%' height='100%' bg={COLORS.primary}>
             <Row width="100%" justifyContent='space-between'>
-                <Pressable onPress={() => setShowRented(true)} style={{width: '49%', backgroundColor: showRented ? COLORS.accent : COLORS.primary, borderRadius: 30, borderWidth: 2, borderColor: COLORS.border, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                    <Text color='white' fontWeight={600} fontSize={16}>Wypożyczone</Text>
+                <Pressable onPress={() => setShowRented(true)} style={{width: '49%', backgroundColor: showRented ? COLORS.accent : COLORS.primary, borderRadius: 50, borderWidth: 2, borderColor: COLORS.border, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 10}}>
+                    <Text color='white' fontWeight={600}>Wypożyczone</Text>
                 </Pressable>
-                <Pressable onPress={() => setShowRented(false)} style={{width: '49%', backgroundColor: showRented ? COLORS.primary : COLORS.accent, borderRadius: 30, borderWidth: 2, borderColor: COLORS.border, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                    <Text color='white' fontWeight={600} fontSize={16}>Kupione</Text>
+                <Pressable onPress={() => setShowRented(false)} style={{width: '49%', backgroundColor: showRented ? COLORS.primary : COLORS.accent, borderRadius: 50, borderWidth: 2, borderColor: COLORS.border, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 10}}>
+                    <Text color='white' fontWeight={600}>Kupione</Text>
                 </Pressable>
             </Row>
             {showRented ? <RentedBooksList /> : <PurchasedBooksList />}

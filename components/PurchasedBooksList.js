@@ -5,7 +5,7 @@ import { Column, Text, View } from "native-base"
 import { COLORS } from "../styles/constants"
 
 export default function PurchasedBooksList () {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [rentedBooks, setRentedBooks] = useState([])
 
     return (

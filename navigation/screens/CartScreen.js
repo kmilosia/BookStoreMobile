@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import PageLoader from '../../components/loaders/PageLoader';
-import { returnCart } from '../../utils/cart';
 import { COLORS } from '../../styles/constants';
 import { Column, ScrollView, Text, View } from 'native-base';
 import { Image, Pressable } from 'react-native';
 import CartElement from '../../components/CartElement';
 import { useIsFocused } from '@react-navigation/native';
 import IonIcons from 'react-native-vector-icons/Ionicons'
+import useCartStore from '../../store/cartStore';
 
 export default function CartScreen({ navigation }) {
+    const returnCart = useCartStore((state) => state.returnCart)
     const isFocused = useIsFocused()
     const [loading, setLoading] = useState(true)
     const [cart, setCart] = useState([])

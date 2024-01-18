@@ -100,7 +100,7 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
     }
   }
 
-  export const getUserAddress = async (setData) => {
+  export const getUserAddress = async (setData,setLoading) => {
     try {
         const userToken = await AsyncStorage.getItem('token');
         const response = await axiosClient.get(`/User/Address`, {
@@ -109,8 +109,30 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
           },
         })
         setData(response.data)
+        console.log(response.data);
+        setLoading(false)
     } catch (error) {
         console.error(error)
+        setLoading(false)
+    }
+  }
+  export const changeUserAddress = async (data,setLoading, setSuccess) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.post(`/User/Address`,data, {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
+        setLoading(false)
+        if(response.status === 200 || response.status === 204){
+          setSuccess(true)
+        }else{
+          setSuccess(false)
+        }
+    } catch (error) {
+        console.error(error)
+        setLoading(false)
     }
   }
   export const makeOrder = async () => {
@@ -124,5 +146,20 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
         // })
     } catch (error) {
         console.error(error)
+    }
+  }
+  export const getUserOrders = async (filter,setData,setLoading) => {
+    try {
+        const userToken = await AsyncStorage.getItem('token');
+        const response = await axiosClient.get(`/User/Address?${filter}`, {
+          headers: {
+              'Authorization': `Bearer ${userToken}`,
+          },
+        })
+        setData(response.data)
+        setLoading(false)
+    } catch (error) {
+        console.error(error)
+        setLoading(false)
     }
   }

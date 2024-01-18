@@ -4,13 +4,13 @@ import { Center, Column, Row, Select, Text, View } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import { getCities, getCountries } from "../api/DictionaryAPI";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { getUserAddress } from "../api/UserAPI";
 import RadioButtonRN from "radio-buttons-react-native";
 
 export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceAddressOpen,setInvoiceAddress}) {
     const [data, setData] = useState([])
     const [userAddress, setUserAddress] = useState([])
+    const [loadingUserAddress, setLoadingUserAddress] = useState(false)
     const [selected, setSelected] = useState([])
     const [errors, setErrors] = useState({})
     const [cities, setCities] = useState([])
@@ -29,7 +29,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
     useEffect(() => {
         getCities(setCities)
         getCountries(setCountries)
-        getUserAddress(setUserAddress)
+        getUserAddress(setUserAddress, setLoadingUserAddress)
     },[])
     useEffect(() => {
         if(userAddress.length > 0){
@@ -142,25 +142,3 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
     </Modal>  
     )
 }
-
-// {Object.keys(selectedDeliveryMethod).length > 0 && selectedDeliveryMethod.name === 'Dostawa do domu' &&
-// <BouncyCheckbox
-//     // isChecked={sameAddress}
-//     onPress={() => {setSameAddress(!sameAddress)}}
-//     size={20}
-//     fillColor={COLORS.accent}
-//     unfillColor="#ffffff"
-//     text='Adres dostawy taki sam jak adres faktury'
-//     marginBottom={8}
-//     marginTop={5}
-//     textStyle={{
-//         color: COLORS.light,
-//         textDecorationLine: 'none'
-//         }}
-//     iconStyle={{
-//         borderRadius: 4
-//         }}
-//     innerIconStyle={{
-//         borderRadius: 4
-//     }}
-// />}
