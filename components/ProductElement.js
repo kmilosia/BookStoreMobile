@@ -1,10 +1,24 @@
 import { AspectRatio, Box, Column, Image, Row, Text } from "native-base"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { COLORS } from "../styles/constants";
-import { Pressable } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ProductElement ({item}) {
+    const style = StyleSheet.create({
+        defaultPrice: {
+            color: 'white',
+            textDecorationLine: 'none',
+            fontSize: 16,
+            fontWeight: 500,
+        },
+        discountPrice: {
+            color: COLORS.light,
+            textDecorationLine: 'line-through',
+            fontSize: 12,
+            fontWeight: 300,
+        }
+    })
     const navigation = useNavigation()
     return(
         <Pressable onPress={() => navigation.navigate('Product',{bookID: item.id})} style={{padding: 5, width: '50%'}}>
@@ -16,7 +30,10 @@ export default function ProductElement ({item}) {
             <Text fontSize={12} fontWeight='light' color='white'>{item.authors?.map((item) => {return (item.name + " " + item.surname )})}</Text>
             <Text color='white' fontSize={12} fontWeight='bold'>{item.formName === 'Book' ? 'Książka' : 'Ebook'}</Text>
             <Row justifyContent='space-between' alignItems='center' marginTop={3}>
-                <Text fontSize={16} fontWeight='bold' color='white'>{item.price?.toFixed(2)}zł</Text>
+                <Row alignItems='flex-end'>
+                    {item.discountedBruttoPrice !== 0 && <Text color={COLORS.accent} fontSize={16} fontWeight={500}>{item.discountedBruttoPrice?.toFixed(2)}zł </Text>}
+                    <Text style={item.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}>{item.price?.toFixed(2)}zł</Text>
+                </Row>
                 <Row alignItems='center'>
                     <FontAwesome name='star' size={18} color='gold' />
                     <Text color='white' marginLeft={1}>{item.score}</Text>

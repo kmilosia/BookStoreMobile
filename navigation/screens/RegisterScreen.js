@@ -10,7 +10,7 @@ export default function RegisterScreen({ navigation }) {
     const [errors, setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState('')
     const [registered, setRegistered] = useState(false)
     const [conditions, setConditions] = useState(false)
     const [data, setData]= useState({
@@ -55,7 +55,6 @@ export default function RegisterScreen({ navigation }) {
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
-            console.log(data);
             setLoading(true)
             signUp(data,setLoading,setError,setRegistered)
         }
@@ -99,7 +98,7 @@ export default function RegisterScreen({ navigation }) {
                         {loading ? <ActivityIndicator size='small' color='white' /> :
                         <Text style={styles.primaryButtonText}>Zarejestruj się</Text>}
                     </Pressable>
-                    {error && <Text style={styles.errorText}>{errors}</Text>}               
+                    {error && <Text style={styles.errorText}>{error}</Text>}               
                 </Column>  }        
             </Column>
             </View>

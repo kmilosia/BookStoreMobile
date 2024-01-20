@@ -1,11 +1,11 @@
 import { Modal, Pressable, ScrollView, TextInput } from "react-native";
-import { COLORS, screenWidth, styles } from "../styles/constants";
+import { COLORS, screenWidth, styles } from "../../styles/constants";
 import { Center, Column, Row, Select, Text, View } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
-import { getCities, getCountries } from "../api/DictionaryAPI";
+import { getCities, getCountries } from "../../api/DictionaryAPI";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { getUserAddress } from "../api/UserAPI";
+import { getUserAddress } from "../../api/UserAPI";
 import RadioButtonRN from "radio-buttons-react-native";
 
 export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliveryAddressOpen,setDeliveryAddress}) {

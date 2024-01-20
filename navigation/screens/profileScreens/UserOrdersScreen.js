@@ -12,9 +12,6 @@ export default function UserOrdersScreen ({navigation}) {
     const [filter, setFilter] = useState('')
     useEffect(() => {
         getUserOrders(filter, setData, setLoading)
-    },[])
-    useEffect(() => {
-        getUserOrders(filter, setData, setLoading)
     },[filter])
     const styles = StyleSheet.create({
         button: {

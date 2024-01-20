@@ -1,10 +1,10 @@
 import { Modal, Pressable, ScrollView, TextInput } from "react-native";
-import { COLORS, screenWidth, styles } from "../styles/constants";
+import { COLORS, screenWidth, styles } from "../../styles/constants";
 import { Center, Column, Row, Select, Text, View } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
-import { getCities, getCountries } from "../api/DictionaryAPI";
-import { getUserAddress } from "../api/UserAPI";
+import { getCities, getCountries } from "../../api/DictionaryAPI";
+import { getUserAddress } from "../../api/UserAPI";
 import RadioButtonRN from "radio-buttons-react-native";
 
 export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceAddressOpen,setInvoiceAddress}) {

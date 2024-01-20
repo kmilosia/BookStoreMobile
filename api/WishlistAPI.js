@@ -10,6 +10,7 @@ export const getWishlist = async (data, setData, setLoading) => {
             },
         })
         setData(response.data)
+        console.log(response.data);
         setLoading(false)
     } catch (error) {
         console.error('Error wishlist:', error);

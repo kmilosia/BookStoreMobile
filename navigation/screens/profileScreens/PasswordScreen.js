@@ -9,6 +9,7 @@ export default function PasswordScreen ({navigation}){
     const setMessage = useMessageStore((state) => state.setMessage)
     const [submitting, setSubmitting] = useState(false)
     const [submitLoading, setSubmitLoading] = useState(false)
+    const [success, setSuccess] = useState(null)
     const [errors, setErrors] = useState({})
     const [data, setData] = useState({
         oldPassword: '',
@@ -41,15 +42,17 @@ export default function PasswordScreen ({navigation}){
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
             setSubmitLoading(true)
-            const response = changePassword(data, setSubmitLoading)
-            if(response === true){
-                setMessage({value: "Hasło zostało zmienione", type: 'success', bool: true})
-                navigation.navigate('Profile')
-               }else{
-                setMessage({value: "Błąd podczas zmiany hasła", type: 'error', bool: true})
-               }
+            changePassword(data, setSubmitLoading,setSuccess)
         }
     },[errors])
+    useEffect(() => {
+        if(success){
+            setMessage({value: "Hasło zostało zmienione", type: 'success', bool: true})
+            navigation.navigate('Profile')
+        }else if(success === false){
+            setMessage({value: "Błąd podczas zmiany hasła", type: 'error', bool: true})
+        }else{}
+    },[success])
     return(
         <ScrollView>
             <Column width='100%' bg={COLORS.primary} padding={2}>

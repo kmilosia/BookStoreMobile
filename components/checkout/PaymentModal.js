@@ -1,9 +1,9 @@
 import { Modal, Pressable, ScrollView } from "react-native";
-import { COLORS, screenWidth, styles } from "../styles/constants";
+import { COLORS, screenWidth, styles } from "../../styles/constants";
 import { Center, Column, Row, Text, View } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
-import { getPaymentMethods } from "../api/DictionaryAPI";
+import { getPaymentMethods } from "../../api/DictionaryAPI";
 import RadioButtonRN from "radio-buttons-react-native";
 
 

@@ -4,6 +4,7 @@ import { create } from "zustand";
 export const useCartStore = create((set) => ({
     cart: [],
     totalAmount: 0,
+    isElectronicPurchase: false,
 
   addToCart: async (newItem) => {
     try {
@@ -16,7 +17,7 @@ export const useCartStore = create((set) => ({
         cart.push({ ...newItem, quantity: 1 });
       }
       await AsyncStorage.setItem('cart', JSON.stringify(cart));
-      set({ cart });
+      set({cart})
       set((state) => ({ totalAmount: calculateTotalAmount(state.cart) }));
     } catch (e) {
       console.log(e);
@@ -61,7 +62,7 @@ export const useCartStore = create((set) => ({
       cart = cart ? JSON.parse(cart) : [];
       cart = cart.filter((item) => item.id !== newItem.id);
       await AsyncStorage.setItem('cart', JSON.stringify(cart));
-      set({ cart });
+      set({ cart })
       set((state) => ({ totalAmount: calculateTotalAmount(state.cart) }));
     } catch (e) {
       console.log(e);
@@ -71,7 +72,7 @@ export const useCartStore = create((set) => ({
   emptyCart: async () => {
     try {
       await AsyncStorage.removeItem('cart');
-      set({ cart: [], totalAmount: 0 });
+      set({ cart: [], totalAmount: 0, isElectronicPurchase: false });
     } catch (e) {
       console.log(e);
     }
@@ -83,11 +84,16 @@ export const useCartStore = create((set) => ({
         setData(JSON.parse(cart));
         setLoading(false);
         const amount = calculateTotalAmount(JSON.parse(cart));
+        const isElectronic = checkElectronicCart(JSON.parse(cart))
         set({ totalAmount : amount });
+        set({ isElectronicPurchase : isElectronic });
     } catch (e) {
         console.log(e);
         setLoading(false);
     }
+},
+setTotalAmount: (amount) => {
+  set({totalAmount: amount})
 },
 
   logCart: async () => {
@@ -102,6 +108,10 @@ export const useCartStore = create((set) => ({
 
 const calculateTotalAmount = (cart) => {
   return cart.reduce((total, item) => total + item.quantity * item.price, 0);
+};
+const checkElectronicCart = (cart) => {
+  const bool = cart.some((item) => item.formID === 1)
+  return (!bool)
 };
 
 export default useCartStore;

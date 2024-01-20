@@ -2,22 +2,32 @@ import { Column, Row, Text, View } from "native-base";
 import { ActivityIndicator, Modal, Pressable, ScrollView, TextInput } from "react-native";
 import { COLORS, screenHeight, styles } from "../../../styles/constants";
 import { useEffect, useState } from "react";
-import { deleteUser, getUserData } from "../../../api/UserAPI";
+import { getUserData } from "../../../api/UserAPI";
 import PageLoader from "../../../components/loaders/PageLoader";
-import { useIsFocused } from "@react-navigation/native";
+import { useAuthStore } from "../../../store/userStore";
+import { useMessageStore } from "../../../store/messageStore";
 
 export default function UserDataScreen ({navigation}){
-    const isFocused = useIsFocused()
+    const deleteAccount = useAuthStore((state) => state.deleteAccount)
+    const setMessage = useMessageStore((state) => state.setMessage)
     const [deleteModal, setDeleteModal] = useState(false)
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [submitLoading, setSubmitLoading] = useState(false)
+    const [success, setSuccess] = useState(null)
     const handleDelete = () => {
-        deleteUser(setSubmitLoading)
+        deleteAccount(setSubmitLoading,setSuccess)
     }
     useEffect(() => {
         getUserData(setData,setLoading)
     },[])
+    useEffect(() => {
+        if(success){
+            setMessage({value: "Konto zostało usunięte", type: 'success', bool: true})
+        }else if(success === false){
+            setMessage({value: "Błąd podczas usuwania konta", type: 'error', bool: true})
+        }
+    },[success])
     return(
         loading ? <PageLoader /> :
         <ScrollView>

@@ -100,6 +100,7 @@ export default function AddUserAddressScreen ({navigation}) {
             }
             data.mailingAddress =  newAddress
         }
+        console.log(data);
         changeUserAddress(data,setLoading,setSuccess)
     }
     useEffect(() => {

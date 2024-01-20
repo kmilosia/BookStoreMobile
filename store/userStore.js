@@ -34,6 +34,31 @@ export const useAuthStore = create((set) => ({
             set({error: 'Nieudana próba wylogowania'})
         }
     },
+    deleteAccount: async (setLoading,setSuccess) => {
+        try{
+            const userToken = await AsyncStorage.getItem('token')
+            if(userToken){
+                const response = await axiosClient.delete(`/User`, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                    },
+                  })
+                if(response.status = 200 || response.status === 204){
+                    setSuccess(true)
+                    set({token: null})
+                }else{
+                    setSuccess(false)
+                }
+            }else{
+                setSuccess(false)
+            }
+            setLoading(false)
+        }catch(e){
+            console.log(e);
+            setLoading(false)
+            setSuccess(false)
+        }
+    },
     restoreToken: async () => {
         set({restoring: true, error: null})
         try{

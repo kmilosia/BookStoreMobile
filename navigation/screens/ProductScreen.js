@@ -62,7 +62,7 @@ export default function ProductScreen ({route,navigation}) {
         }
     }
     const handleAddToCart = () => {
-        const cartItem = {
+        let cartItem = {
             title: book.bookTitle,
             authors: book.authors,
             formID: book.formId,
@@ -71,9 +71,27 @@ export default function ProductScreen ({route,navigation}) {
             isWishlisted: book.isWishlisted,
             id: book.id,
         }
+        if(book.discountedBruttoPrice !== 0){
+            cartItem.price = book.discountedBruttoPrice
+        }
         addToCart(cartItem)
         setMessage({value: 'Produkt dodano do koszyka!', type: 'success', bool: true})
     }
+    const style = StyleSheet.create({
+        defaultPrice: {
+            color: 'white',
+            textDecorationLine: 'none',
+            fontSize: 30,
+            fontWeight: 500,
+        },
+        discountPrice: {
+            color: COLORS.light,
+            textDecorationLine: 'line-through',
+            fontSize: 22,
+            fontWeight: 300,
+            lineHeight: 22
+        }
+    })
     return (
         loading ? <PageLoader /> :
         <>
@@ -99,7 +117,10 @@ export default function ProductScreen ({route,navigation}) {
                         <FontAwesome name="star" size={20} color='gold'/>
                         <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
                     </Row>
-                    <Text color='white' fontSize={30} fontWeight='bold'>{book.price?.toFixed(2)}zł</Text>
+                    <Row alignItems='baseline'>
+                        {book.discountedBruttoPrice !== 0 && <Text color={COLORS.accent} fontSize={30} fontWeight={500}>{book.discountedBruttoPrice?.toFixed(2)}zł</Text>}
+                        <Text style={book.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}> {book.price?.toFixed(2)}zł</Text>
+                    </Row>
                     <Row marginTop={3} justifyContent='space-between' width='100%' maxWidth='100%' alignItems='center' marginBottom={10}>
                         {book.formId === 2 ?
                         <>
@@ -176,7 +197,7 @@ export default function ProductScreen ({route,navigation}) {
                         <Row width='100%' justifyContent='space-between' flexWrap='wrap' marginTop={3}>
                             {reviews.map((item,index) => {
                                 return(
-                                    <Column key={index} width='100%' rounded='lg' bg={COLORS.secondary} padding={5}>
+                                    <Column key={index} width='100%' marginY={1} rounded='lg' bg={COLORS.secondary} padding={5}>
                                         <Row justifyContent='space-between' alignItems='center'>
                                             <Text color='white' fontWeight={600} fontSize={16}>{item.customerName}</Text>
                                             <Row alignItems='center'>

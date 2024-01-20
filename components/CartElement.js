@@ -24,7 +24,6 @@ export default function CartElement ({item,updateCartAfterDelete}) {
         incrementCartItem(item)
     }
     const remove = () => {
-        console.log('removing');
         removeCartItem(item)
         updateCartAfterDelete(item.id)
     }
@@ -45,7 +44,7 @@ export default function CartElement ({item,updateCartAfterDelete}) {
                 </Pressable>
             </Row>
             <Text fontWeight={300} color='white'>{item.authors?.map((item) => {return (item.name + " " + item.surname)})}</Text>
-            <Text fontWeight={500} fontSize={12} color='white'>{item.formId === 1 ? 'Ksiażka' : 'Ebook'}</Text>
+            <Text fontWeight={500} fontSize={12} color='white'>{item.formID === 1 ? 'Ksiażka' : 'Ebook'}</Text>
             <Row justifyContent='space-between' alignItems='flex-end' marginTop='auto' width='100%'>
                 <Text fontWeight={600} fontSize={20} color='white'>{item.price?.toFixed(2)}zł</Text>
                 <Row alignItems='center' borderWidth={2} borderColor={COLORS.border} borderRadius={8} padding={0}>

@@ -22,7 +22,7 @@ export default function ReviewsScreen ({route}) {
                         <Row width='100%' justifyContent='space-between' flexWrap='wrap' marginTop={3}>
                             {data.map((item,index) => {
                                 return(
-                                    <Column key={index} width='100%' rounded='lg' bg={COLORS.secondary} padding={5}>
+                                    <Column key={index} width='100%' marginBottom={3} rounded='lg' bg={COLORS.secondary} padding={5}>
                                         <Row justifyContent='space-between' alignItems='center'>
                                             <Text color='white' fontWeight={600} fontSize={16}>{item.customerName}</Text>
                                             <Row alignItems='center'>

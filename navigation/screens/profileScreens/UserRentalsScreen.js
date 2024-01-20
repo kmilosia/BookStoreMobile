@@ -11,9 +11,7 @@ export default function UserRentalsScreen ({navigation}) {
     const [data, setData] = useState([])
     const [filter, setFilter] = useState('')
     useEffect(() => {
-        getUserRentedBooks(filter, setData, setLoading)
-    },[])
-    useEffect(() => {
+        setLoading(true)
         getUserRentedBooks(filter, setData, setLoading)
     },[filter])
     const styles = StyleSheet.create({

@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import axiosClient from "../utils/axiosClient"
 
 export const getSearchResults = async (search,setData,setLoading) => {
@@ -48,7 +49,12 @@ export const getSearchResults = async (search,setData,setLoading) => {
   }
   export const getBookDetails = async (id, setData, setLoading) => {
     try{
-        const response = await axiosClient.get(`/BookItems/Store/${id}`)
+        const userToken = await AsyncStorage.getItem('token')
+        const response = await axiosClient.get(`/BookItems/Store/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+            },
+          })
         setData(response.data)
         setLoading(false)
     }catch(err){

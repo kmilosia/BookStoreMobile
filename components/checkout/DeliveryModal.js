@@ -1,11 +1,10 @@
 import { Modal, Pressable, ScrollView } from "react-native";
-import { COLORS, screenWidth, styles } from "../styles/constants";
+import { COLORS, screenWidth, styles } from "../../styles/constants";
 import { Center, Column, Row, Text, View } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
-import { getDeliveryMethods } from "../api/DictionaryAPI";
+import { getDeliveryMethods } from "../../api/DictionaryAPI";
 import RadioButtonRN from "radio-buttons-react-native";
-
 
 export default function DeliveryModal ({isDeliveryOpen, setIsDeliveryOpen,setSelectedDeliveryMethod}){
     const [data, setData] = useState([])
