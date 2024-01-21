@@ -15,7 +15,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
     const [errors, setErrors] = useState({})
     const [cities, setCities] = useState([])
     const [countries, setCountries] = useState([])
-    const [selected, setSelected] = useState([])
+    const [selected, setSelected] = useState(null)
     const [submitting, setSubmitting] = useState(false)
     const [addNew, setAddNew] = useState(false)
     const [newAddress, setNewAddress] = useState({
@@ -26,6 +26,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
         cityID: null,
         cityName: '',
         countryID: 1,
+        countryName: '',
     })
     useEffect(() => {
         getCities(setCities)
@@ -35,7 +36,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
     useEffect(() => {
         if(userAddress.length > 0){
             const newData = userAddress.map((item) => ({
-                label: item.street + " " + item.streetNumber + "/" + item.houseNumber + " " + item.postcode + ", " + item.cityID + ", " + "Polska" ,
+                label: item.street + " " + item.streetNumber + "/" + item.houseNumber + " " + item.postcode + ", " + item.cityName + ", " + item.countryName ,
                 value: item
             }))
             setData(newData) 
@@ -64,8 +65,22 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
         setErrors(validate(newAddress))
         setSubmitting(true)
     }
+    const handleCheckbox = (selected) => {
+        setNewAddress({ ...newAddress,
+            street: selected.value.street,
+            streetNumber: selected.value.streetNumber,
+            houseNumber: selected.value.houseNumber,
+            postcode: selected.value.postcode,
+            cityID: selected.value.cityID,
+            cityName: selected.value.cityName,
+            countryID: selected.value.countryID,
+            countryName: selected.value.countryName,
+            addressTypeID: selected.value.addressTypeID, 
+       })
+    }
     const handleAccept = () => {
-
+       setDeliveryAddress(newAddress)
+       setIsDeliveryAddressOpen(false)
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
@@ -87,7 +102,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
                 {(data.length > 0 && !addNew) &&
                  <RadioButtonRN
                  data={data}
-                 selectedBtn={(e) => setSelected(e)}
+                 selectedBtn={(e) => {setSelected(true);handleCheckbox(e)}}
                  boxDeactiveBgColor={COLORS.primary}
                  textColor='white'
                  activeColor={COLORS.accent}
@@ -95,7 +110,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
                  /> 
                 }
                  {!addNew  &&
-                <Pressable onPress={() => setAddNew(true)} style={[styles.roundButton, {width: '100%'}]}>
+                <Pressable onPress={() => {setAddNew(true);setSelected(null)}} style={{backgroundColor: COLORS.accent, borderRadius: 8, width: '100%', padding: 12, marginTop: 12}}>
                     <Row alignItems='center' justifyContent='center'>
                         <Ionicons color='white' name="add" size={20} marginRight={5} />
                         <Text style={styles.roundButtonText}>Dodaj nowy adres</Text>
@@ -132,7 +147,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
             </Pressable>
             </Center>
             }
-            {selected.length > 0 &&
+            {selected &&
             <Center position='absolute' bottom={5} left={0} width={screenWidth}>
             <Pressable onPress={() => handleAccept()} style={styles.roundButton}>
                     <Text style={styles.roundButtonText}>Akceptuj</Text>

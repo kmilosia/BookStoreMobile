@@ -4,12 +4,8 @@ import { ActivityIndicator, Pressable, TextInput } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import { restoreDiscountCode } from "../../api/DiscountAPI";
-import useCartStore from "../../store/cartStore";
 
-export default function DiscountCodeElement({cart,setCart,discountData,setDiscountData}){
-    const totalAmount = useCartStore((state) => state.totalAmount)
-    const setTotalAmount = useCartStore((state) => state.setTotalAmount)
-
+export default function DiscountCodeElement({cart,setCart,discountData,setDiscountData,setAmountAfterDiscount}){
     const [discountInput, setDiscountInput] = useState('')
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -32,11 +28,11 @@ export default function DiscountCodeElement({cart,setCart,discountData,setDiscou
                 const newPrice = match ? match.singleItemBruttoPrice : item.price
                 return {
                     ...item,
-                    discountPrice: newPrice
+                    discountedBruttoPrice: newPrice
                 }
             }))
-            const finalSum = discountData.cartItems.reduce((total,item) => total + item.quantity * item.singleItemBruttoPrice, 0)
-            setTotalAmount(finalSum)
+            const newAmount = cart.reduce((total, item) => total + item.quantity * item.discountedBruttoPrice, 0);
+            setAmountAfterDiscount(newAmount)
         }
     },[discountData])
     return(

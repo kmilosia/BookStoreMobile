@@ -11,7 +11,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
     const [data, setData] = useState([])
     const [userAddress, setUserAddress] = useState([])
     const [loadingUserAddress, setLoadingUserAddress] = useState(false)
-    const [selected, setSelected] = useState([])
+    const [selected, setSelected] = useState(null)
     const [errors, setErrors] = useState({})
     const [cities, setCities] = useState([])
     const [countries, setCountries] = useState([])
@@ -25,6 +25,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
         cityID: null,
         cityName: '',
         countryID: 1,
+        countryName: ''
     })
     useEffect(() => {
         getCities(setCities)
@@ -34,7 +35,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
     useEffect(() => {
         if(userAddress.length > 0){
             const newData = userAddress.map((item) => ({
-                label: item.street + " " + item.streetNumber + "/" + item.houseNumber + " " + item.postcode + ", " + item.cityID + ", " + "Polska" ,
+                label: item.street + " " + item.streetNumber + "/" + item.houseNumber + " " + item.postcode + ", " + item.cityName + ", " + item.countryName ,
                 value: item
             }))
             setData(newData) 
@@ -63,8 +64,22 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
         setErrors(validate(newAddress))
         setSubmitting(true)
     }
+    const handleCheckbox = (selected) => {
+        setNewAddress({ ...newAddress,
+            street: selected.value.street,
+            streetNumber: selected.value.streetNumber,
+            houseNumber: selected.value.houseNumber,
+            postcode: selected.value.postcode,
+            cityID: selected.value.cityID,
+            cityName: selected.value.cityName,
+            countryID: selected.value.countryID,
+            countryName: selected.value.countryName,
+            addressTypeID: selected.value.addressTypeID, 
+       })
+    }
     const handleAccept = () => {
-
+       setInvoiceAddress(newAddress)
+       setIsInvoiceAddressOpen(false)
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
@@ -86,7 +101,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
                 {(data.length > 0 && !addNew) &&
                  <RadioButtonRN
                  data={data}
-                 selectedBtn={(e) => setSelected(e)}
+                 selectedBtn={(e) => {setSelected(true);handleCheckbox(e)}}
                  boxDeactiveBgColor={COLORS.primary}
                  textColor='white'
                  activeColor={COLORS.accent}
@@ -94,7 +109,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
                  /> 
                 }      
                 {!addNew  &&
-                <Pressable onPress={() => setAddNew(true)} style={[styles.roundButton, {width: '100%'}]}>
+                <Pressable onPress={() => {setAddNew(true);setSelected(null)}} style={{backgroundColor: COLORS.accent, borderRadius: 8, width: '100%', padding: 12, marginTop: 12}}>
                     <Row alignItems='center' justifyContent='center'>
                         <Ionicons color='white' name="add" size={20} marginRight={5} />
                         <Text style={styles.roundButtonText}>Dodaj nowy adres</Text>
@@ -131,7 +146,7 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
             </Pressable>
             </Center>
             }
-            {selected.length > 0 &&
+            {selected &&
             <Center position='absolute' bottom={5} left={0} width={screenWidth}>
             <Pressable onPress={() => handleAccept()} style={styles.roundButton}>
                     <Text style={styles.roundButtonText}>Akceptuj</Text>

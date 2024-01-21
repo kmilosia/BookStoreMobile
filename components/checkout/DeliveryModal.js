@@ -16,7 +16,7 @@ export default function DeliveryModal ({isDeliveryOpen, setIsDeliveryOpen,setSel
     },[])
     useEffect(() => {
         if(data.length > 0){
-            const newData = data.map((item) => ({
+            const newData = data.slice(1).map((item) => ({
                 label: item.name,
                 value: item
             }))

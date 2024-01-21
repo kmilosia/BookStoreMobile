@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react"
 import PageLoader from "../../components/loaders/PageLoader"
-import { Image, Pressable, ScrollView, StyleSheet } from "react-native"
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet } from "react-native"
 import { Column, Row, Text, View } from "native-base"
 import { COLORS, styles } from "../../styles/constants"
 import useCartStore from "../../store/cartStore"
-import BouncyCheckbox from "react-native-bouncy-checkbox"
-import { makeOrder } from "../../api/UserAPI"
+import { makeOrder } from "../../api/OrderAPI"
 import DiscountCodeElement from "../../components/checkout/DiscountCodeElement"
 import DeliveryModal from "../../components/checkout/DeliveryModal"
 import PaymentModal from "../../components/checkout/PaymentModal"
 import InvoiceAddressModal from "../../components/checkout/InvoiceAddressModal"
 import CheckoutAddressModal from "../../components/checkout/CheckoutAddressModal"
+import { useMessageStore } from "../../store/messageStore"
 
-export default function CheckoutScreen () {
+export default function CheckoutScreen ({navigation}) {
+    const setMessage = useMessageStore((state) => state.setMessage)
     const returnCart = useCartStore((state) => state.returnCart)
     const totalAmount = useCartStore((state) => state.totalAmount)
     const isElectronicPurchase = useCartStore((state) => state.isElectronicPurchase)
     const [loading, setLoading] = useState(true)
+    const [orderLoading, setOrderLoading] = useState(false)
+    const [success, setSuccess] = useState(null)
     const [errors, setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
     const [cart, setCart] = useState([])
@@ -30,6 +33,7 @@ export default function CheckoutScreen () {
     const [isInvoiceAddressOpen, setIsInvoiceAddressOpen] = useState(false)
     const [isDeliveryAddressOpen, setIsDeliveryAddressOpen] = useState(false)
     const [discountData, setDiscountData] = useState(null)
+    const [amountAfterDiscount, setAmountAfterDiscount] = useState(null)
     useEffect(() => {
         returnCart(setCart, setLoading)
         if(isElectronicPurchase){
@@ -37,18 +41,21 @@ export default function CheckoutScreen () {
         }
     },[])
     useEffect(() => {
-        if(Object.keys(selectedDeliveryMethod).length > 0){
+        if(Object.keys(selectedDeliveryMethod).length > 0 && amountAfterDiscount){
+            setSum(amountAfterDiscount + selectedDeliveryMethod.price)
+        }else if(Object.keys(selectedDeliveryMethod).length > 0 && !amountAfterDiscount){
             setSum(totalAmount + selectedDeliveryMethod.price)
         }else{
             setSum(totalAmount)
         }
-    },[selectedDeliveryMethod,totalAmount])
+    },[selectedDeliveryMethod,totalAmount,amountAfterDiscount])
     
     const handleSubmit = () => {
         setErrors(validate)
         setSubmitting(true)
     }
     const finishSubmit = () => {
+        setOrderLoading(true)
         const data = {
             deliveryMethodID: selectedDeliveryMethod.id,
             paymentMethodID: selectedPaymentMethod.id,
@@ -64,14 +71,13 @@ export default function CheckoutScreen () {
             cartItems: cart.map((item) => ({
                 bookItemID: item.id,
                 quantity: item.quantity,
-                singleItemBruttoPrice: 0
             }))
         }
         if(discountData?.discountID){
             data.discountCodeID = discountData.discountID
         }
         if(selectedDeliveryMethod.name === 'Dostawa do domu' && Object.keys(deliveryAddress).length > 0){
-            const address = {
+            data.deliveryAddress = {
                 street: deliveryAddress.street,
                 streetNumber: deliveryAddress.streetNumber,
                 houseNumber: deliveryAddress.houseNumber,
@@ -80,10 +86,8 @@ export default function CheckoutScreen () {
                 countryID: deliveryAddress.countryID,
                 addressTypeID: 4,
             }
-            data.deliveryAddress = address
         }
-        console.log(data)
-        // makeOrder()
+        makeOrder(data, setOrderLoading,setSuccess)
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
@@ -123,6 +127,13 @@ export default function CheckoutScreen () {
             textDecorationLine: 'none'
         }
     })
+    useEffect(() => {
+        if(success){
+            navigation.navigate('OrderConfirm')
+        }else if(success === false){
+            setMessage({value: "Nie można było złożyć zamówienia. Spróbuj ponownie później.", type: 'error', bool: true})
+        }
+    },[success])
     return (
         loading ? <PageLoader /> :
         <>
@@ -140,9 +151,9 @@ export default function CheckoutScreen () {
                                     <Text color={COLORS.light} fontWeight={600} fontSize={16}>{item.quantity}</Text>
                                     <Text color={COLORS.light} fontWeight={600} fontSize={14}> x </Text>
                                     <Row alignItems='baseline'>
-                                        {(item.discountPrice && item.discountPrice !== 0) &&                                                                                                                                                        
-                                       <Text color={COLORS.light} fontWeight={500} fontSize={16}>{item.discountPrice.toFixed(2)}zł </Text>                                                                            }
-                                        <Text style={item.discountPrice && item.discountPrice !== 0 ? style.discountPrice : style.defaultPrice}>{item.price?.toFixed(2)}zł</Text>
+                                        {item.discountedBruttoPrice !== 0 &&                                                                                                                                                        
+                                       <Text color={COLORS.accent} fontWeight={500} fontSize={16} marginRight={1}>{item.discountedBruttoPrice.toFixed(2)}zł</Text>}
+                                        <Text style={item.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}>{item.price?.toFixed(2)}zł</Text>
                                     </Row>
                                 </Row>
                             </Column>
@@ -200,8 +211,8 @@ export default function CheckoutScreen () {
                     {Object.keys(invoiceAddress).length > 0 &&
                         <Column>
                             <Text color={COLORS.light}>{invoiceAddress.street} {invoiceAddress.streetNumber}, {invoiceAddress.houseNumber}</Text>
-                            <Text color={COLORS.light}>{invoiceAddress.postcode}, {invoiceAddress.cityID}</Text>
-                            <Text color={COLORS.light}>Polska</Text>
+                            <Text color={COLORS.light}>{invoiceAddress.postcode}, {invoiceAddress.cityName}</Text>
+                            <Text color={COLORS.light}>{invoiceAddress.countryName}</Text>
                         </Column>
                     }
                 </Column>
@@ -223,14 +234,14 @@ export default function CheckoutScreen () {
                     {Object.keys(deliveryAddress).length > 0 &&
                         <Column>
                             <Text color={COLORS.light}>{deliveryAddress.street} {deliveryAddress.streetNumber}, {deliveryAddress.houseNumber}</Text>
-                            <Text color={COLORS.light}>{deliveryAddress.postcode}, {deliveryAddress.cityID}</Text>
-                            <Text color={COLORS.light}>Polska</Text>
+                            <Text color={COLORS.light}>{deliveryAddress.postcode}, {deliveryAddress.cityName}</Text>
+                            <Text color={COLORS.light}>{deliveryAddress.countryName}</Text>
                         </Column>
                     }
                 </Column>
                 }
                 {errors.deliveryAddress && <Text style={styles.errorText}>{errors.deliveryAddress}</Text>}
-                <DiscountCodeElement setDiscountData={setDiscountData} discountData={discountData} cart={cart} setCart={setCart}/>
+                <DiscountCodeElement setAmountAfterDiscount={setAmountAfterDiscount} setDiscountData={setDiscountData} discountData={discountData} cart={cart} setCart={setCart}/>
                 <Column bg={COLORS.secondary} width='100%' borderRadius={8} marginBottom={3} padding={5}>
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
                         <Text color={COLORS.light} fontWeight={300}>Suma koszyka</Text>
@@ -240,17 +251,19 @@ export default function CheckoutScreen () {
                         <Text color={COLORS.light} fontWeight={300}>Dostawa</Text>
                         <Text color='white' fontWeight={600}>{Object.keys(selectedDeliveryMethod).length > 0 ? selectedDeliveryMethod.price : '0.00'}zł</Text>
                     </Row>
+                    {amountAfterDiscount &&
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
-                        <Text color={COLORS.light} fontWeight={300}>Rabat</Text>
-                        <Text color='white' fontWeight={600}>0%</Text>
-                    </Row>
+                        <Text color={COLORS.light} fontWeight={300}>Suma z rabatem</Text>
+                        <Text color='white' fontWeight={600}>{amountAfterDiscount?.toFixed(2)}zł</Text>
+                    </Row>}
                     <Row borderTopColor={COLORS.border} borderTopWidth={1} paddingTop={2} justifyContent='space-between' maxWidth='100%' width='100%'>
                         <Text color={COLORS.light} fontSize={16} fontWeight={600}>Suma do zapłaty</Text>
                         <Text color='white' fontSize={16} fontWeight={600}>{sum ? sum.toFixed(2) : '0.00'}zł</Text>
                     </Row>
                 </Column>
                  <Pressable onPress={() => handleSubmit()} style={{width: '100%', backgroundColor: COLORS.accent, borderRadius: 8}}>
-                    <Text fontWeight={500} fontSize={16} color='white' textAlign='center' padding={3}>Opłać i zamów</Text>
+                    {orderLoading ? <ActivityIndicator size='small' color='white' /> :
+                    <Text fontWeight={500} fontSize={16} color='white' textAlign='center' padding={3}>Opłać i zamów</Text>}
                 </Pressable>
             </Column>
         </ScrollView>

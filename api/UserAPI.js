@@ -95,6 +95,7 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
           },
         })
         setData(response.data)
+        console.log(response.data);
         setLoading(false)
     } catch (error) {
         console.error(error)
@@ -120,18 +121,5 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
     } catch (error) {
         console.error(error)
         setLoading(false)
-    }
-  }
-  export const makeOrder = async (data) => {
-    try {
-        const userToken = await AsyncStorage.getItem('token');
-        const response = await axiosClient.post(`/User/Order`, data, {
-          headers: {
-              'Authorization': `Bearer ${userToken}`,
-          },
-        })
-        
-    } catch (error) {
-        console.error(error)
     }
   }

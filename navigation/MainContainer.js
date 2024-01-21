@@ -32,6 +32,7 @@ import UserOrdersScreen from './screens/profileScreens/UserOrdersScreen';
 import RentedBookScreen from './screens/RentedBookScreen';
 import ReviewBookScreen from './screens/ReviewBookScreen';
 import PurchasedBookScreen from './screens/PurchasedBookScreen';
+import OrderConfirmScreen from './screens/OrderConfirmScreen';
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,7 @@ function MainContainer() {
         ) : (
           <>
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
+        <Stack.Screen options={{headerShown: false}} name="OrderConfirm" component={OrderConfirmScreen} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
         <Stack.Screen options={{headerShown: false}} name="RentedBook" component={RentedBookScreen} />
         <Stack.Screen options={{headerShown: false}} name="PurchasedBook" component={PurchasedBookScreen} />

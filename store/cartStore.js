@@ -92,10 +92,7 @@ export const useCartStore = create((set) => ({
         setLoading(false);
     }
 },
-setTotalAmount: (amount) => {
-  set({totalAmount: amount})
-},
-
+  
   logCart: async () => {
     try {
       const cart = await AsyncStorage.getItem('cart');
@@ -112,6 +109,7 @@ const calculateTotalAmount = (cart) => {
     return total + item.quantity * priceToUse;
   }, 0);
 };
+
 const checkElectronicCart = (cart) => {
   const bool = cart.some((item) => item.formID === 1)
   return (!bool)
