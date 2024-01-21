@@ -12,9 +12,10 @@ import { getReviewsByAmount } from "../../api/ReviewsAPI";
 import { LinearGradient } from "expo-linear-gradient";
 import BooksCarousel from "../../components/BooksCarousel";
 import ProductScore from "../../components/ProductScore";
-import { addWishlistItem } from "../../api/WishlistAPI";
+import { addWishlistItem, deleteWishlistItem } from "../../api/WishlistAPI";
 import { useMessageStore } from "../../store/messageStore";
 import useCartStore from "../../store/cartStore";
+import { reserveBook } from "../../api/ReservationAPI";
 
 export default function ProductScreen ({route,navigation}) {
     const setMessage = useMessageStore((state) => state.setMessage)
@@ -53,12 +54,14 @@ export default function ProductScreen ({route,navigation}) {
 
     })
     const handleAddWishlist = () => {
-        if(!book.isWishlisted){
+        if(book.isWishlisted){
+            deleteWishlistItem(book.id)
+            setBook({...book, isWishlisted: false})
+            setMessage({value: 'Produkt usunięto z listy życzeń', type: 'error', bool: true})
+        }else{
             addWishlistItem(book.id)
             setBook({...book, isWishlisted: true})
             setMessage({value: 'Produkt dodano do listy życzeń!', type: 'success', bool: true})
-        }else{
-            setMessage({value: 'Produkt znajduję się juz na liście życzeń', type: 'error', bool: true})
         }
     }
     const handleAddToCart = () => {
@@ -68,14 +71,18 @@ export default function ProductScreen ({route,navigation}) {
             formID: book.formId,
             imageURL: book.images[0].imageURL,
             price: book.price,
+            discountedBruttoPrice: book.discountedBruttoPrice,
+            fileFormatName: book.fileFormatName ? book.fileFormatName : null,
+            editionName: book.editionName ? book.editionName : null,
             isWishlisted: book.isWishlisted,
             id: book.id,
         }
-        if(book.discountedBruttoPrice !== 0){
-            cartItem.price = book.discountedBruttoPrice
-        }
         addToCart(cartItem)
         setMessage({value: 'Produkt dodano do koszyka!', type: 'success', bool: true})
+    }
+    const handleReserve = () => {
+        reserveBook(book.id)
+        setMessage({value: 'Książka została zarezerwowana', type: 'success', bool: true})
     }
     const style = StyleSheet.create({
         defaultPrice: {
@@ -83,6 +90,7 @@ export default function ProductScreen ({route,navigation}) {
             textDecorationLine: 'none',
             fontSize: 30,
             fontWeight: 500,
+            lineHeight: 32
         },
         discountPrice: {
             color: COLORS.light,
@@ -117,9 +125,11 @@ export default function ProductScreen ({route,navigation}) {
                         <FontAwesome name="star" size={20} color='gold'/>
                         <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
                     </Row>
-                    <Row alignItems='baseline'>
-                        {book.discountedBruttoPrice !== 0 && <Text color={COLORS.accent} fontSize={30} fontWeight={500}>{book.discountedBruttoPrice?.toFixed(2)}zł</Text>}
-                        <Text style={book.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}> {book.price?.toFixed(2)}zł</Text>
+                    {book.availabilityId === 1 ?
+                    <>
+                    <Row alignItems='baseline' marginTop={5}>
+                        {book.discountedBruttoPrice !== 0 && <Text marginRight={2} color={COLORS.accent} fontSize={28} fontWeight={500}>{book.discountedBruttoPrice?.toFixed(2)}zł</Text>}
+                        <Text style={book.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}>{book.price?.toFixed(2)}zł</Text>
                     </Row>
                     <Row marginTop={3} justifyContent='space-between' width='100%' maxWidth='100%' alignItems='center' marginBottom={10}>
                         {book.formId === 2 ?
@@ -128,9 +138,18 @@ export default function ProductScreen ({route,navigation}) {
                         <Pressable onPress={() => navigation.navigate('Rent', {bookID: bookID})} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '49%', borderColor: COLORS.accent}}><Text color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>
                         </>
                         :
-                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
+                        <Pressable onPress={() => handleReserve()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
                         }
                     </Row>
+                    </>
+                    :
+                    <>
+                        <Text color='gray.400' fontWeight={300} fontSize={18} marginBottom={4} marginTop={2}>Książka tymczasowo niedostępna</Text>
+                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Zarezerwuj</Text></Pressable>
+                    </>
+                    }
+
+                    
                 </Column>
                 {book.images.length > 0 &&
                 <Column style={styles.section}>

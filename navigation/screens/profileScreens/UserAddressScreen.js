@@ -2,34 +2,41 @@ import { useEffect, useState } from "react";
 import { Image, Pressable } from "react-native";
 import { getUserAddress } from "../../../api/UserAPI";
 import PageLoader from "../../../components/loaders/PageLoader";
-import { Center, Column, Text, View } from "native-base";
+import { Center, Column, Row, Text, View } from "native-base";
 import { COLORS } from "../../../styles/constants";
 import { useIsFocused } from "@react-navigation/native";
+import EditUserAddressModal from "../../../components/EditUserAddressModal";
 
 export default function UserAddressScreen ({navigation}) {
     const isFocused = useIsFocused()
-    const [userAddress, setUserAddress] = useState([])
+    const [userAddress, setUserAddress] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [isModal, setIsModal] = useState(false)
+    const [editedAddress, setEditedAddress] = useState(null)
+    const [correctAddressIndex, setCorrectAddressIndex] = useState(null)
     useEffect(() => {
         getUserAddress(setUserAddress, setLoading)
     },[isFocused])
     return(
         loading ? <PageLoader /> :
         <>
-            {userAddress.length > 0 ?
+            {userAddress?.length > 0 ?
                 <Column padding={3}>
                 {userAddress.map((item,index) => {
                     return(
                         <Column key={index} borderWidth={2} borderColor={COLORS.border} borderRadius={8} padding={5} marginBottom={5}>
+                            <Row width='100%' maxWidth='100%' justifyContent='space-between'>
                             <Text color='white' fontWeight={600} fontSize={16}>{item.addressTypeID === 1 ? 'Adres zamieszkania' : 'Adres korespondencji'}</Text>
+                            <Pressable onPress={() => {setIsModal(true);setEditedAddress(item);setCorrectAddressIndex(index === 0 ? 1 : 0)}}>
+                                <Text color={COLORS.light} fontWeight={300} fontSize={12}>Edytuj</Text>
+                            </Pressable>
+                            </Row>
                             <Text color={COLORS.light}>{item.street} {item.streetNumber} {item.houseNumber}</Text>
-                            <Text color={COLORS.light}>{item.postcode} {item.cityName} {item.countryName}</Text>
+                            <Text color={COLORS.light}>{item.postcode}, {item.cityName}</Text>
+                            <Text color={COLORS.light}>{item.countryName}</Text>
                         </Column>
                     )
                 })}
-                <Pressable onPress={()=> navigation.navigate('EditUserAddress')} style={{borderRadius: 8, backgroundColor: COLORS.accent, padding: 10, width: '100%'}}>
-                    <Text color='white' fontWeight={500} fontSize={16} textAlign='center'>Edytuj dane</Text>
-                </Pressable>
                 </Column>
                 :
                 <View height='100%'>
@@ -45,6 +52,7 @@ export default function UserAddressScreen ({navigation}) {
                     </View>
                 </View>
                 }
+                <EditUserAddressModal index={correctAddressIndex} isModal={isModal} setIsModal={setIsModal} editedAddress={editedAddress} setEditedAddress={setEditedAddress} setUserAddress={setUserAddress} userAddress={userAddress}/>
         </>
     )
 }

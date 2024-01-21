@@ -41,6 +41,10 @@ export default function ProfileScreen({ navigation }) {
                         <AntDesign name='key' color='white' size={20}/>
                         <Text marginLeft={5} color='white' fontSize={18}>Wypożyczenia</Text>
                     </Pressable>
+                    {/* <Pressable onPress={() => navigation.navigate('UserRentals')} style={style.optionContainer}>
+                        <AntDesign name='key' color='white' size={20}/>
+                        <Text marginLeft={5} color='white' fontSize={18}>Rezerwacje</Text>
+                    </Pressable> */}
                     <Pressable onPress={() => {signOut()}} style={style.optionContainer}>
                         <AntDesign name='logout' color={COLORS.red} size={20}/>
                         <Text marginLeft={5} color={COLORS.red} fontSize={18}>Wyloguj się</Text>

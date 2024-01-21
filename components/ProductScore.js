@@ -5,8 +5,6 @@ import StarsRow from "./StarsRow";
 
 export default function ProductScore ({score,scoreValues}){
     const quantity = scoreValues['1'] + scoreValues['2'] + scoreValues['3'] + scoreValues['4'] + scoreValues['5']
-    console.log(scoreValues['4'] / quantity * 100);
-    // console.log((quantity / scoreValues['4']) * 100);
     return(
         <Column width='100%' alignItems='center' justifyContent='center' padding={0}>
             <Row alignItems='center'>

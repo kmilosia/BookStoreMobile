@@ -8,7 +8,6 @@ import { addWishlistItem } from "../api/WishlistAPI"
 import { useMessageStore } from "../store/messageStore"
 import useCartStore from "../store/cartStore"
 
-
 export default function CartElement ({item,updateCartAfterDelete}) {
     const setMessage = useMessageStore((state) => state.setMessage)
     const decrementCartItem = useCartStore((state) => state.decrementCartItem)

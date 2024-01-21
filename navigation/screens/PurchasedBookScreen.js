@@ -2,10 +2,9 @@ import { Image, Pressable } from "react-native";
 import { Column, Row, Text, View } from "native-base";
 import { COLORS } from "../../styles/constants";
 import { LinearGradient } from "expo-linear-gradient";
-import { convertDateUser } from "../../utils/dateConverter";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
-export default function RentedBookScreen({route,navigation}) {
+export default function PurchasedBookScreen({route,navigation}) {
     const item = route.params.item
     return (
     <>
@@ -19,7 +18,9 @@ export default function RentedBookScreen({route,navigation}) {
             <Image height={400} width={280} style={{borderRadius: 8}} source={{uri: item.imageURL}} alt="Okładka książki" /> 
             <Text color='white' fontWeight={600} fontSize={30} lineHeight={32} textAlign='center' marginTop={6}>{item.bookTitle}</Text>  
             <Text color='white' fontSize={16} textAlign='center' fontWeight={600} marginY={2}>{item.fileFormatName}</Text>
-            <Text color='white' textAlign='center' fontWeight={300} marginY={2}>Wypożyczenia ważne do: {item.expirationDate && convertDateUser(item.expirationDate)}</Text>
+            <Pressable style={{backgroundColor: COLORS.accent, borderRadius: 8, padding: 12, width: '90%',marginTop: 20}}>
+                <Text textAlign='center' fontWeight={500} fontSize={16} color='white'>Pobierz książkę</Text>
+            </Pressable>
             <Pressable style={{backgroundColor: COLORS.accent, borderRadius: 8, padding: 12, width: '90%',marginTop: 16}}>
                 <Text textAlign='center' fontWeight={500} fontSize={16} color='white'>Czytaj książkę</Text>
             </Pressable>

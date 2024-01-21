@@ -31,7 +31,7 @@ import UserRentalsScreen from './screens/profileScreens/UserRentalsScreen';
 import UserOrdersScreen from './screens/profileScreens/UserOrdersScreen';
 import RentedBookScreen from './screens/RentedBookScreen';
 import ReviewBookScreen from './screens/ReviewBookScreen';
-import EditUserAddressScreen from './screens/profileScreens/EditUserAddressScreen';
+import PurchasedBookScreen from './screens/PurchasedBookScreen';
 
 const Stack = createStackNavigator();
 
@@ -60,15 +60,15 @@ function MainContainer() {
           <>
         <Stack.Screen options={{headerShown: false}} name="Main" component={MainTabNavigator} />
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+        <Stack.Screen options={{headerShown: false}} name="RentedBook" component={RentedBookScreen} />
+        <Stack.Screen options={{headerShown: false}} name="PurchasedBook" component={PurchasedBookScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kasa' />, headerLeft: null}} name="Checkout" component={CheckoutScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wiadomości' />, headerLeft: null}} name="News" component={NewsScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wiadomość' />, headerLeft: null}} name="NewsDetails" component={NewsDetailsScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wypożycz' />, headerLeft: null}} name="Rent" component={RentScreen} />
-        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wypożyczona książka' />, headerLeft: null}} name="RentedBook" component={RentedBookScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Oceń książkę' />, headerLeft: null}} name="ReviewBook" component={ReviewBookScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wszystkie recenzje' />, headerLeft: null}} name="Reviews" component={ReviewsScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Zmień hasło' />, headerLeft: null}} name="ChangePassword" component={PasswordScreen} />
-        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Edytuj adres użytkownika' />, headerLeft: null}} name="EditUserAddress" component={EditUserAddressScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Dodaj adres użytkownika' />, headerLeft: null}} name="AddUserAddress" component={AddUserAddressScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Adres użytkownika' />, headerLeft: null}} name="UserAddress" component={UserAddressScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Edytuj dane użytkownika' />, headerLeft: null}} name="EditUserData" component={EditUserDataScreen} />

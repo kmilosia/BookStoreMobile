@@ -135,18 +135,3 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
         console.error(error)
     }
   }
-  export const getUserOrders = async (filter,setData,setLoading) => {
-    try {
-        const userToken = await AsyncStorage.getItem('token');
-        const response = await axiosClient.get(`/User/Address?${filter}`, {
-          headers: {
-              'Authorization': `Bearer ${userToken}`,
-          },
-        })
-        setData(response.data)
-        setLoading(false)
-    } catch (error) {
-        console.error(error)
-        setLoading(false)
-    }
-  }

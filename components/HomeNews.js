@@ -1,9 +1,8 @@
 import { Column, Row, Text, View } from "native-base";
 import { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView } from "react-native";
+import { ActivityIndicator, Image, Pressable, ScrollView } from "react-native";
 import { getNewsByAmount } from "../api/NewsAPI";
 import { LinearGradient } from "expo-linear-gradient";
-
 
 export default function HomeNews ({navigation}) {
     const [loading, setLoading] = useState(true)
@@ -17,6 +16,7 @@ export default function HomeNews ({navigation}) {
                 <Text color='white' fontSize={18} fontWeight='semibold'>Najnowsze wiadomości</Text>
                 <Pressable onPress={() => navigation.navigate("News")}><Text color='gray.400' fontSize={12} fontWeight={300}>Zobacz wszystko</Text></Pressable>
             </Row>
+            {loading ? <ActivityIndicator size='small' color='white' /> :
                 <ScrollView showsHorizontalScrollIndicator={false} horizontal style={{ flex: 0, paddingHorizontal: 5}}>
                 {news?.map((item,index) => {
                     return (
@@ -31,7 +31,7 @@ export default function HomeNews ({navigation}) {
                         </Pressable>
                     )
                 })}
-                </ScrollView>
+                </ScrollView>}
         </Column>
     )
 }

@@ -64,10 +64,10 @@ export default function CheckoutScreen () {
             cartItems: cart.map((item) => ({
                 bookItemID: item.id,
                 quantity: item.quantity,
-                singleItemBruttoPrice: item.discountPrice && item.discountPrice !== 0 ? item.discountPrice.toFixed(2) : item.price.toFixed(2)
+                singleItemBruttoPrice: 0
             }))
         }
-        if(discountData.discountID){
+        if(discountData?.discountID){
             data.discountCodeID = discountData.discountID
         }
         if(selectedDeliveryMethod.name === 'Dostawa do domu' && Object.keys(deliveryAddress).length > 0){
