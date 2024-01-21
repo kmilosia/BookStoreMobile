@@ -95,7 +95,6 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
           },
         })
         setData(response.data)
-        console.log(response.data);
         setLoading(false)
     } catch (error) {
         console.error(error)
@@ -113,8 +112,10 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
         setLoading(false)
         if(response.status === 200 || response.status === 204){
           setSuccess(true)
+          console.log("success");
         }else{
           setSuccess(false)
+          console.log("not");
         }
     } catch (error) {
         console.error(error)
