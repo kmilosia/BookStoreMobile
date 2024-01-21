@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, ScrollView, Image } from 'react-native';
+import { View, ScrollView, Image, StyleSheet } from 'react-native';
 import { COLORS, screenHeight } from '../../styles/constants';
 import { Column, Row, Text } from 'native-base';
 import { Pressable } from 'react-native';
@@ -26,7 +26,10 @@ export default function WishlistScreen() {
                 formID: item.formId,
                 imageURL: item.imageURL,
                 price: item.priceBrutto,
-                isWishlisted: true,
+                isWishlisted: false,
+                discountedPriceBrutto: item.discountedPriceBrutto,
+                editionName: item.editionName ? item.editionName : null,
+                fileFormatName: item.fileFormatName ? item.fileFormatName : null,
                 id: item.id,
             }
             addToCart(cartItem)
@@ -51,7 +54,10 @@ export default function WishlistScreen() {
             formID: item.formId,
             imageURL: item.imageURL,
             price: item.priceBrutto,
-            isWishlisted: true,
+            isWishlisted: false,
+            discountedPriceBrutto: item.discountedPriceBrutto,
+            editionName: item.editionName ? item.editionName : null,
+            fileFormatName: item.fileFormatName ? item.fileFormatName : null,
             id: item.id,
         }
         addToCart(cartItem)
@@ -72,6 +78,22 @@ export default function WishlistScreen() {
             getWishlist(guid,setWishlist, setLoading)
         }
     },[guid, isFocused])
+    const style = StyleSheet.create({
+        defaultPrice: {
+            color: 'white',
+            textDecorationLine: 'none',
+            fontSize: 20,
+            fontWeight: 600,
+            lineHeight: 20
+        },
+        discountPrice: {
+            color: COLORS.light,
+            textDecorationLine: 'line-through',
+            fontSize: 16,
+            fontWeight: 300,
+            lineHeight: 16
+        }
+    })
     return (
         loading ?
         <PageLoader />
@@ -92,8 +114,13 @@ export default function WishlistScreen() {
                             <Column marginLeft={3} flexGrow={1} flex={1}>
                                 <Text fontWeight={600} fontSize={16} lineHeight={18} color='white'>{item.bookTitle}</Text>
                                 <Text fontWeight={300} color='white'>Author</Text>
-                                <Text fontWeight={500} fontSize={12} color='white'>{item.formId === 1 ? 'Ksiażka' : 'Ebook'}</Text>
-                                <Text marginTop='auto' fontWeight={600} fontSize={20} color='white'>{item.priceBrutto.toFixed(2)}zł</Text>
+                                <Text fontWeight={500} fontSize={12} color='white'>{item.formId === 1 ? 'Książka' : 'Ebook'}</Text>
+                                <Row alignItems='baseline' marginTop='auto'>
+                                {item.discountedPriceBrutto !== 0 &&
+                                <Text fontWeight={600} fontSize={20} color={COLORS.accent} marginRight={1}>{item.discountedPriceBrutto.toFixed(2)}zł</Text>}
+                                <Text style={item.discountedPriceBrutto !== 0 ? style.discountPrice : style.defaultPrice}>{item.priceBrutto.toFixed(2)}zł</Text>
+
+                                </Row>
                             </Column>
                             <Column justifyContent='space-between' alignItems='flex-end'>
                                 <Pressable onPress={() => deleteFromWishlist(item.id)}>

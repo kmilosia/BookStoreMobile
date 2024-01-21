@@ -107,7 +107,10 @@ setTotalAmount: (amount) => {
 }));
 
 const calculateTotalAmount = (cart) => {
-  return cart.reduce((total, item) => total + item.quantity * item.price, 0);
+  return cart.reduce((total, item) => {
+    const priceToUse = item.discountedBruttoPrice !== 0 ? item.discountedBruttoPrice : item.price;
+    return total + item.quantity * priceToUse;
+  }, 0);
 };
 const checkElectronicCart = (cart) => {
   const bool = cart.some((item) => item.formID === 1)

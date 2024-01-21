@@ -33,8 +33,7 @@ export default function CartScreen({ navigation }) {
         loading ?
         <PageLoader />
         :
-        <>
-        
+        <>    
         {cart.length > 0 ?
             <>
             <Pressable onPress={() => navigation.navigate('Checkout')} style={{width: '90%',alignSelf: 'center',position: 'absolute',bottom: 10,zIndex: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary,borderWidth: 2, borderColor: COLORS.accent, borderRadius: 30, paddingVertical: 10}}>

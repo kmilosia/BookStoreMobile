@@ -88,9 +88,9 @@ export default function ProductScreen ({route,navigation}) {
         defaultPrice: {
             color: 'white',
             textDecorationLine: 'none',
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: 500,
-            lineHeight: 32
+            lineHeight: 30
         },
         discountPrice: {
             color: COLORS.light,
@@ -108,7 +108,6 @@ export default function ProductScreen ({route,navigation}) {
             <Pressable onPress={() => handleAddWishlist()}><IonIcons style={{fontSize: 24, color: 'white'}} name={book.isWishlisted ? 'heart': "heart-outline"} /></Pressable>
         </Row>
         <ScrollView>
-            
             <Column bg={COLORS.primary} alignItems='center' minHeight={screenHeight + 40}>
                 <View style={{position: 'relative', width: '100%', height: 600}}>
                     <Image style={{position: 'absolute', zIndex: 10 }} blurRadius={30} width='100%' height={600} resizeMode="cover" source={{uri: book.images[0].imageURL}} alt="Book Cover" />
@@ -127,7 +126,7 @@ export default function ProductScreen ({route,navigation}) {
                     </Row>
                     {book.availabilityId === 1 ?
                     <>
-                    <Row alignItems='baseline' marginTop={5}>
+                    <Row alignItems='baseline' marginTop={3}>
                         {book.discountedBruttoPrice !== 0 && <Text marginRight={2} color={COLORS.accent} fontSize={28} fontWeight={500}>{book.discountedBruttoPrice?.toFixed(2)}zł</Text>}
                         <Text style={book.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}>{book.price?.toFixed(2)}zł</Text>
                     </Row>
@@ -138,18 +137,16 @@ export default function ProductScreen ({route,navigation}) {
                         <Pressable onPress={() => navigation.navigate('Rent', {bookID: bookID})} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.primary, paddingHorizontal: 22, paddingVertical: 12, borderWidth: 2,width: '49%', borderColor: COLORS.accent}}><Text color={COLORS.accent} textAlign='center' fontWeight='bold'>Wypożycz</Text></Pressable>
                         </>
                         :
-                        <Pressable onPress={() => handleReserve()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
+                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Dodaj do koszyka</Text></Pressable>
                         }
                     </Row>
                     </>
                     :
-                    <>
-                        <Text color='gray.400' fontWeight={300} fontSize={18} marginBottom={4} marginTop={2}>Książka tymczasowo niedostępna</Text>
-                        <Pressable onPress={() => handleAddToCart()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Zarezerwuj</Text></Pressable>
-                    </>
+                    <Column marginTop={3} marginBottom={10}>
+                        <Text color='gray.400' fontWeight={300} fontSize={18}>Książka tymczasowo niedostępna</Text>
+                        <Pressable onPress={() => handleReserve()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Zarezerwuj</Text></Pressable>
+                    </Column>
                     }
-
-                    
                 </Column>
                 {book.images.length > 0 &&
                 <Column style={styles.section}>
