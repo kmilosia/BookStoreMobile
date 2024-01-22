@@ -16,6 +16,7 @@ export default function CheckoutScreen ({navigation}) {
     const setMessage = useMessageStore((state) => state.setMessage)
     const returnCart = useCartStore((state) => state.returnCart)
     const totalAmount = useCartStore((state) => state.totalAmount)
+    const emptyCart = useCartStore((state) => state.emptyCart)
     const isElectronicPurchase = useCartStore((state) => state.isElectronicPurchase)
     const [loading, setLoading] = useState(true)
     const [orderLoading, setOrderLoading] = useState(false)
@@ -130,6 +131,7 @@ export default function CheckoutScreen ({navigation}) {
     useEffect(() => {
         if(success){
             navigation.navigate('OrderConfirm')
+            emptyCart()
         }else if(success === false){
             setMessage({value: "Nie można było złożyć zamówienia. Spróbuj ponownie później.", type: 'error', bool: true})
         }

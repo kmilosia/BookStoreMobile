@@ -4,12 +4,13 @@ import PageLoader from "../../../components/loaders/PageLoader";
 import { Center, Column, Row, Text, View } from "native-base";
 import { COLORS } from "../../../styles/constants";
 import { convertDateUser } from "../../../utils/dateConverter";
-import { getUserOrders } from "../../../api/UserAPI";
+import { getUserOrders } from "../../../api/OrderAPI";
 
 export default function UserOrdersScreen ({navigation}) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const [filter, setFilter] = useState('')
+    const [selected, setSelected] = useState(null)
     useEffect(() => {
         getUserOrders(filter, setData, setLoading)
     },[filter])
@@ -33,7 +34,8 @@ export default function UserOrdersScreen ({navigation}) {
     return(
         loading ? <PageLoader /> :
         <>
-        {data.length > 0 ?
+        {data?.length > 0 ?
+        <>
         <ScrollView>
             <Column padding={3}>
                 <Row justifyContent='space-between' marginBottom={3}>
@@ -41,26 +43,37 @@ export default function UserOrdersScreen ({navigation}) {
                         <Text style={styles.buttonText}>Wszystkie</Text>
                     </Pressable>
                     <Pressable onPress={() => setFilter('OrderStatusId=1')} style={[styles.button,{backgroundColor: filter === 'OrderStatusId=1' ? COLORS.accent : COLORS.secondary, borderColor: filter === 'OrderStatusId=1' ? COLORS.accent : COLORS.border }]} >
-                        <Text style={styles.buttonText}>Opłacone</Text>
+                        <Text style={styles.buttonText}>Aktywne</Text>
                     </Pressable>
                     <Pressable onPress={() => setFilter('OrderStatusId=2')} style={[styles.button,{backgroundColor: filter === 'OrderStatusId=2' ? COLORS.accent : COLORS.secondary, borderColor: filter === 'OrderStatusId=2' ? COLORS.accent : COLORS.border }]} >
-                        <Text style={styles.buttonText}>Nieopłacone</Text>
+                        <Text style={styles.buttonText}>Zakończone</Text>
                     </Pressable>
                 </Row>
                 {data?.map((item,index) => {
                     return(
-                        <Column key={index} padding={3} borderWidth={2} borderColor={COLORS.border} marginBottom={3} borderRadius={8}>
-                            <Row>
-                                <Image source={{uri: item.orderItems.imageURL}} width={80} height={120} style={{borderRadius: 8}}/>
-                                <Column marginLeft={3} flexGrow={1} flex={1}>
-                                    <Text color='white' fontWeight={600} fontSize={16}>{item.orderItems.bookTitle}</Text>
-                                </Column>
-                            </Row>
+                        <Pressable onPress={() => navigation.navigate('Order', {orderId: item.id})}>
+                        <Column key={index} padding={5} borderWidth={2} borderColor={COLORS.border} marginBottom={3} borderRadius={8}>
+                            <Text color={COLORS.light} fontWeight={300} fontSize={12} marginBottom={4}>Zamówienie o numerze {item.id} z dnia {item.orderDate && convertDateUser(item.orderDate)}</Text>
+                            {item.orderItems.map((book,index) => {
+                                return(
+                                    <Row key={index} marginTop={index > 0 ? 5 : 0} borderTopWidth={index > 0 ? 1 : 0} paddingTop={index > 0 ? 4 : 0} borderTopColor={COLORS.border}>
+                                        <Image source={{uri: book.imageURL}} width={80} height={120} style={{borderRadius: 8}}/>
+                                        <Column marginLeft={3} flexGrow={1} flex={1}>
+                                            <Text color='white' fontWeight={600} fontSize={16}>{book.bookTitle}</Text>
+                                            <Text color='white' fontWeight={300} fontSize={14}>{book.formName}</Text>
+                                            <Text marginTop='auto' color='white' fontWeight={600} fontSize={14}>{book.quantity} x {book.fullPriceBrutto}zł</Text>
+                                        </Column>
+                                    </Row>
+                                )
+                            })}
+                           
                         </Column>
+                        </Pressable>
                     )
                 })}
             </Column>
         </ScrollView>
+        </>
         :
         <View height='100%'>
             <Center height='100%' padding={5}>

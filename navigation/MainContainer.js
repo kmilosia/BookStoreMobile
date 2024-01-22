@@ -33,6 +33,7 @@ import RentedBookScreen from './screens/RentedBookScreen';
 import ReviewBookScreen from './screens/ReviewBookScreen';
 import PurchasedBookScreen from './screens/PurchasedBookScreen';
 import OrderConfirmScreen from './screens/OrderConfirmScreen';
+import OrderScreen from './screens/OrderScreen';
 
 const Stack = createStackNavigator();
 
@@ -64,6 +65,7 @@ function MainContainer() {
         <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
         <Stack.Screen options={{headerShown: false}} name="RentedBook" component={RentedBookScreen} />
         <Stack.Screen options={{headerShown: false}} name="PurchasedBook" component={PurchasedBookScreen} />
+        <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Zamówienie' />, headerLeft: null}} name="Order" component={OrderScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Kasa' />, headerLeft: null}} name="Checkout" component={CheckoutScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wiadomości' />, headerLeft: null}} name="News" component={NewsScreen} />
         <Stack.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: () => <DefaultHeader title='Wiadomość' />, headerLeft: null}} name="NewsDetails" component={NewsDetailsScreen} />
