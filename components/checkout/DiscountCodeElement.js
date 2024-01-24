@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { restoreDiscountCode } from "../../api/DiscountAPI";
 import useCartStore from "../../store/cartStore";
 
-export default function DiscountCodeElement({cart,setCart,discountData,setDiscountData,setAmountAfterDiscount}){
+export default function DiscountCodeElement({cart,setCart,discountData,setDiscountData}){
     const setTotalAmount = useCartStore((state) => state.setTotalAmount)
     const [discountInput, setDiscountInput] = useState('')
     const [error, setError] = useState(null)

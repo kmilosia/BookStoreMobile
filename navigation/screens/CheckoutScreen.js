@@ -34,7 +34,6 @@ export default function CheckoutScreen ({navigation}) {
     const [isInvoiceAddressOpen, setIsInvoiceAddressOpen] = useState(false)
     const [isDeliveryAddressOpen, setIsDeliveryAddressOpen] = useState(false)
     const [discountData, setDiscountData] = useState(null)
-    const [amountAfterDiscount, setAmountAfterDiscount] = useState(null)
     useEffect(() => {
         returnCart(setCart, setLoading)
         if(isElectronicPurchase){
@@ -241,7 +240,7 @@ export default function CheckoutScreen ({navigation}) {
                 </Column>
                 }
                 {errors.deliveryAddress && <Text style={styles.errorText}>{errors.deliveryAddress}</Text>}
-                <DiscountCodeElement setAmountAfterDiscount={setAmountAfterDiscount} setDiscountData={setDiscountData} discountData={discountData} cart={cart} setCart={setCart}/>
+                <DiscountCodeElement setDiscountData={setDiscountData} discountData={discountData} cart={cart} setCart={setCart}/>
                 <Column bg={COLORS.secondary} width='100%' borderRadius={8} marginBottom={3} padding={5}>
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
                         <Text color={COLORS.light} fontWeight={300}>Suma koszyka</Text>
