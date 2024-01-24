@@ -101,6 +101,9 @@ export const useCartStore = create((set) => ({
       console.log(e);
     }
   },
+  setTotalAmount: (amount) => {
+    set({totalAmount: amount})
+  }
 }));
 
 const calculateTotalAmount = (cart) => {

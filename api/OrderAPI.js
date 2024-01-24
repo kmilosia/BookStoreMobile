@@ -51,11 +51,10 @@ export const getUserOrders = async (filter,setData,setLoading) => {
         setLoading(false)
     }
   }
-  const requestFileWritePermission =async () => {
+  const requestFileWritePermission = async () => {
     const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-    console.log(permissions.granted);
     if (!permissions.granted) {
-        console.log('File write Permissions Denied!!')
+        console.log('Odmowa dostępu do plików urządzenia!')
         return {
             access: false,
             directoryUri: null
@@ -66,38 +65,38 @@ export const getUserOrders = async (filter,setData,setLoading) => {
         directoryUri: permissions.directoryUri
     };
 }
-const saveReportFile = async (pdfData, directoryUri) => {
-    try {
-      await FileSystem.StorageAccessFramework.createFileAsync(directoryUri, 'My_file.pdf', 'application/pdf')
-        .then(async (uri) => {
-          const uint8Array = new Uint8Array(pdfData);
-          const base64Data = uint8Array.reduce((data, byte) => data + String.fromCharCode(byte), '');
-  
-          await FileSystem.writeAsStringAsync(uri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const saveReportFile = async (base64Data, directoryUri) => {
+  try {
+    const uri = await FileSystem.StorageAccessFramework.createFileAsync(
+      directoryUri,
+      'invoice.pdf',
+      'application/pdf'
+    );
+
+    await FileSystem.writeAsStringAsync(uri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
+    
+    console.log('File saved successfully');
+  } catch (error) {
+    console.log(error);
+  }
+};
   export const getInvoice = async (id) => {
     try {
-        console.log("hello");
         const userToken = await AsyncStorage.getItem('token');
-        const response = await axiosClient.get(`/Order/Invoice?orderId=${id}`, {
+        console.log("got token");
+        const response = await axiosClient.get(`/Order/InvTest?orderId=${id}`, {
           headers: {
               'Authorization': `Bearer ${userToken}`,
           },
           responseType: 'arraybuffer',
         })
+        console.log(response.data);
+        console.log("after response");
         const pdfData = response.data
         const hasPermissions = await requestFileWritePermission();
+        console.log("request");
         if (hasPermissions.access) {
+          console.log("saving");
             saveReportFile(pdfData, hasPermissions.directoryUri)
         }
     } catch (error) {

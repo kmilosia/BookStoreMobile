@@ -5,14 +5,14 @@ import { LinearGradient } from "expo-linear-gradient"
 import { useNavigation } from "@react-navigation/native"
 import PageLoader from "../loaders/PageLoader"
 import { COLORS } from "../../styles/constants"
-import { getUserOrders } from "../../api/OrderAPI"
+import { getLibraryItems } from "../../api/LibraryAPI"
 
 export default function RentedBooksList () {
     const navigation = useNavigation()
     const [loading, setLoading] = useState(true)
     const [activeBooks, setActiveBooks] = useState([])
     useEffect(() => {
-        getUserOrders('',setActiveBooks, setLoading)
+        getLibraryItems(2,setActiveBooks, setLoading)
     },[])
     return (
         loading ? 

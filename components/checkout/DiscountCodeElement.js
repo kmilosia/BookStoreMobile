@@ -4,8 +4,10 @@ import { ActivityIndicator, Pressable, TextInput } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import { restoreDiscountCode } from "../../api/DiscountAPI";
+import useCartStore from "../../store/cartStore";
 
 export default function DiscountCodeElement({cart,setCart,discountData,setDiscountData,setAmountAfterDiscount}){
+    const setTotalAmount = useCartStore((state) => state.setTotalAmount)
     const [discountInput, setDiscountInput] = useState('')
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -31,10 +33,14 @@ export default function DiscountCodeElement({cart,setCart,discountData,setDiscou
                     discountedBruttoPrice: newPrice
                 }
             }))
-            const newAmount = cart.reduce((total, item) => total + item.quantity * item.discountedBruttoPrice, 0);
-            setAmountAfterDiscount(newAmount)
         }
     },[discountData])
+    useEffect(() => {
+        if(discountData){
+            const newAmount = cart.reduce((total, item) => total + item.quantity * item.discountedBruttoPrice, 0);
+            setTotalAmount(newAmount)
+        }
+    },[cart])
     return(
         <Column width='100%' bg={COLORS.secondary} marginBottom={3} padding={5} paddingBottom={3} borderRadius={8}>
         <Text color='white'>Posiadasz kod rabatowy?</Text>

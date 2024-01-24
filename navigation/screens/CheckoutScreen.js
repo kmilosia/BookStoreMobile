@@ -42,14 +42,12 @@ export default function CheckoutScreen ({navigation}) {
         }
     },[])
     useEffect(() => {
-        if(Object.keys(selectedDeliveryMethod).length > 0 && amountAfterDiscount){
-            setSum(amountAfterDiscount + selectedDeliveryMethod.price)
-        }else if(Object.keys(selectedDeliveryMethod).length > 0 && !amountAfterDiscount){
+        if(Object.keys(selectedDeliveryMethod).length > 0){
             setSum(totalAmount + selectedDeliveryMethod.price)
         }else{
             setSum(totalAmount)
         }
-    },[selectedDeliveryMethod,totalAmount,amountAfterDiscount])
+    },[selectedDeliveryMethod,totalAmount])
     
     const handleSubmit = () => {
         setErrors(validate)
@@ -253,10 +251,10 @@ export default function CheckoutScreen ({navigation}) {
                         <Text color={COLORS.light} fontWeight={300}>Dostawa</Text>
                         <Text color='white' fontWeight={600}>{Object.keys(selectedDeliveryMethod).length > 0 ? selectedDeliveryMethod.price : '0.00'}zł</Text>
                     </Row>
-                    {amountAfterDiscount &&
+                    {discountData &&
                     <Row justifyContent='space-between' maxWidth='100%' width='100%' marginBottom={3}>
-                        <Text color={COLORS.light} fontWeight={300}>Suma z rabatem</Text>
-                        <Text color='white' fontWeight={600}>{amountAfterDiscount?.toFixed(2)}zł</Text>
+                        <Text color={COLORS.light} fontWeight={300}>Kod rabatowy</Text>
+                        <Text color='white' fontWeight={600}>{discountData?.discountCode}</Text>
                     </Row>}
                     <Row borderTopColor={COLORS.border} borderTopWidth={1} paddingTop={2} justifyContent='space-between' maxWidth='100%' width='100%'>
                         <Text color={COLORS.light} fontSize={16} fontWeight={600}>Suma do zapłaty</Text>

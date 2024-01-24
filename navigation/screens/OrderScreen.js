@@ -1,11 +1,15 @@
 import { ActivityIndicator, Image, Pressable, ScrollView } from "react-native";
 import PageLoader from "../../components/loaders/PageLoader";
 import { useEffect, useState } from "react";
-import { getInvoice, getOrder } from "../../api/OrderAPI";
+import { getInvoice,getPDF, getOrder } from "../../api/OrderAPI";
 import { Column, Row, Text, View } from "native-base";
 import { convertDateUser } from "../../utils/dateConverter";
 import { COLORS, styles } from "../../styles/constants";
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { Buffer } from "buffer";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+
 
 export default function OrderScreen ({navigation, route}){
     const orderId = route.params.orderId
