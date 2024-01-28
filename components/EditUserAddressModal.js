@@ -59,8 +59,7 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
                 cityID: userAddress[index].cityID,
                 addressTypeID: userAddress[index].addressTypeID
             }
-        }else{
-            
+        }else{ 
             data.mailingAddress = {
                 street: editedAddress.street,
                 streetNumber: editedAddress.streetNumber,
@@ -79,7 +78,7 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
             }
         }
         console.log(data);
-        changeUserAddress(data,setLoading,setSuccess)
+        // changeUserAddress(data,setLoading,setSuccess)
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){

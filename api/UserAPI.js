@@ -50,7 +50,6 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
   export const editUserData = async (data, setLoading,setSuccess) => {
     try {
         const userToken = await AsyncStorage.getItem('token');
-        console.log(userToken);
         const response = await axiosClient.put(`/User`, data,  {
           headers: {
               'Authorization': `Bearer ${userToken}`,
@@ -95,7 +94,6 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
           },
         })
         setData(response.data)
-        console.log(response.data);
         setLoading(false)
     } catch (error) {
         console.error(error)
@@ -110,14 +108,12 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
               'Authorization': `Bearer ${userToken}`,
           },
         })
-        setLoading(false)
         if(response.status === 200 || response.status === 204){
           setSuccess(true)
-          console.log("success");
         }else{
           setSuccess(false)
-          console.log("not");
         }
+        setLoading(false)
     } catch (error) {
         console.error(error)
         setLoading(false)
