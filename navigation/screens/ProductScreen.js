@@ -15,7 +15,6 @@ import ProductScore from "../../components/ProductScore";
 import { addWishlistItem, deleteWishlistItem } from "../../api/WishlistAPI";
 import { useMessageStore } from "../../store/messageStore";
 import useCartStore from "../../store/cartStore";
-import { reserveBook } from "../../api/ReservationAPI";
 
 export default function ProductScreen ({route,navigation}) {
     const setMessage = useMessageStore((state) => state.setMessage)
@@ -80,10 +79,6 @@ export default function ProductScreen ({route,navigation}) {
         addToCart(cartItem)
         setMessage({value: 'Produkt dodano do koszyka!', type: 'success', bool: true})
     }
-    const handleReserve = () => {
-        reserveBook(book.id)
-        setMessage({value: 'Książka została zarezerwowana', type: 'success', bool: true})
-    }
     const style = StyleSheet.create({
         defaultPrice: {
             color: 'white',
@@ -144,7 +139,6 @@ export default function ProductScreen ({route,navigation}) {
                     :
                     <Column marginTop={3} marginBottom={10}>
                         <Text color='gray.400' fontWeight={300} fontSize={18}>Książka tymczasowo niedostępna</Text>
-                        <Pressable onPress={() => handleReserve()} style={{borderRadius: 30,fontSize: 16, backgroundColor: COLORS.accent, paddingHorizontal: 22, paddingVertical: 12, width: '100%'}}><Text textAlign='center' color='white' fontWeight='bold'>Zarezerwuj</Text></Pressable>
                     </Column>
                     }
                 </Column>
@@ -154,7 +148,7 @@ export default function ProductScreen ({route,navigation}) {
                     <ScrollView horizontal style={{flexGrow: 0, marginTop: 10}} showsHorizontalScrollIndicator={false}>
                         {book.images.map((item, index) => {
                             return(
-                                <Image key={index} source={{uri: item.imageURL}} alt="Okładka" style={{marginRight: 20, borderRadius: 8}} width={200} height={300} />
+                                    <Image key={index} source={{uri: item.imageURL}} alt="Okładka" style={{marginRight: 20, borderRadius: 8}} width={200} height={300} />
                             )
                         })}
                     </ScrollView>

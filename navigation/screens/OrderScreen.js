@@ -113,12 +113,16 @@ export default function OrderScreen ({navigation, route}){
                                 <Image source={{uri: item.imageURL}} width={100} height={150} style={{borderRadius: 8}}/>
                                 <Column marginLeft={3} flexGrow={1} flex={1}>
                                     <Text color='white' fontWeight={600} fontSize={16}>{item.bookTitle}</Text>
-                                    {/* <Text color='white' fontWeight={300} fontSize={12}>{item.authors.map((author) => {return(author.name + " " + author.surname)})}</Text> */}
                                     <Text color='white' fontWeight={600} fontSize={12}>{item.formName === 'Book' ? 'Książka' : 'Ebook'}</Text>
-                                    <Row marginTop='auto' width='100%' maxWidth='100%' justifyContent='space-between' alignItems='baseline'>
-                                        <Text color='white' fontWeight={600} fontSize={14}>{item.quantity} x {item.priceBrutto}zł</Text>
-                                        <Text color='white' fontWeight={600} fontSize={16}>{item.fullPriceBrutto}zł</Text>
-                                    </Row>
+                                    <Column marginTop='auto' width='100%'>
+                                        <Pressable onPress={(e) => {e.stopPropagation();navigation.navigate('ReviewBook', {item: item})}} style={{alignSelf: 'flex-end', marginBottom: 4}}>
+                                            <Text style={{color: COLORS.accent, fontWeight: 500}}>Oceń książkę</Text>
+                                        </Pressable>
+                                        <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='baseline'>
+                                            <Text color='white' fontWeight={600} fontSize={14}>{item.quantity} x {item.bruttoPrice}zł</Text>
+                                            <Text color='white' fontWeight={600} fontSize={16}>{item.totalBruttoPrice}zł</Text>
+                                        </Row>
+                                    </Column>
                                 </Column>
                             </Row>
                             </Pressable>
@@ -126,7 +130,7 @@ export default function OrderScreen ({navigation, route}){
                     })}
                     <Row paddingX={4} paddingY={4} width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center' borderTopWidth={2} borderColor={COLORS.triary}>
                     <Text color={COLORS.light} fontSize={18} fontWeight={600}>Kwota</Text>
-                    <Text color={COLORS.light} fontSize={18} fontWeight={600}>{data.fullBruttoPrice?.toFixed(2)}zł</Text>
+                    <Text color={COLORS.light} fontSize={18} fontWeight={600}>{data.totalBruttoPrice?.toFixed(2)}zł</Text>
                     </Row>
                     </Column>
                     <Pressable onPress={() => handleGetInvoice()} style={[styles.primaryButton,{width: 'max', marginTop: 12}]}>

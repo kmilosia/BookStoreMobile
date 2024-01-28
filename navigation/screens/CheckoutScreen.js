@@ -260,7 +260,7 @@ export default function CheckoutScreen ({navigation}) {
                         <Text color='white' fontSize={16} fontWeight={600}>{sum ? sum.toFixed(2) : '0.00'}zł</Text>
                     </Row>
                 </Column>
-                 <Pressable onPress={() => handleSubmit()} style={{width: '100%', backgroundColor: COLORS.accent, borderRadius: 8}}>
+                 <Pressable onPress={() => handleSubmit()} style={{width: '100%', backgroundColor: COLORS.accent, borderRadius: 8, paddingVertical: 6}}>
                     {orderLoading ? <ActivityIndicator size='small' color='white' /> :
                     <Text fontWeight={500} fontSize={16} color='white' textAlign='center' padding={3}>Opłać i zamów</Text>}
                 </Pressable>

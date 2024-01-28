@@ -25,7 +25,7 @@ export default function WishlistScreen() {
                 authors: item.authors,
                 formID: item.formId,
                 imageURL: item.imageURL,
-                price: item.priceBrutto,
+                price: item.bruttoPrice,
                 isWishlisted: false,
                 discountedPriceBrutto: item.discountedPriceBrutto,
                 editionName: item.editionName ? item.editionName : null,
@@ -55,11 +55,12 @@ export default function WishlistScreen() {
             imageURL: item.imageURL,
             price: item.priceBrutto,
             isWishlisted: false,
-            discountedPriceBrutto: item.discountedPriceBrutto,
+            discountedBruttoPrice: item.discountedBruttoPrice,
             editionName: item.editionName ? item.editionName : null,
             fileFormatName: item.fileFormatName ? item.fileFormatName : null,
             id: item.id,
         }
+        addToCart(cartItem)
         addToCart(cartItem)
         deleteWishlistItem(item.id)
         updateWishlistAfterDelete(item.id)
@@ -116,9 +117,9 @@ export default function WishlistScreen() {
                                 <Text fontWeight={300} color='white'>Author</Text>
                                 <Text fontWeight={500} fontSize={12} color='white'>{item.formId === 1 ? 'Książka' : 'Ebook'}</Text>
                                 <Row alignItems='baseline' marginTop='auto'>
-                                {item.discountedPriceBrutto !== 0 &&
-                                <Text fontWeight={600} fontSize={20} color={COLORS.accent} marginRight={1}>{item.discountedPriceBrutto.toFixed(2)}zł</Text>}
-                                <Text style={item.discountedPriceBrutto !== 0 ? style.discountPrice : style.defaultPrice}>{item.priceBrutto.toFixed(2)}zł</Text>
+                                {item.discountedBruttoPrice !== 0 &&
+                                <Text fontWeight={600} fontSize={20} color={COLORS.accent} marginRight={1}>{item.discountedBruttoPrice.toFixed(2)}zł</Text>}
+                                <Text style={item.discountedBruttoPrice !== 0 ? style.discountPrice : style.defaultPrice}>{item.bruttoPrice.toFixed(2)}zł</Text>
 
                                 </Row>
                             </Column>

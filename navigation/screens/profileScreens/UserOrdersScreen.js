@@ -61,12 +61,11 @@ export default function UserOrdersScreen ({navigation}) {
                                         <Column marginLeft={3} flexGrow={1} flex={1}>
                                             <Text color='white' fontWeight={600} fontSize={16}>{book.bookTitle}</Text>
                                             <Text color='white' fontWeight={300} fontSize={14}>{book.formName}</Text>
-                                            <Text marginTop='auto' color='white' fontWeight={600} fontSize={14}>{book.quantity} x {book.fullPriceBrutto}zł</Text>
+                                            <Text marginTop='auto' color='white' fontWeight={600} fontSize={14}>{book.quantity} x {book.totalBruttoPrice}zł</Text>
                                         </Column>
                                     </Row>
                                 )
                             })}
-                           
                         </Column>
                         </Pressable>
                     )

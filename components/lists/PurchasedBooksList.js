@@ -14,6 +14,9 @@ export default function RentedBooksList () {
     useEffect(() => {
         getLibraryItems(2,setActiveBooks, setLoading)
     },[])
+    useEffect(() => {
+        console.log(activeBooks);
+    },[activeBooks])
     return (
         loading ? 
         <PageLoader />
@@ -21,9 +24,7 @@ export default function RentedBooksList () {
         <>
         {activeBooks?.length > 0 ?
             <ScrollView horizontal>
-                {activeBooks?.map((order) => {
-                    return(
-                        order.orderItems?.map((item,index) => {
+                {activeBooks?.map((item,index) => {
                             return(
                                 <Pressable key={index} onPress={() => navigation.navigate('PurchasedBook', {item: item})}>
                                     <View width={320} marginRight={5} height={520} position='relative' style={{borderRadius: 8}}>
@@ -35,9 +36,7 @@ export default function RentedBooksList () {
                                     </View>
                                     </Pressable>                            
                             )
-                        }) 
-                    )
-                })}
+                        })}
             </ScrollView>
         :
         <View>

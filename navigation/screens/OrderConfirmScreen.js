@@ -1,4 +1,4 @@
-import { Center, Column, Text,Row } from "native-base";
+import { Center,Text,Row } from "native-base";
 import { Image } from "react-native";
 import { COLORS } from "../../styles/constants";
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -9,8 +9,8 @@ export default function OrderConfirmScreen(){
     const navigation = useNavigation()
     return(
         <>
-        <Row position='absolute' justifyContent='space-between' width='100%' top={12} paddingX={5} zIndex={100}>
-            <Pressable onPress={() => navigation.navigate('Main')}><IonIcons style={{fontSize: 24, color: 'white'}} name="arrow-back" /></Pressable>
+        <Row position='absolute' justifyContent='flex-end' width='100%' top={12} paddingX={5} zIndex={100}>
+            <Pressable onPress={() => navigation.navigate('Main')}><IonIcons style={{fontSize: 24, color: 'white'}} name="close-outline" /></Pressable>
         </Row>
         <Center width='100%' height='100%' paddingX={10}>
             <Image source={{uri: 'https://iili.io/JajR9AG.png'}} width={200} height={200} alt="Celebration"/> 
