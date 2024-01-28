@@ -62,7 +62,8 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
           setSuccess(false)
         }
     } catch (error) {
-        console.error(error)
+        console.log(error)
+        setLoading(false)
     }
   }
   export const changePassword = async (data, setLoading,setSuccess) => {

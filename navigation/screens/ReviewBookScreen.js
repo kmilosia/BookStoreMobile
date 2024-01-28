@@ -35,8 +35,9 @@ export default function ReviewBookScreen({route,navigation}) {
             const data = {
                 content: inputValue,
                 scoreId: score,
-                bookItemId: item.bookItemId
+                bookItemId: item.id
             }
+            console.log(data);
             addReview(data, setLoading, setSuccess)
         }        
     }

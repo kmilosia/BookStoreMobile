@@ -49,6 +49,7 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
                 houseNumber: editedAddress.houseNumber,
                 postcode: editedAddress.postcode,
                 cityID: editedAddress.cityID,
+                countryID: editedAddress.countryID,
                 addressTypeID: editedAddress.addressTypeID
             }
             data.mailingAddress = {
@@ -57,6 +58,7 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
                 houseNumber: userAddress[index].houseNumber,
                 postcode: userAddress[index].postcode,
                 cityID: userAddress[index].cityID,
+                countryID: userAddress[index].countryID,
                 addressTypeID: userAddress[index].addressTypeID
             }
         }else{ 
@@ -66,6 +68,7 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
                 houseNumber: editedAddress.houseNumber,
                 postcode: editedAddress.postcode,
                 cityID: editedAddress.cityID,
+                countryID: editedAddress.countryID,
                 addressTypeID: editedAddress.addressTypeID
             }
             data.address = {
@@ -74,11 +77,12 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
                 houseNumber: userAddress[index].houseNumber,
                 postcode: userAddress[index].postcode,
                 cityID: userAddress[index].cityID,
+                countryID: userAddress[index].countryID,
                 addressTypeID: userAddress[index].addressTypeID
             }
         }
         console.log(data);
-        // changeUserAddress(data,setLoading,setSuccess)
+        changeUserAddress(data,setLoading,setSuccess)
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){

@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system';
 export const getUserOrders = async (filter,setData,setLoading) => {
     try {
         const userToken = await AsyncStorage.getItem('token');
-        const response = await axiosClient.get(`/Order?${filter}`, {
+        const response = await axiosClient.get(`/User/Order?${filter}`, {
           headers: {
               'Authorization': `Bearer ${userToken}`,
           },
@@ -20,7 +20,7 @@ export const getUserOrders = async (filter,setData,setLoading) => {
   export const getOrder = async (id, setData,setLoading) => {
     try {
         const userToken = await AsyncStorage.getItem('token');
-        const response = await axiosClient.get(`/Order/${id}`, {
+        const response = await axiosClient.get(`/User/Order/${id}`, {
           headers: {
               'Authorization': `Bearer ${userToken}`,
           },

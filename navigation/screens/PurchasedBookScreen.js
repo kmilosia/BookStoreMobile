@@ -6,6 +6,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 
 export default function PurchasedBookScreen({route,navigation}) {
     const item = route.params.item
+    console.log(item);
     return (
     <>
     <Row position='absolute' justifyContent='space-between' width='100%' top={12} paddingX={5} zIndex={100}>
