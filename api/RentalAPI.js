@@ -9,10 +9,13 @@ export const getPurchasedBooks = async (setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
+        if(response.status === 200 || response.status === 204){
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error);
+        console.log(error)
+        setLoading(false)
     }
 }
 export const getRentedBooks = async (setData, setLoading) => {
@@ -23,10 +26,13 @@ export const getRentedBooks = async (setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
+        if(response.status === 200 || response.status === 204){
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error);
+        console.log(error)
+        setLoading(false)
     }
 }
 
@@ -45,8 +51,9 @@ export const rentBook = async (data, setLoading, setSuccess) => {
         }
         setLoading(false)
     } catch (error) {
-        console.error(error);
+        console.log(error)
         setLoading(false)
+        setSuccess(false)
     }
 }
 
@@ -58,9 +65,12 @@ export const getUserRentedBooks = async (filter, setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
+        if (response.status === 200 || response.status === 204) {
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error);
+        console.log(error)
+        setLoading(false)
     }
 }

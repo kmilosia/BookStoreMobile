@@ -15,13 +15,11 @@ export const useAuthStore = create((set) => ({
                 const userToken = response.data
                 set({token: userToken})
                 await AsyncStorage.setItem('token', userToken)
-                console.log(userToken);
             }else{
                 set({error: 'Nieudane logowanie'})
             }
         }catch(e){
-            console.log(e);
-            set({error: 'Error podczas logowania'})
+            set({error: 'Błąd podczas logowania'})
         }
         set({loading: false})
     },
@@ -54,7 +52,6 @@ export const useAuthStore = create((set) => ({
             }
             setLoading(false)
         }catch(e){
-            console.log(e);
             setLoading(false)
             setSuccess(false)
         }

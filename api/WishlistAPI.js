@@ -9,11 +9,13 @@ export const getWishlist = async (data, setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
+        if (response.status === 200 || response.status === 204) {
         setData(response.data)
-        console.log(response.data);
+        }
         setLoading(false)
     } catch (error) {
-        console.error('Error wishlist:', error);
+        console.log(error)
+        setLoading(false)
     }
   }
   export const getWishlistGuid = async (setData) => {
@@ -24,9 +26,11 @@ export const getWishlist = async (data, setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
+        if (response.status === 200 || response.status === 204) {
         setData(response.data)
+        }
     } catch (error) {
-        console.error('Error guid:', error);
+        console.log(error)
     }
   }
   export const deleteWishlistItem = async (id) => {
@@ -39,7 +43,7 @@ export const getWishlist = async (data, setData, setLoading) => {
         })
         return response.data
     } catch (error) {
-        console.error(error)
+        console.log(error)
     }
   }
   export const addWishlistItem = async (id) => {
@@ -52,6 +56,6 @@ export const getWishlist = async (data, setData, setLoading) => {
         })
         return response.data
     } catch (error) {
-        console.error(error)
+        console.log(error)
     }
   }

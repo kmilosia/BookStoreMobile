@@ -35,7 +35,7 @@ export default function RecoverPasswordScreen ({navigation}) {
                     <Pressable onPress={() => Linking.openURL('https://gmail.com')} style={styles.primaryButton}>
                         <Text style={styles.primaryButtonText}>Przejdź do skrzynki</Text>
                     </Pressable>
-                    <Row marginTop={2}>
+                    <Row marginTop={2} alignItems='center'>
                         <Text color={COLORS.light} fontWeight={200} marginRight={1}>Nie dostałeś kodu?</Text>
                         {repeatSend ?
                             <Text fontSize={12} style={{color: COLORS.accent}}>Kod został ponownie wysłany</Text>

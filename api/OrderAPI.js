@@ -10,10 +10,12 @@ export const getUserOrders = async (filter,setData,setLoading) => {
               'Authorization': `Bearer ${userToken}`,
           },
         })
+        if (response.status === 200 || response.status === 204) {
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error)
+        console.log(error)
         setLoading(false)
     }
   }
@@ -25,10 +27,12 @@ export const getUserOrders = async (filter,setData,setLoading) => {
               'Authorization': `Bearer ${userToken}`,
           },
         })
+        if (response.status === 200 || response.status === 204) {
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error)
+        console.log(error)
         setLoading(false)
     }
   }
@@ -47,8 +51,9 @@ export const getUserOrders = async (filter,setData,setLoading) => {
         }
         setLoading(false)
     } catch (error) {
-        console.error(error)
+        console.log(error)
         setLoading(false)
+        setSuccess(false)
     }
   }
   const requestFileWritePermission = async () => {

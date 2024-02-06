@@ -4,18 +4,23 @@ import axiosClient from "../utils/axiosClient"
 export const getReviews = async (id,setData, setLoading) => {
     try{
         const response = await axiosClient.get(`/BookItemReview?bookItemId=${id}`)
+        if(response.status === 200 || response.status === 204){
         setData(response.data)
+        }
         setLoading(false)
     }catch(err){
-        console.error(err)
+        console.log(err)
+        setLoading(false)
     }
 }
 export const getReviewsByAmount = async (id, setData, number) => {
     try{
         const response = await axiosClient.get(`/BookItemReview?bookItemId=${id}&numberOfElements=${number}`)
+        if(response.status === 200 || response.status === 204){
         setData(response.data)
+        }
     }catch(err){
-        console.error(err)
+        console.log(err)
     }
 }
 export const addReview = async (data,setLoading, setSuccess) => {
@@ -36,5 +41,6 @@ export const addReview = async (data,setLoading, setSuccess) => {
     } catch (error) {
         console.log(error)
         setLoading(false)
+        setSuccess(false)
     }
   }

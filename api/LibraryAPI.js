@@ -9,9 +9,12 @@ export const getLibraryItems = async (id, setData, setLoading) => {
                 'Authorization': `Bearer ${userToken}`,
             },
         })
+        if (response.status === 200 || response.status === 204) {
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error);
+        console.log(error)
+        setLoading(false)
     }
 }

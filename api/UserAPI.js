@@ -1,20 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axiosClient from "../utils/axiosClient"
 
-export const recoverPassword = async (data, setLoading, setError, setEmailSent) => {
+export const recoverPassword = async (data, setLoading, setEmailSent) => {
     try{
       const response = await axiosClient.post('/Account/ForgotPassword', data)
       setLoading(false)
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 204){
         setEmailSent(true)
       }
       }catch(error){
-        if (error.response && error.response.status === 400) {
-            console.log(error.response.data)
-          } else {
-            console.log(error)
-          }
-          setLoading(false)
+      setLoading(false)
     }
   }
 
@@ -22,7 +17,7 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
     try{
       const response = await axiosClient.post('/Account/Register', data)
       setLoading(false)
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 204) {
         setRegistered(true)
       }else{
         setError("Błąd podczas tworzenia konta")
@@ -41,10 +36,13 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
               'Authorization': `Bearer ${userToken}`,
           },
         })
+        if(response.status === 200 || response.status === 204){
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error)
+        console.log(error)
+        setLoading(false)
     }
   }
   export const editUserData = async (data, setLoading,setSuccess) => {
@@ -62,8 +60,8 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
           setSuccess(false)
         }
     } catch (error) {
-        console.log(error)
-        setLoading(false)
+      setSuccess(false)
+      setLoading(false)
     }
   }
   export const changePassword = async (data, setLoading,setSuccess) => {
@@ -81,8 +79,8 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
         }
         setLoading(false)
     } catch (error) {
-        console.error(error)
-        setLoading(false)
+      setSuccess(false)
+      setLoading(false)
     }
   }
 
@@ -94,10 +92,11 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
               'Authorization': `Bearer ${userToken}`,
           },
         })
+        if(response.status === 200 || response.status === 204){
         setData(response.data)
+        }
         setLoading(false)
     } catch (error) {
-        console.error(error)
         setLoading(false)
     }
   }
@@ -116,7 +115,7 @@ export const recoverPassword = async (data, setLoading, setError, setEmailSent) 
         }
         setLoading(false)
     } catch (error) {
-        console.error(error)
-        setLoading(false)
+      setSuccess(false)
+      setLoading(false)
     }
   }
