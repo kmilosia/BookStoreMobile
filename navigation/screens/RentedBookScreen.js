@@ -1,12 +1,21 @@
-import { Image, Pressable } from "react-native";
+import { Image, Linking, Pressable } from "react-native";
 import { Column, Row, Text, View } from "native-base";
 import { COLORS } from "../../styles/constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { convertDateUser } from "../../utils/dateConverter";
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function RentedBookScreen({route,navigation}) {
     const item = route.params.item
+    const handleReadBook = async () => {
+        try{
+            const userToken = await AsyncStorage.getItem('token')
+            Linking.openURL(`http://192.168.1.15:3000/wyswietl-ksiazke?token=${userToken}&id=${item.id}`)
+        }catch(e){
+            console.log(e);
+        }
+    }
     return (
     <>
     <Row position='absolute' justifyContent='space-between' width='100%' top={12} paddingX={5} zIndex={100}>
@@ -20,7 +29,7 @@ export default function RentedBookScreen({route,navigation}) {
             <Text color='white' fontWeight={600} fontSize={30} lineHeight={32} textAlign='center' marginTop={6}>{item.bookTitle}</Text>  
             <Text color='white' fontSize={16} textAlign='center' fontWeight={600} marginY={2}>{item.fileFormatName}</Text>
             <Text color='white' textAlign='center' fontWeight={300} marginY={2}>Wypożyczenia ważne do: {item.expirationDate && convertDateUser(item.expirationDate)}</Text>
-            <Pressable style={{backgroundColor: COLORS.accent, borderRadius: 8, padding: 12, width: '90%',marginTop: 16}}>
+            <Pressable onPress={() => handleReadBook()} style={{backgroundColor: COLORS.accent, borderRadius: 8, padding: 12, width: '90%',marginTop: 16}}>
                 <Text textAlign='center' fontWeight={500} fontSize={16} color='white'>Czytaj książkę</Text>
             </Pressable>
             <Pressable onPress={() => navigation.navigate('ReviewBook', {item: item})} style={{backgroundColor: COLORS.accent, borderRadius: 8, padding: 12, width: '90%',marginTop: 16}}>

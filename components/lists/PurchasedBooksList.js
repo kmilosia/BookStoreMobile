@@ -14,9 +14,6 @@ export default function RentedBooksList () {
     useEffect(() => {
         getLibraryItems(2,setActiveBooks, setLoading)
     },[])
-    useEffect(() => {
-        console.log(activeBooks);
-    },[activeBooks])
     return (
         loading ? 
         <PageLoader />

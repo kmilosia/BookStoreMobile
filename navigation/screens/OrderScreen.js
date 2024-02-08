@@ -1,22 +1,18 @@
-import { ActivityIndicator, Image, Pressable, ScrollView } from "react-native";
+import { Image, Pressable, ScrollView,Linking } from "react-native";
 import PageLoader from "../../components/loaders/PageLoader";
 import { useEffect, useState } from "react";
-import { getInvoice,getPDF, getOrder } from "../../api/OrderAPI";
+import { getOrder } from "../../api/OrderAPI";
 import { Column, Row, Text, View } from "native-base";
 import { convertDateUser } from "../../utils/dateConverter";
 import { COLORS, styles } from "../../styles/constants";
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import { Buffer } from "buffer";
-import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function OrderScreen ({navigation, route}){
     const orderId = route.params.orderId
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
-    const [invoiceLoading, setInvoiceLoading] = useState(false)
-    const [invoice, setInvoice] = useState(null)
     const [showDetails, setShowDetails] = useState({
         orderDetails: false,
         paymentDetails: false,
@@ -27,8 +23,13 @@ export default function OrderScreen ({navigation, route}){
             getOrder(orderId,setData, setLoading)
         }
     },[orderId])
-    const handleGetInvoice = () => {
-        getInvoice(orderId)
+    const handleGetInvoice = async () => {
+        try{
+            const userToken = await AsyncStorage.getItem('token')
+            Linking.openURL(`http://192.168.1.15:3000/pobierz-fakture?token=${userToken}&id=${orderId}`)
+        }catch(e){
+            console.log(e);
+        }
     }
     return(
         loading ? <PageLoader/> :
@@ -134,8 +135,7 @@ export default function OrderScreen ({navigation, route}){
                     </Row>
                     </Column>
                     <Pressable onPress={() => handleGetInvoice()} style={[styles.primaryButton,{width: 'max', marginTop: 12}]}>
-                        {invoiceLoading ? <ActivityIndicator size='small' color='white' /> :
-                        <Text style={styles.primaryButtonText}>Pobierz fakturę</Text>}
+                        <Text style={styles.primaryButtonText}>Pobierz fakturę</Text>
                     </Pressable>
             </Column>
         </ScrollView>

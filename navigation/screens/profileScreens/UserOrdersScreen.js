@@ -10,7 +10,6 @@ export default function UserOrdersScreen ({navigation}) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const [filter, setFilter] = useState('')
-    const [selected, setSelected] = useState(null)
     useEffect(() => {
         getUserOrders(filter, setData, setLoading)
     },[filter])
