@@ -12,11 +12,12 @@ export default function UserAddressScreen ({navigation}) {
     const [userAddress, setUserAddress] = useState(null)
     const [loading, setLoading] = useState(false)
     const [isModal, setIsModal] = useState(false)
+    const [success, setSuccess] = useState(null)
     const [editedAddress, setEditedAddress] = useState(null)
     const [correctAddressIndex, setCorrectAddressIndex] = useState(null)
     useEffect(() => {
         getUserAddress(setUserAddress, setLoading)
-    },[isFocused])
+    },[success, isFocused])
     return(
         loading ? <PageLoader /> :
         <>
@@ -31,7 +32,7 @@ export default function UserAddressScreen ({navigation}) {
                                 <Text color={COLORS.light} fontWeight={300} fontSize={12}>Edytuj</Text>
                             </Pressable>
                             </Row>
-                            <Text color={COLORS.light}>{item.street} {item.streetNumber} {item.houseNumber}</Text>
+                            <Text color={COLORS.light}>{item.street} {item.streetNumber} {item.houseNumber && '/ ' + item.houseNumber}</Text>
                             <Text color={COLORS.light}>{item.postcode}, {item.cityName}</Text>
                             <Text color={COLORS.light}>{item.countryName}</Text>
                         </Column>
@@ -52,7 +53,7 @@ export default function UserAddressScreen ({navigation}) {
                     </View>
                 </View>
                 }
-                <EditUserAddressModal index={correctAddressIndex} isModal={isModal} setIsModal={setIsModal} editedAddress={editedAddress} setEditedAddress={setEditedAddress} setUserAddress={setUserAddress} userAddress={userAddress}/>
+                <EditUserAddressModal success={success} setSuccess={setSuccess} index={correctAddressIndex} isModal={isModal} setIsModal={setIsModal} editedAddress={editedAddress} setEditedAddress={setEditedAddress} setUserAddress={setUserAddress} userAddress={userAddress}/>
         </>
     )
 }

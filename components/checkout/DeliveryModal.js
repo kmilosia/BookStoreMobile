@@ -17,7 +17,7 @@ export default function DeliveryModal ({isDeliveryOpen, setIsDeliveryOpen,setSel
     useEffect(() => {
         if(data.length > 0){
             const newData = data.slice(1).map((item) => ({
-                label: item.name,
+                label: item.name + " - " + item.price + "zł",
                 value: item
             }))
             setCheckboxData(newData) 

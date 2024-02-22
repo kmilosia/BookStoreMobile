@@ -5,22 +5,31 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import { getPaymentMethods } from "../../api/DictionaryAPI";
 import RadioButtonRN from "radio-buttons-react-native";
-
+import useCartStore from "../../store/cartStore";
 
 export default function PaymentModal ({isPaymentOpen, setIsPaymentOpen,setSelectedPaymentMethod}){
     const [data, setData] = useState([])
     const [checkboxData, setCheckboxData] = useState([])
     const [selected, setSelected] = useState({})
     const [error, setError] = useState(null)
+    const isElectronicPurchase = useCartStore((state) => state.isElectronicPurchase)
     useEffect(() => {
         getPaymentMethods(setData)
     },[])
     useEffect(() => {
         if(data.length > 0){
-            const newData = data.map((item) => ({
-                label: item.name,
-                value: item.id
-            }))
+            let newData
+            if(isElectronicPurchase){
+                newData = data.slice(1).map((item) => ({
+                    label: item.name,
+                    value: item.id
+                }))
+            }else{
+                newData = data.map((item) => ({
+                    label: item.name,
+                    value: item.id
+                }))
+            }
             setCheckboxData(newData) 
         }
     },[data])

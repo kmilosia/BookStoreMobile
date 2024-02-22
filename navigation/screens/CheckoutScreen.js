@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import PageLoader from "../../components/loaders/PageLoader"
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet } from "react-native"
-import { Column, Row, Text, View } from "native-base"
+import { Column, Row, Text } from "native-base"
 import { COLORS, styles } from "../../styles/constants"
 import useCartStore from "../../store/cartStore"
 import { makeOrder } from "../../api/OrderAPI"
@@ -54,13 +54,12 @@ export default function CheckoutScreen ({navigation}) {
     }
     const finishSubmit = () => {
         setOrderLoading(true)
-        const data = {
+        let data = {
             deliveryMethodID: selectedDeliveryMethod.id,
             paymentMethodID: selectedPaymentMethod.id,
             invoiceAddress: {
                 street: invoiceAddress.street,
                 streetNumber: invoiceAddress.streetNumber,
-                houseNumber: invoiceAddress.houseNumber,
                 postcode: invoiceAddress.postcode,
                 cityID: invoiceAddress.cityID,
                 countryID: invoiceAddress.countryID,
@@ -71,6 +70,9 @@ export default function CheckoutScreen ({navigation}) {
                 quantity: item.quantity,
             }))
         }
+        if(invoiceAddress.houseNumber && invoiceAddress.houseNumber !== ''){
+            data.invoiceAddress.houseNumber = invoiceAddress.houseNumber
+        }
         if(discountData?.discountID){
             data.discountCodeID = discountData.discountID
         }
@@ -78,11 +80,13 @@ export default function CheckoutScreen ({navigation}) {
             data.deliveryAddress = {
                 street: deliveryAddress.street,
                 streetNumber: deliveryAddress.streetNumber,
-                houseNumber: deliveryAddress.houseNumber,
                 postcode: deliveryAddress.postcode,
                 cityID: deliveryAddress.cityID,
                 countryID: deliveryAddress.countryID,
                 addressTypeID: 4,
+            }
+            if(deliveryAddress.houseNumber && deliveryAddress.houseNumber !== ''){
+                data.deliveryAddress.houseNumber = deliveryAddress.houseNumber
             }
         }
         makeOrder(data, setOrderLoading,setSuccess)
@@ -209,7 +213,7 @@ export default function CheckoutScreen ({navigation}) {
                     </Row>
                     {Object.keys(invoiceAddress).length > 0 &&
                         <Column>
-                            <Text color={COLORS.light}>{invoiceAddress.street} {invoiceAddress.streetNumber}, {invoiceAddress.houseNumber}</Text>
+                            <Text color={COLORS.light}>{invoiceAddress.street} {invoiceAddress.streetNumber} {invoiceAddress.houseNumber && ', ' + invoiceAddress.houseNumber}</Text>
                             <Text color={COLORS.light}>{invoiceAddress.postcode}, {invoiceAddress.cityName}</Text>
                             <Text color={COLORS.light}>{invoiceAddress.countryName}</Text>
                         </Column>
@@ -232,7 +236,7 @@ export default function CheckoutScreen ({navigation}) {
                     </Row>
                     {Object.keys(deliveryAddress).length > 0 &&
                         <Column>
-                            <Text color={COLORS.light}>{deliveryAddress.street} {deliveryAddress.streetNumber}, {deliveryAddress.houseNumber}</Text>
+                            <Text color={COLORS.light}>{deliveryAddress.street} {deliveryAddress.streetNumber} {deliveryAddress.houseNumber && ', ' + deliveryAddress.houseNumber}</Text>
                             <Text color={COLORS.light}>{deliveryAddress.postcode}, {deliveryAddress.cityName}</Text>
                             <Text color={COLORS.light}>{deliveryAddress.countryName}</Text>
                         </Column>

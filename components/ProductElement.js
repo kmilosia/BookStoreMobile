@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Column, Image, Row, Text } from "native-base"
+import { AspectRatio, Column, Image, Row, Text } from "native-base"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { COLORS } from "../styles/constants";
 import { Pressable, StyleSheet } from "react-native";
@@ -36,7 +36,7 @@ export default function ProductElement ({item}) {
                 </Row>
                 <Row alignItems='center'>
                     <FontAwesome name='star' size={18} color='gold' />
-                    <Text color='white' marginLeft={1}>{item.score}</Text>
+                    <Text color='white' marginLeft={1}>{item.score != null ? (item.score % 1 === 0 ? item.score : item.score.toFixed(1)) : null}</Text>
                 </Row>
             </Row>
         </Column>

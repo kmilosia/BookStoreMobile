@@ -7,12 +7,11 @@ import { getCities } from "../api/DictionaryAPI";
 import { useMessageStore } from "../store/messageStore";
 import { changeUserAddress } from "../api/UserAPI";
 
-export default function EditUserAddressModal({isModal, setIsModal,editedAddress,setEditedAddress,userAddress,index}){
+export default function EditUserAddressModal({isModal, setIsModal,editedAddress,setEditedAddress,userAddress,index, success, setSuccess}){
     const setMessage = useMessageStore((state) => state.setMessage)
     const [errors, setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [success, setSuccess] = useState(null)
     const [cities, setCities] = useState([])
     const validate = (address) => {
         let errors = {}
@@ -21,9 +20,6 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
         }
         if (!address.streetNumber) {
             errors.streetNumber = "Wprowadź numer ulicy!"
-        }
-        if (!address.houseNumber) {
-            errors.houseNumber = "Wprowadź numer domu!"
         }
         if (!address.postcode) {
             errors.postcode = "Wprowadź kod pocztowy!"
@@ -46,42 +42,49 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
             data.address = {
                 street: editedAddress.street,
                 streetNumber: editedAddress.streetNumber,
-                houseNumber: editedAddress.houseNumber,
                 postcode: editedAddress.postcode,
                 cityID: editedAddress.cityID,
                 countryID: editedAddress.countryID,
                 addressTypeID: editedAddress.addressTypeID
             }
+            if(editedAddress.houseNumber && editedAddress.houseNumber !== ''){
+                data.address.houseNumber = editedAddress.houseNumber
+            }
             data.mailingAddress = {
                 street: userAddress[index].street,
                 streetNumber: userAddress[index].streetNumber,
-                houseNumber: userAddress[index].houseNumber,
                 postcode: userAddress[index].postcode,
                 cityID: userAddress[index].cityID,
                 countryID: userAddress[index].countryID,
                 addressTypeID: userAddress[index].addressTypeID
+            }
+            if(userAddress[index].houseNumber && userAddress[index].houseNumber !== ''){
+                data.mailingAddress.houseNumber = userAddress[index].houseNumber
             }
         }else{ 
             data.mailingAddress = {
                 street: editedAddress.street,
                 streetNumber: editedAddress.streetNumber,
-                houseNumber: editedAddress.houseNumber,
                 postcode: editedAddress.postcode,
                 cityID: editedAddress.cityID,
                 countryID: editedAddress.countryID,
                 addressTypeID: editedAddress.addressTypeID
             }
+            if(editedAddress.houseNumber && editedAddress.houseNumber !== ''){
+                data.mailingAddress.houseNumber = editedAddress.houseNumber
+            }
             data.address = {
                 street: userAddress[index].street,
                 streetNumber: userAddress[index].streetNumber,
-                houseNumber: userAddress[index].houseNumber,
                 postcode: userAddress[index].postcode,
                 cityID: userAddress[index].cityID,
                 countryID: userAddress[index].countryID,
                 addressTypeID: userAddress[index].addressTypeID
             }
+            if(userAddress[index].houseNumber && userAddress[index].houseNumber !== ''){
+                data.address.houseNumber = userAddress[index].houseNumber
+            }
         }
-        console.log(data);
         changeUserAddress(data,setLoading,setSuccess)
     }
     useEffect(() => {
@@ -119,7 +122,6 @@ export default function EditUserAddressModal({isModal, setIsModal,editedAddress,
                 <TextInput value={editedAddress.streetNumber} onChangeText={(text) => setEditedAddress({ ...editedAddress, streetNumber: text })} placeholder="Numer ulicy" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 {errors.streetNumber && <Text style={styles.errorText}>{errors.streetNumber}</Text>}
                 <TextInput value={editedAddress.houseNumber} onChangeText={(text) => setEditedAddress({ ...editedAddress, houseNumber: text })} placeholder="Numer domu" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
-                {errors.houseNumber && <Text style={styles.errorText}>{errors.houseNumber}</Text>}
                 <TextInput value={editedAddress.postcode} onChangeText={(text) => setEditedAddress({ ...editedAddress, postcode: text })} placeholder="Kod pocztowy" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 {errors.postcode && <Text style={styles.errorText}>{errors.postcode}</Text>}
                 <Select marginY={2} placeholderTextColor={COLORS.triary} color='white' fontSize={14} borderWidth={2} backgroundColor={COLORS.secondary} borderColor={COLORS.triary} borderRadius={10} flex={1} selectedValue={editedAddress?.cityID} width='100%' placeholder="Wybierz miasto" onValueChange={(value) => {setEditedAddress({ ...editedAddress, cityID: value })}}>

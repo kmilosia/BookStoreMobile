@@ -72,6 +72,7 @@ export const useAuthStore = create((set) => ({
             }
         }catch(e){
             console.log(e);
+            set({ token: null })
         }
         set({restoring: false})
     }

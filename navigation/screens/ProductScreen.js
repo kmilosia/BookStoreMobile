@@ -117,7 +117,7 @@ export default function ProductScreen ({route,navigation}) {
                     <Text color='white' fontWeight='light' fontSize={20}>{book.authors?.map((item)=> {return(item.name + " " + item.surname)})}</Text>
                     <Row alignItems='center' marginY={1}>
                         <FontAwesome name="star" size={20} color='gold'/>
-                        <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
+                        <Text color='white' marginLeft={1} fontSize={18}>{book.score != null ? (book.score % 1 === 0 ? book.score : book.score.toFixed(1)) : null}</Text>
                     </Row>
                     {book.availabilityId === 1 ?
                     <>

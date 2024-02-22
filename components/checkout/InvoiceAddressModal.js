@@ -34,11 +34,17 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
     },[])
     useEffect(() => {
         if(userAddress.length > 0){
-            const newData = userAddress.map((item) => ({
-                label: item.street + " " + item.streetNumber + "/" + item.houseNumber + " " + item.postcode + ", " + item.cityName + ", " + item.countryName ,
-                value: item
-            }))
-            setData(newData) 
+            const newData = userAddress.map((item) => {
+                let labelString = item.street + " " + item.streetNumber
+                if(item.houseNumber)
+                    labelString += "/" + item.houseNumber;
+                labelString += " " + item.postcode + ", " + item.cityName + ", " + item.countryName
+                return {
+                    label: labelString,
+                    value: item
+                };
+            }).filter(item => item.label.trim().length > 0)
+            setData(newData)
         }
     },[userAddress])
     const validate = (values) => {
@@ -48,9 +54,6 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
         }
         if (!values.streetNumber) {
             errors.streetNumber = "Wprowadź numer ulicy!"
-        }
-        if (!values.houseNumber) {
-            errors.houseNumber = "Wprowadź numer domu!"
         }
         if (!values.postcode) {
             errors.postcode = "Wprowadź kod pocztowy!"
@@ -68,7 +71,6 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
         setNewAddress({ ...newAddress,
             street: selected.value.street,
             streetNumber: selected.value.streetNumber,
-            houseNumber: selected.value.houseNumber,
             postcode: selected.value.postcode,
             cityID: selected.value.cityID,
             cityName: selected.value.cityName,
@@ -76,6 +78,9 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
             countryName: selected.value.countryName,
             addressTypeID: selected.value.addressTypeID, 
        })
+       if(selected.value.houseNumber && selected.value.houseNumber !== ''){
+        setNewAddress({...newAddress, houseNumber: selected.value.houseNumber})
+       }
     }
     const handleAccept = () => {
        setInvoiceAddress(newAddress)
@@ -123,7 +128,6 @@ export default function InvoiceAddressModal({isInvoiceAddressOpen, setIsInvoiceA
                 <TextInput value={newAddress.streetNumber} onChangeText={(text) => setNewAddress({ ...newAddress, streetNumber: text })} placeholder="Numer ulicy" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 {errors.streetNumber && <Text style={styles.errorText}>{errors.streetNumber}</Text>}
                 <TextInput value={newAddress.houseNumber} onChangeText={(text) => setNewAddress({ ...newAddress, houseNumber: text })} placeholder="Numer domu" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
-                {errors.houseNumber && <Text style={styles.errorText}>{errors.houseNumber}</Text>}
                 <TextInput value={newAddress.postcode} onChangeText={(text) => setNewAddress({ ...newAddress, postcode: text })} placeholder="Kod pocztowy" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 {errors.postcode && <Text style={styles.errorText}>{errors.postcode}</Text>}
                 <Select marginY={2} placeholderTextColor={COLORS.triary} color='white' fontSize={14} borderWidth={2} backgroundColor={COLORS.secondary} borderColor={COLORS.triary} borderRadius={10} flex={1} selectedValue={newAddress.cityID} width='100%' placeholder="Wybierz miasto" onValueChange={(value) => {let result = cities.find((item) => item.id === value);setNewAddress({ ...newAddress, cityID: value, cityName: result.name })}}>

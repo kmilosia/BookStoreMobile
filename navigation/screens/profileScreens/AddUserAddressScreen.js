@@ -46,9 +46,6 @@ export default function AddUserAddressScreen ({navigation}) {
         if (!address.streetNumber) {
             errors.streetNumber = "Wprowadź numer ulicy!"
         }
-        if (!address.houseNumber) {
-            errors.houseNumber = "Wprowadź numer domu!"
-        }
         if (!address.postcode) {
             errors.postcode = "Wprowadź kod pocztowy!"
         }
@@ -60,9 +57,6 @@ export default function AddUserAddressScreen ({navigation}) {
         }
         if (!mailingAddress.streetNumber && !isSame) {
             errors.mailingStreetNumber = "Wprowadź numer ulicy!"
-        }
-        if (!mailingAddress.houseNumber && !isSame) {
-            errors.mailingHouseNumber = "Wprowadź numer domu!"
         }
         if (!mailingAddress.postcode && !isSame) {
             errors.mailingPostcode = "Wprowadź kod pocztowy!"
@@ -77,30 +71,33 @@ export default function AddUserAddressScreen ({navigation}) {
         setSubmitting(true)
     }
     const finishSubmit = () => {
-        const data = {
+        let data = {
             address: {
                 street: address.street,
                 streetNumber: address.streetNumber,
-                houseNumber: address.houseNumber,
                 postcode: address.postcode,
                 cityID: address.cityID,
                 countryID: address.countryID,
                 addressTypeID: 1
             }
         }
+        if(address.houseNumber && address.houseNumber !== ''){
+            data.address.houseNumber = address.houseNumber
+        }
         if(!isSame){
             let newAddress = {
                 street: mailingAddress.street,
                 streetNumber: mailingAddress.streetNumber,
-                houseNumber: mailingAddress.houseNumber,
                 postcode: mailingAddress.postcode,
                 cityID: mailingAddress.cityID,
                 countryID: mailingAddress.countryID,
                 addressTypeID: 2
             }
             data.mailingAddress =  newAddress
+            if(mailingAddress.houseNumber && mailingAddress.houseNumber !== ''){
+                data.mailingAddress.houseNumber = mailingAddress.houseNumber
+            }
         }
-        console.log(data);
         changeUserAddress(data,setLoading,setSuccess)
     }
     useEffect(() => {
@@ -125,7 +122,6 @@ export default function AddUserAddressScreen ({navigation}) {
                 <TextInput value={address.streetNumber} onChangeText={(text) => setAddress({ ...address, streetNumber: text })} placeholder="Numer ulicy" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 {errors.streetNumber && <Text style={styles.errorText}>{errors.streetNumber}</Text>}
                 <TextInput value={address.houseNumber} onChangeText={(text) => setAddress({ ...address, houseNumber: text })} placeholder="Numer domu" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
-                {errors.houseNumber && <Text style={styles.errorText}>{errors.houseNumber}</Text>}
                 <TextInput value={address.postcode} onChangeText={(text) => setAddress({ ...address, postcode: text })} placeholder="Kod pocztowy" style={styles.inputStyle} placeholderTextColor={COLORS.triary}/>
                 {errors.postcode && <Text style={styles.errorText}>{errors.postcode}</Text>}
                 <Select marginY={2} placeholderTextColor={COLORS.triary} color='white' fontSize={14} borderWidth={2} backgroundColor={COLORS.secondary} borderColor={COLORS.triary} borderRadius={10} flex={1} selectedValue={address.cityID} width='100%' placeholder="Wybierz miasto" onValueChange={(value) => {setAddress({ ...address, cityID: value })}}>

@@ -52,7 +52,8 @@ export default function UserOrdersScreen ({navigation}) {
                     return(
                         <Pressable key={index} onPress={() => navigation.navigate('Order', {orderId: item.id})}>
                         <Column padding={5} borderWidth={2} borderColor={COLORS.border} marginBottom={3} borderRadius={8}>
-                            <Text color={COLORS.light} fontWeight={300} fontSize={12} marginBottom={4}>Zamówienie o numerze {item.id} z dnia {item.orderDate && convertDateUser(item.orderDate)}</Text>
+                            <Text color="white" fontWeight={500} fontSize={16} marginBottom={0}>Zamówienie  #{item.id}</Text>
+                            <Text color={COLORS.light} fontWeight={300} fontSize={12} marginBottom={4}>Data zamówienia {item.orderDate && convertDateUser(item.orderDate)}</Text>
                             {item.orderItems.map((book,index) => {
                                 return(
                                     <Row key={index} marginTop={index > 0 ? 5 : 0} borderTopWidth={index > 0 ? 1 : 0} paddingTop={index > 0 ? 4 : 0} borderTopColor={COLORS.border}>

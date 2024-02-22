@@ -33,7 +33,7 @@ export default function RentScreen({route, navigation}) {
     useEffect(() => {
         if(rentalTypes.length > 0){
             const newData = rentalTypes.map((item) => ({
-                label: item.name,
+                label: item.name + " - " + item.price + "zł",
                 value: item.id
             }))
             setRentalData(newData) 
@@ -96,7 +96,7 @@ export default function RentScreen({route, navigation}) {
                         <Text color='white' fontWeight={300}>{book.authors?.map((item) => {return (item.name + " " + item.surname)})}</Text>
                         <Row alignItems='center' marginBottom={2}>
                                 <FontAwesome name="star" size={20} color='gold'/>
-                                <Text color='white' marginLeft={1} fontSize={18}>{book.score}</Text>
+                                <Text color='white' marginLeft={1} fontSize={18}>{book.score != null ? (book.score % 1 === 0 ? book.score : book.score.toFixed(1)) : null}</Text>
                         </Row>   
                         <Text color='white' marginTop='auto' fontSize={16} fontWeight={600}>{book.fileFormatName}</Text>
                         </Column>

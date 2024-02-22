@@ -8,7 +8,7 @@ export default function ProductScore ({score,scoreValues}){
     return(
         <Column width='100%' alignItems='center' justifyContent='center' padding={0}>
             <Row alignItems='center'>
-                <Text fontSize={40} color='white' marginRight={2}>{score}</Text>
+                <Text fontSize={40} color='white' marginRight={2}>{score != null ? (score % 1 === 0 ? score : score.toFixed(1)) : null}</Text>
                 <FontAwesome name='star' size={40} color='gold' />
             </Row>
             <Text fontSize={16} color='white' marginRight={2}>Średnia ocen z {quantity} recenzji</Text>

@@ -116,9 +116,10 @@ export default function OrderScreen ({navigation, route}){
                                     <Text color='white' fontWeight={600} fontSize={16}>{item.bookTitle}</Text>
                                     <Text color='white' fontWeight={600} fontSize={12}>{item.formName === 'Book' ? 'Książka' : 'Ebook'}</Text>
                                     <Column marginTop='auto' width='100%'>
+                                        {data.payment.transactionStatus.id === 2 &&
                                         <Pressable onPress={(e) => {e.stopPropagation();navigation.navigate('ReviewBook', {item: item})}} style={{alignSelf: 'flex-end', marginBottom: 4}}>
                                             <Text style={{color: COLORS.accent, fontWeight: 500}}>Oceń książkę</Text>
-                                        </Pressable>
+                                        </Pressable>}
                                         <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='baseline'>
                                             <Text color='white' fontWeight={600} fontSize={14}>{item.quantity} x {item.bruttoPrice}zł</Text>
                                             <Text color='white' fontWeight={600} fontSize={16}>{item.totalBruttoPrice}zł</Text>
@@ -134,9 +135,10 @@ export default function OrderScreen ({navigation, route}){
                     <Text color={COLORS.light} fontSize={18} fontWeight={600}>{data.totalBruttoPrice?.toFixed(2)}zł</Text>
                     </Row>
                     </Column>
+                    {data.orderStatus.id === 2 &&
                     <Pressable onPress={() => handleGetInvoice()} style={[styles.primaryButton,{width: 'max', marginTop: 12}]}>
                         <Text style={styles.primaryButtonText}>Pobierz fakturę</Text>
-                    </Pressable>
+                    </Pressable>}
             </Column>
         </ScrollView>
     )

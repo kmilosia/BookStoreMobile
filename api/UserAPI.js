@@ -95,10 +95,10 @@ export const recoverPassword = async (data, setLoading, setEmailSent) => {
         if(response.status === 200 || response.status === 204){
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
-        setLoading(false)
+      console.log(error);
     }
+    setLoading(false)
   }
   export const changeUserAddress = async (data,setLoading, setSuccess) => {
     try {

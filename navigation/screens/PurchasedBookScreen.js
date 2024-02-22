@@ -10,7 +10,7 @@ export default function PurchasedBookScreen({route,navigation}) {
     const handleDownloadBook = async () => {
         try{
             const userToken = await AsyncStorage.getItem('token')
-            Linking.openURL(`http://192.168.1.15:3000/pobierz-ksiazke?token=${userToken}&id=${item.id}`)
+            Linking.openURL(`http://192.168.1.14:3000/pobierz-ksiazke?token=${userToken}&id=${item.id}`)
         }catch(e){
             console.log(e);
         }
@@ -18,7 +18,7 @@ export default function PurchasedBookScreen({route,navigation}) {
     const handleReadBook = async () => {
         try{
             const userToken = await AsyncStorage.getItem('token')
-            Linking.openURL(`http://192.168.1.15:3000/wyswietl-ksiazke?token=${userToken}&id=${item.id}`)
+            Linking.openURL(`http://192.168.1.14:3000/wyswietl-ksiazke?token=${userToken}&id=${item.id}`)
         }catch(e){
             console.log(e);
         }

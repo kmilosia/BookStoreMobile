@@ -12,11 +12,10 @@ export const getUserOrders = async (filter,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
   }
   export const getOrder = async (id, setData,setLoading) => {
     try {
@@ -29,11 +28,10 @@ export const getUserOrders = async (filter,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
   }
   export const makeOrder = async (data,setLoading, setSuccess) => {
     try {
@@ -48,10 +46,9 @@ export const getUserOrders = async (filter,setData,setLoading) => {
         }else{
             setSuccess(false)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
         setSuccess(false)
     }
+    setLoading(false)
   }
