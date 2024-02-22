@@ -19,7 +19,7 @@ export default function NewsDetailsScreen ({route}){
             <Column width='100%' bg={COLORS.primary}>
                 {Object.keys(news).length > 0 &&
                 <>
-                <Image style={{width: '100%', objectFit: 'cover'}} height={100} source={{uri: news.imageURL}} alt={news.imageTitle}/>
+                <Image style={{width: '100%', objectFit: 'cover'}} height={200} source={{uri: news.imageURL}} alt={news.imageTitle}/>
                 <Column padding={3}>
                     <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center' marginBottom={3}>
                         <Text color={COLORS.accent} fontWeight={500}>{news.authorName}</Text>

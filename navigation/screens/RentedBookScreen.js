@@ -28,7 +28,7 @@ export default function RentedBookScreen({route,navigation}) {
             <Image height={400} width={280} style={{borderRadius: 8}} source={{uri: item.imageURL}} alt="Okładka książki" /> 
             <Text color='white' fontWeight={600} fontSize={30} lineHeight={32} textAlign='center' marginTop={6}>{item.bookTitle}</Text>  
             <Text color='white' fontSize={16} textAlign='center' fontWeight={600} marginY={2}>{item.fileFormatName}</Text>
-            <Text color='white' textAlign='center' fontWeight={300} marginY={2}>Wypożyczenia ważne do: {item.expirationDate && convertDateUser(item.expirationDate)}</Text>
+            <Text color='white' textAlign='center' fontWeight={300} marginY={2}>Wypożyczenia ważne do: {item.expiryDate && convertDateUser(item.expiryDate)}</Text>
             <Pressable onPress={() => handleReadBook()} style={{backgroundColor: COLORS.accent, borderRadius: 8, padding: 12, width: '90%',marginTop: 16}}>
                 <Text textAlign='center' fontWeight={500} fontSize={16} color='white'>Czytaj książkę</Text>
             </Pressable>

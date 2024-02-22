@@ -39,7 +39,7 @@ export default function RentScreen({route, navigation}) {
             setRentalData(newData) 
         }
         if(paymentMethods.length > 0){
-            const newData = paymentMethods.map((item) => ({
+            const newData = paymentMethods.slice(1).map((item) => ({
                 label: item.name,
                 value: item.id
             }))
