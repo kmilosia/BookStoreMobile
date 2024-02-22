@@ -8,9 +8,8 @@ export const restoreDiscountCode = async (data, setLoading, setError,setData) =>
       }else{
         setError("Niepoprawny kod rabatowy")
       }
-      setLoading(false)
       }catch(e){
         setError("Niepoprawny kod rabatowy")
-        setLoading(false)
     }
+    setLoading(false)
   }

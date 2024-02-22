@@ -7,11 +7,10 @@ export const getReviews = async (id,setData, setLoading) => {
         if(response.status === 200 || response.status === 204){
         setData(response.data)
         }
-        setLoading(false)
     }catch(err){
         console.log(err)
-        setLoading(false)
     }
+    setLoading(false)
 }
 export const getReviewsByAmount = async (id, setData, number) => {
     try{
@@ -32,7 +31,6 @@ export const addReview = async (data,setLoading, setSuccess) => {
               'Authorization': `Bearer ${userToken}`,
           },
         })
-        setLoading(false)
         if(response.status === 200 || response.status === 204){
           setSuccess(true)
         }else{
@@ -40,7 +38,7 @@ export const addReview = async (data,setLoading, setSuccess) => {
         }
     } catch (error) {
         console.log(error)
-        setLoading(false)
         setSuccess(false)
     }
+    setLoading(false)
   }

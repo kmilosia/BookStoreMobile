@@ -12,11 +12,10 @@ export const getPurchasedBooks = async (setData, setLoading) => {
         if(response.status === 200 || response.status === 204){
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
 }
 export const getRentedBooks = async (setData, setLoading) => {
     try {
@@ -29,11 +28,10 @@ export const getRentedBooks = async (setData, setLoading) => {
         if(response.status === 200 || response.status === 204){
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
 }
 
 export const rentBook = async (data, setLoading, setSuccess) => {
@@ -49,12 +47,11 @@ export const rentBook = async (data, setLoading, setSuccess) => {
         }else{
             setSuccess(false)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
         setSuccess(false)
     }
+    setLoading(false)
 }
 
 export const getUserRentedBooks = async (filter, setData, setLoading) => {
@@ -68,9 +65,8 @@ export const getUserRentedBooks = async (filter, setData, setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
 }

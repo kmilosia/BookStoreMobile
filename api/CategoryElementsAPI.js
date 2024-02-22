@@ -6,9 +6,8 @@ export const getCategoryElements = async (setData, setLoading) => {
       if (response.status === 200 || response.status === 204) {
       setData(response.data)
       }
-      setLoading(false)
     } catch (err) {
       console.log(err)
-      setLoading(false)
     }
+    setLoading(false)
   }

@@ -16,11 +16,10 @@ export const getNews = async (setData) => {
       if (response.status === 200 || response.status === 204) {
       setData(response.data)
       }
-      setLoading(false)
     } catch (e) {
       console.log(e)
-      setLoading(false)
     }
+    setLoading(false)
   }
   export const getNewsDetails = async (id,setData, setLoading) => {
     try {
@@ -28,9 +27,8 @@ export const getNews = async (setData) => {
       if (response.status === 200 || response.status === 204) {
       setData(response.data)
       }
-      setLoading(false)
     } catch (e) {
       console.log(e)
-      setLoading(false)
     }
+    setLoading(false)
   }

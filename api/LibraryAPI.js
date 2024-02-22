@@ -10,12 +10,10 @@ export const getLibraryItems = async (id, setData, setLoading) => {
             },
         })
         if (response.status === 200 || response.status === 204) {
-            console.log(response.data)
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
 }

@@ -12,11 +12,10 @@ export const getWishlist = async (data, setData, setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     } catch (error) {
         console.log(error)
-        setLoading(false)
     }
+    setLoading(false)
   }
   export const getWishlistGuid = async (setData) => {
     try {

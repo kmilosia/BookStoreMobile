@@ -7,11 +7,10 @@ export const getSearchResults = async (search,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     }catch(err){
         console.log(err)
-        setLoading(false)
     }
+    setLoading(false)
   }
 
   export const getBooksByCategory = async (id,setData,setLoading) => {
@@ -20,11 +19,10 @@ export const getSearchResults = async (search,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     }catch(err){
-        setLoading(false)
         console.log(err)
     }
+    setLoading(false)
   }
   export const getAllBooks = async (setBooks,setLoading) => {
     try{
@@ -32,11 +30,10 @@ export const getSearchResults = async (search,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setBooks(response.data)
         }
-        setLoading(false)
     }catch(err){
         console.log(err)
-        setLoading(false)
     }
+    setLoading(false)
   }
   export const getSortedBooks = async (setBooks,setLoading, sorting) => {
     try{
@@ -44,11 +41,10 @@ export const getSearchResults = async (search,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setBooks(response.data)
         }
-        setLoading(false)
     }catch(err){
         console.log(err)
-        setLoading(false)
     }
+    setLoading(false)
   }
   export const getSortedAndFilteredBooks = async (setBooks,setLoading, sorting, filter) => {
     try{
@@ -56,11 +52,10 @@ export const getSearchResults = async (search,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setBooks(response.data)
         }
-        setLoading(false)
     }catch(err){
         console.log(err)
-        setLoading(false)
     }
+    setLoading(false)
   }
   export const getBookDetails = async (id, setData, setLoading) => {
     try{
@@ -73,11 +68,10 @@ export const getSearchResults = async (search,setData,setLoading) => {
         if (response.status === 200 || response.status === 204) {
         setData(response.data)
         }
-        setLoading(false)
     }catch(err){
         console.log(err)
-        setLoading(false)
     }
+    setLoading(false)
 }
 export const getBooksByBookId = async (id, setData) => {
     try{
