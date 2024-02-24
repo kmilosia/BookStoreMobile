@@ -34,6 +34,7 @@ export default function CheckoutScreen ({navigation}) {
     const [isInvoiceAddressOpen, setIsInvoiceAddressOpen] = useState(false)
     const [isDeliveryAddressOpen, setIsDeliveryAddressOpen] = useState(false)
     const [discountData, setDiscountData] = useState(null)
+
     useEffect(() => {
         returnCart(setCart, setLoading)
         if(isElectronicPurchase){

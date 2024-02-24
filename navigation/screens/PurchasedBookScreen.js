@@ -4,13 +4,14 @@ import { COLORS } from "../../styles/constants";
 import { LinearGradient } from "expo-linear-gradient";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { websiteURL } from "../../utils/baseURL";
 
 export default function PurchasedBookScreen({route,navigation}) {
     const item = route.params.item
     const handleDownloadBook = async () => {
         try{
             const userToken = await AsyncStorage.getItem('token')
-            Linking.openURL(`http://192.168.1.14:3000/pobierz-ksiazke?token=${userToken}&id=${item.id}`)
+            Linking.openURL(`${websiteURL}/pobierz-ksiazke?token=${userToken}&id=${item.id}`)
         }catch(e){
             console.log(e);
         }
@@ -18,7 +19,7 @@ export default function PurchasedBookScreen({route,navigation}) {
     const handleReadBook = async () => {
         try{
             const userToken = await AsyncStorage.getItem('token')
-            Linking.openURL(`http://192.168.1.14:3000/wyswietl-ksiazke?token=${userToken}&id=${item.id}`)
+            Linking.openURL(`${websiteURL}/wyswietl-ksiazke?token=${userToken}&id=${item.id}`)
         }catch(e){
             console.log(e);
         }

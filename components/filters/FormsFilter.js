@@ -44,7 +44,7 @@ export default function FormsFilter({filtersOpen,setFiltersOpen, filterElements,
                         size={20}
                         fillColor={COLORS.accent}
                         unfillColor="#ffffff"
-                        text={item.name}
+                        text={item.name === 'Book' ? 'Książka' : 'Ebook'}
                         marginBottom={8}
                         textStyle={{
                             color: 'white',

@@ -7,6 +7,7 @@ import { convertDateUser } from "../../utils/dateConverter";
 import { COLORS, styles } from "../../styles/constants";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { websiteURL } from "../../utils/baseURL";
 
 
 export default function OrderScreen ({navigation, route}){
@@ -26,7 +27,7 @@ export default function OrderScreen ({navigation, route}){
     const handleGetInvoice = async () => {
         try{
             const userToken = await AsyncStorage.getItem('token')
-            Linking.openURL(`http://192.168.1.15:3000/pobierz-fakture?token=${userToken}&id=${orderId}`)
+            Linking.openURL(`${websiteURL}/pobierz-fakture?token=${userToken}&id=${orderId}`)
         }catch(e){
             console.log(e);
         }

@@ -1,6 +1,7 @@
 import axios from "axios"
+import { baseURL } from "./baseURL"
 
 const axiosClient = axios.create({
-    baseURL: `http://192.168.1.14:7247/api`,
+    baseURL: `${baseURL}/api`,
   })   
   export default axiosClient

@@ -69,7 +69,7 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
         setSubmitting(true)
     }
     const handleCheckbox = (selected) => {
-        setNewAddress({ ...newAddress,
+        let updatedAddress = { ...newAddress,
             street: selected.value.street,
             streetNumber: selected.value.streetNumber,
             postcode: selected.value.postcode,
@@ -77,11 +77,12 @@ export default function CheckoutAddressModal({isDeliveryAddressOpen,setIsDeliver
             cityName: selected.value.cityName,
             countryID: selected.value.countryID,
             countryName: selected.value.countryName,
-            addressTypeID: selected.value.addressTypeID, 
-       })
-       if(selected.value.houseNumber && selected.value.houseNumber !== ''){
-        setNewAddress({...newAddress, houseNumber: selected.value.houseNumber})
-       }
+            addressTypeID: selected.value.addressTypeID
+        }
+        if (selected.value.houseNumber && selected.value.houseNumber !== '') {
+            updatedAddress = { ...updatedAddress, houseNumber: selected.value.houseNumber }
+        }
+        setNewAddress(updatedAddress)
     }
     const handleAccept = () => {
        setDeliveryAddress(newAddress)
