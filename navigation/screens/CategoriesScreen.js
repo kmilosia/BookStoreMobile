@@ -26,7 +26,7 @@ export default function CategoriesScreen ({navigation}) {
                                 <AspectRatio ratio={1/1} width='100%'>
                                     <Image source={{uri: item.logo}} rounded='lg' alt='Category Image' />
                                 </AspectRatio>
-                                <Text fontWeight='bold' fontSize={20} marginTop={2} color='white'>{item.categoryName}</Text>
+                                <Text fontWeight='bold' textAlign='center' fontSize={20} marginTop={2} color='white'>{item.categoryName}</Text>
                             </Column>
                         </Pressable>
                     )
