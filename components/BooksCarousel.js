@@ -25,7 +25,7 @@ export default function BooksCarousel ({id}){
                 <Text color="white">{item.formName === 1 ? 'Książka' : 'Ebook'}</Text>
                     <Row alignItems='center' marginY={1}>
                         <FontAwesome name="star" size={20} color='gold'/>
-                        <Text color='white' marginLeft={1} fontSize={18}>{item.score}</Text>
+                        <Text color='white' marginLeft={1} fontSize={18}>{item.score != null ? (item.score % 1 === 0 ? item.score : item.score.toFixed(1)) : null}</Text>
                     </Row>
                 </Row>
               </Column>

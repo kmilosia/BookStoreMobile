@@ -3,7 +3,7 @@ import { Image, Pressable, StyleSheet } from "react-native"
 import IonIcons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { COLORS } from "../styles/constants"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { addWishlistItem } from "../api/WishlistAPI"
 import { useMessageStore } from "../store/messageStore"
 import useCartStore from "../store/cartStore"
