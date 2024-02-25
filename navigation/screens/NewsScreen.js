@@ -79,7 +79,7 @@ export default function NewsScreen ({navigation}){
                     return (
                         <Pressable key={index} onPress={() => navigation.navigate('NewsDetails', {id: item.id})}>
                         <View width='100%' marginBottom={4} height={200} position='relative' style={{borderRadius: 8}}>
-                            <Image style={{position: 'absolute', zIndex: 10, borderRadius: 8 }} width='100%' height={200} source={{uri: item.imageURL}} alt={item.imageTitle}/>
+                            <Image style={{position: 'absolute', zIndex: 10, borderRadius: 8, width: '100%' }} height={200} source={{uri: item.imageURL}} alt={item.imageTitle}/>
                             <LinearGradient style={{position: 'absolute', zIndex: 20, width: '100%', height: 200, borderRadius: 8 }} colors={['#ffffff00', '#000']}/>
                             <Row zIndex={30} justifyContent='flex-start' alignItems='flex-end' width='100%' height={200} padding={4}>
                                 <Text color='white' fontSize={16} fontWeight={500} >{item.topic}</Text>

@@ -25,7 +25,6 @@ export const getReviewsByAmount = async (id, setData, number) => {
 export const addReview = async (data,setLoading, setSuccess) => {
     try {
         const userToken = await AsyncStorage.getItem('token');
-        console.log(userToken);
         const response = await axiosClient.post(`/BookItemReview`,data, {
           headers: {
               'Authorization': `Bearer ${userToken}`,

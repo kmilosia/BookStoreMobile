@@ -42,7 +42,11 @@ export default function ReviewBookScreen({route,navigation}) {
     }
     useEffect(() => {
         if(success){
-            setMessage({value: "Dodano nową recenzję książki!", type: 'success', bool: true})
+            if(editReview){
+                setMessage({value: "Recenzja została edytowana!", type: 'success', bool: true})
+            }else{
+                setMessage({value: "Pomyślnie dodano recenzję książki!", type: 'success', bool: true})
+            }
             navigation.goBack()
         }else if(success === false){
             setMessage({value: "Błąd podczas dodawania recenzji!", type: 'error', bool: true})

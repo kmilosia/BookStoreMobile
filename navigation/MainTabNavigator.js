@@ -49,7 +49,7 @@ export default function MainTabNavigator() {
         })}
         >
         <Tab.Screen options={{ headerStyle: {backgroundColor: COLORS.primary}, headerTitleStyle: {color: 'white'},headerTintColor: 'white', headerTitle: (props) => <HomeHeader {...props} />}} name="Home" component={HomeScreen} />
-        <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Książki" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Products" component={ProductListScreen} />
+        <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Produkty" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Products" component={ProductListScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Biblioteka" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Library" component={LibraryScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Lista życzeń" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Wishlist" component={WishlistScreen} />
         <Tab.Screen options={{headerTitle: (props) => <TabHeader {...props} title="Koszyk" />, headerStyle: {backgroundColor: COLORS.primary},headerTitleStyle: {color: 'white'}}} name="Cart" component={CartScreen} />
