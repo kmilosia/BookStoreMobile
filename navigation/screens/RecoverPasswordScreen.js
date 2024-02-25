@@ -2,7 +2,7 @@ import { Box, Column, Row, Text, View } from "native-base";
 import { ActivityIndicator, Linking, ScrollView, TextInput } from "react-native";
 import { COLORS, screenHeight, styles } from "../../styles/constants";
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { recoverPassword } from "../../api/UserAPI";
 import { Pressable } from "react-native";
 
@@ -15,7 +15,7 @@ export default function RecoverPasswordScreen ({navigation}) {
     const submitEmail = () => {
         setLoading(true)
         if (email !== '' && /\S+@\S+\.\S+/.test(email)) {
-        recoverPassword({email: email},setLoading, setError,setEmailSent)
+        recoverPassword({email: email},setLoading,setEmailSent)
         }else{
             setError("Email jest nieprawidłowy!")
             setLoading(false)

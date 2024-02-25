@@ -44,8 +44,15 @@ export default function EditUserDataScreen ({navigation}){
     }
     useEffect(() => {
         if(Object.keys(errors).length === 0 && submitting){
+            const userDetails = {
+                name: data.name, 
+                surname: data.surname,
+                email: data.email,
+                username: data.username,
+                phoneNumber: data.phoneNumber
+            }
             setSubmitLoading(true)
-            editUserData(data, setSubmitLoading, setSuccess)
+            editUserData(userDetails, setSubmitLoading, setSuccess)
         }
     },[errors])
     useEffect(() => {

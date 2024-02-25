@@ -57,6 +57,7 @@ export const recoverPassword = async (data, setLoading, setEmailSent) => {
           setSuccess(false)
         }
     } catch (error) {
+      console.log(error);
       setSuccess(false)
     }
     setLoading(false)

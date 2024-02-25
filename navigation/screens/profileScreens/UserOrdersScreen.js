@@ -33,8 +33,6 @@ export default function UserOrdersScreen ({navigation}) {
     return(
         loading ? <PageLoader /> :
         <>
-        {data?.length > 0 ?
-        <>
         <ScrollView>
             <Column padding={3}>
                 <Row justifyContent='space-between' marginBottom={3}>
@@ -48,7 +46,8 @@ export default function UserOrdersScreen ({navigation}) {
                         <Text style={styles.buttonText}>Zakończone</Text>
                     </Pressable>
                 </Row>
-                {data?.map((item,index) => {
+                {data?.length > 0 ?
+                data.map((item,index) => {
                     return(
                         <Pressable key={index} onPress={() => navigation.navigate('Order', {orderId: item.id})}>
                         <Column padding={5} borderWidth={2} borderColor={COLORS.border} marginBottom={3} borderRadius={8}>
@@ -60,7 +59,7 @@ export default function UserOrdersScreen ({navigation}) {
                                         <Image source={{uri: book.imageURL}} width={80} height={120} style={{borderRadius: 8}}/>
                                         <Column marginLeft={3} flexGrow={1} flex={1}>
                                             <Text color='white' fontWeight={600} fontSize={16}>{book.bookTitle}</Text>
-                                            <Text color='white' fontWeight={300} fontSize={14}>{book.formName}</Text>
+                                            <Text color='white' fontWeight={300} fontSize={14}>{book.formName === 'Book' ? 'Książka' : 'Ebook'}</Text>
                                             <Text marginTop='auto' color='white' fontWeight={600} fontSize={14}>{book.quantity} x {book.totalBruttoPrice}zł</Text>
                                         </Column>
                                     </Row>
@@ -69,10 +68,7 @@ export default function UserOrdersScreen ({navigation}) {
                         </Column>
                         </Pressable>
                     )
-                })}
-            </Column>
-        </ScrollView>
-        </>
+                })
         :
         <View height='100%'>
             <Center height='100%' padding={5}>
@@ -82,6 +78,8 @@ export default function UserOrdersScreen ({navigation}) {
             </Center>
         </View>
         }
+        </Column>
+    </ScrollView>
 </>
     )
 }

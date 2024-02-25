@@ -95,7 +95,7 @@ export default function OrderScreen ({navigation, route}){
                     <Column paddingX={4} paddingBottom={4}>
                         <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center' marginY={1}>
                             <Text color='white' fontWeight={300} fontSize={14}>Sposób dostawy</Text>
-                            <Text color='white' fontWeight={500} fontSize={14}>{data.deliveryMethod.name}</Text>
+                            <Text maxWidth='50%' color='white' fontWeight={500} fontSize={14} flexWrap='wrap'>{data.deliveryMethod.name}</Text>
                         </Row>
                         <Row width='100%' maxWidth='100%' justifyContent='space-between' alignItems='center' marginY={1}>
                             <Text color='white' fontWeight={300} fontSize={14}>Cena za dostawę</Text>

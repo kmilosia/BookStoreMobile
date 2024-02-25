@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Column, Image, Pressable, Row, Text, View } from 'native-base';
 import { COLORS, screenHeight, styles } from "../../styles/constants";
-import { TextInput,ScrollView,ActivityIndicator } from 'react-native';
+import { TextInput,ScrollView,ActivityIndicator, Linking } from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { signUp } from '../../api/UserAPI';
