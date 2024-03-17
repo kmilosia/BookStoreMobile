@@ -13,8 +13,10 @@ Application is a frontend application, integrating with API interface whose auth
 ## Application's Description
 Main purpose of the application is to move an ecommerce website to a mobile solution. Functionalities of the book store are the same as web application. User can make purchases by ordering books and ebooks, rent ebooks for a limited time and surf through the products' catalog.
 
-## Screenshots
+## Movie presenting the project
+ [![Mobile App Video](http://i3.ytimg.com/vi/lYIHJRbV3CE/hqdefault.jpg)](https://youtu.be/lYIHJRbV3CE)
 
+## Screenshots
 ![Home](https://github.com/kmilosia/BookStoreMobile/assets/122121974/2bcd245a-877c-454b-96db-d08f9fa04096)
 ![Product](https://github.com/kmilosia/BookStoreMobile/assets/122121974/7c925919-6741-4bd3-ba31-7aa59930ccd4)
 ![Product](https://github.com/kmilosia/BookStoreMobile/assets/122121974/002eebf1-da98-42cf-8a64-aa68b80c3d1a)
@@ -22,8 +24,7 @@ Main purpose of the application is to move an ecommerce website to a mobile solu
 ![Checkout](https://github.com/kmilosia/BookStoreMobile/assets/122121974/4b5f20fd-d263-468b-bafc-2ce96c22a615)
 ![Rental](https://github.com/kmilosia/BookStoreMobile/assets/122121974/410d5f22-ad70-4d07-972b-59cbf8ffdcef)
 ![Order Details](https://github.com/kmilosia/BookStoreMobile/assets/122121974/586df128-c4f0-48c5-87c2-d44cf93f9ac4)
-## Movie presenting the project
- [![Mobile App Video](http://i3.ytimg.com/vi/lYIHJRbV3CE/hqdefault.jpg)](https://youtu.be/lYIHJRbV3CE)
+
 
 
 
